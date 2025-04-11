@@ -3,46 +3,118 @@ body {
     --text-color: #333;
     --hover-color: #007BFF;
 }
-.nav-links {
+.nav-header {
+    display: flex;
+    align-items: center;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-color);
+    padding: 1rem;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Hamburger menu styles */
+.hamburger {
+    position: absolute;         /* remove from normal flow */
+    top: 1.5rem;                  /* 1rem down from top of viewport */
+    right: 6rem; 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--background-color);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.hamburger span {
     width: 100%;
-    max-width: 400px;
-    margin: auto;
+    height: 3px;
+    background-color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.hamburger.open span:first-child {
+    transform: rotate(45deg) translate(6px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:last-child {
+    transform: rotate(-45deg) translate(6px, -5px);
+}
+
+/* Navigation links styles */
+.nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    /* height: 100vh; */
+    width: 250px;
+    background-color: var(--background-color);
+    padding: 2rem 2rem 0;
+    padding-top: 5rem;
+    border-radius: 8px;
+    margin: 0;
     list-style: none;
-    font-family: Arial, sans-serif;
-    font-size: 1.2rem;
-    gap: 1rem;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links.active {
+    right: 0;
 }
 
 .nav-links li {
     width: 100%;
-    text-align: center;
+    margin: 1rem 0;
 }
+
 .nav-links a {
+    display: block;
     text-decoration: none;
     color: var(--text-color);
     padding: 1rem;
     border-radius: 4px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .nav-links a:hover {
     background-color: var(--hover-color);
     color: #fff;
 }
-.nav-links button {
+
+.btn-logout {
+    width: 100%;
     background-color: var(--hover-color);
     color: #fff;
     border: none;
     padding: 1rem;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1.2rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #0056b3;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
 }
