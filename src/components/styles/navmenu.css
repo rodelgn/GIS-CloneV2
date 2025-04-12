@@ -23,9 +23,9 @@ body {
 
 /* Hamburger menu styles */
 .hamburger {
-    position: absolute;         /* remove from normal flow */
-    top: 1.5rem;                  /* 1rem down from top of viewport */
-    right: 6rem; 
+    position: absolute;
+    top: 1.5rem;
+    right: 6rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

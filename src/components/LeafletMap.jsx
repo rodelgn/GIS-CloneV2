@@ -1,8 +1,7 @@
-import React from 'react';
-import './styles/map.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import L from 'leaflet';
+import React, { useEffect, useRef } from 'react';
+import { Map, TileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -20,24 +19,41 @@ L.Icon.Default.mergeOptions({
 });
 
 const LeafletMap = () => {
-  const position = [7.078987297874518, 125.5428209424999];
+  const mapRef = useRef(null);
 
-  
+  useEffect(() => {
+    const map = new Map(document.getElementById("leaflet-map"), {
+      center: [7.078987297874518, 125.5428209424999],
+      zoom: 13,
+      zoomControl: false,
+    });
+
+    L.control.zoom({ position: "topleft" }).addTo(map);
+    map.getContainer().style.cursor = "pointer";
+    mapRef.current = map;
+
+    // Add base OSM layer
+    new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 21,
+    }).addTo(map);
+
+    // Add marker
+    const marker = L.marker([7.078987297874518, 125.5428209424999]).addTo(map);
+    marker.bindPopup(`
+      A pretty CSS3 popup. <br /> Easily customizable.
+    `);
+
+    return () => {
+      map.remove();
+    };
+  }, []);
+
   return (
     <section className="map-component">
-    <div className='map'>
-      <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
-    </div>
+      <div className='map' style={{ position: "relative" }}>
+        <div id="leaflet-map" />
+      </div>
     </section>
   );
 };
