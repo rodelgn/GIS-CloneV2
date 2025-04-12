@@ -10,7 +10,7 @@ const HomePage = ( props ) => {
          logoutClick = {props.onLogout}
          />
 
-        <div className="leaflet-container">
+        <div className="leaflet-wrapper">
         <LeafletMap />
       </div>
 

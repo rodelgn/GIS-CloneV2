@@ -1,40 +1,40 @@
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background-color: #cccc;
 }
 
-.map-component {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.leaflet-container {
+    width: 99vw !important;
+    height: calc(100vh - 65px) !important;
+    margin: 0;
+    position: static;
+    z-index: auto;
+    border-radius: 0;
   }
 
-.map {
-    height: 350px;
-    width: 350px;
-    margin: 30px;
-    border: 1px solid gray;
-    background-color: rgb(125, 193, 220);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: whitesmoke;
-    border-radius: 5px;
-  }
-
-  .leaflet-container {
+.leaflet-wrapper {
     width: 100%;
-    height: calc(91.89vh - 200px); 
-    border-radius: 5px;
-    margin-top: 5rem;
+    height: 100%;
+    margin-top: 1.7em;
     position: relative;
     z-index: 1;
   }
-  
-  .leaflet-control-attribution {
-    font-size: 10px;
+
+.map-component {
+    width: 99vw !important;
+    height: calc(100vh - 100px);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    border-radius: 0;
+  }
+
+.map {
+    width: 99vw !important;
+    height: calc(100vh - 65px);
+    border: 1px solid gray;
+    background-color: rgb(125, 193, 220);
+    border-radius: 0;
   }

@@ -28,7 +28,7 @@ const Navigation = ( props ) => {
                 
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                <li><a href="#">Plotting</a></li>
+                <li><a href="#">Plot Parcel</a></li>
                 <li><a href="#">Upload KML</a></li>
                 <li><a href="#">User</a></li>
                 <li><a href="#">Change Password</a></li>
