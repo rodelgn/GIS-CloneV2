@@ -20,10 +20,13 @@ L.Icon.Default.mergeOptions({
 });
 
 const LeafletMap = () => {
+  const position = [7.078987297874518, 125.5428209424999];
+
+  
   return (
     <section className="map-component">
     <div className='map'>
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
