@@ -1,14 +1,19 @@
 import React from 'react'
+import './styles/map.css';
 import Navigation from './Navigation';
+import LeafletMap from './LeafletMap';
 
 const HomePage = ( props ) => {
   return (
-    <div>
+    <div className="home-container">
         <Navigation 
          logoutClick = {props.onLogout}
          />
 
-        <h1>Welcome Home Page!</h1>
+        <div className="leaflet-container">
+        <LeafletMap />
+      </div>
+
     </div>
   )
 }

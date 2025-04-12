@@ -28,10 +28,10 @@ const Navigation = ( props ) => {
                 
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Map</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">Plotting</a></li>
+                <li><a href="#">Upload KML</a></li>
+                <li><a href="#">User</a></li>
+                <li><a href="#">Change Password</a></li>
                 <li><button className='btn-logout' onClick={handleLogout}>Logout</button></li>
             </ul>
         </nav>
