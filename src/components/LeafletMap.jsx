@@ -28,6 +28,34 @@ const LeafletMap = () => {
       zoomControl: false,
     });
 
+    //Starting MAP Layer
+    const eriSatteliteMap = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    );
+
+    const googleSatteliteMap = L.tileLayer(
+      "https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    );
+
+    const mapLayer = {
+      ESRISatellite: eriSatteliteMap,
+      GoogleSatellite: googleSatteliteMap,
+    };
+
+    L.control.layers( mapLayer, null, {
+      position: "topleft",
+      collapsed: true,
+    }).addTo(map);
+
+    //Zoom Control
     L.control.zoom({ position: "topleft" }).addTo(map);
     map.getContainer().style.cursor = "pointer";
     mapRef.current = map;
