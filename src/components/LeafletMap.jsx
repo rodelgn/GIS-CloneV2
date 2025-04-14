@@ -29,6 +29,15 @@ const LeafletMap = () => {
     });
 
     //Starting MAP Layer
+
+    const openStreetMap = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    )
+
     const eriSatteliteMap = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
@@ -37,8 +46,32 @@ const LeafletMap = () => {
       }
     );
 
+    const googleHybrid = L.tileLayer(
+      "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    )
+
     const googleSatteliteMap = L.tileLayer(
-      "https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+      "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    );
+
+    const googleTerrainMap = L.tileLayer(
+      "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+      {
+        maxZoom: 22,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+      }
+    );
+
+    const googleStreetMap = L.tileLayer(
+      "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
       {
         maxZoom: 22,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -46,8 +79,12 @@ const LeafletMap = () => {
     );
 
     const mapLayer = {
+      Open_Street: openStreetMap,
       ESRISatellite: eriSatteliteMap,
-      GoogleSatellite: googleSatteliteMap,
+      Google_Satellite: googleSatteliteMap,
+      Google_Hybrid: googleHybrid,
+      Google_Terrain: googleTerrainMap,
+      Google_Street: googleStreetMap,
     };
 
     L.control.layers( mapLayer, null, {
