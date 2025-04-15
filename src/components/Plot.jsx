@@ -3,6 +3,9 @@ import React from 'react'
 const Plot = () => {
   return (
     <div>
+        <label htmlFor="">Upload CSV File.</label>
+        <input type="file" accept=".csv" required/>
+
         <label>Title No.</label>
         <input type="text" required/>
 
@@ -16,6 +19,9 @@ const Plot = () => {
         <input type="text" required/>
 
         <label htmlFor="">Blk No.</label>
+        <input type="text" required/>
+
+        <label>Area (sq.m.)</label>
         <input type="text" required/>
 
     </div>
