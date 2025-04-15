@@ -28,4 +28,4 @@ const Plot = () => {
   )
 }
 
-export default Plot
+export default Plot;
