@@ -4,7 +4,7 @@ import './styles/navmenu.css';
 
 const Navigation = ( props ) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const [subMenuOpen, setSubMenuOpen] = useState(false);
 
     const handleLogout = () => {
         props.logoutClick();
@@ -14,6 +14,11 @@ const Navigation = ( props ) => {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const handlePlotting = () => {
+        props.togglePlotting();
+        setSubMenuOpen(!subMenuOpen);
+    }
 
 
   return (
@@ -29,7 +34,7 @@ const Navigation = ( props ) => {
                 
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                <li><a href="#">Plot Parcel</a></li>
+                <li><a onClick={handlePlotting}>Plot Parcel</a></li>
                 <li><a href="#">Upload KML</a></li>
                 <li><a href="#">User</a></li>
                 <li><a href="#">Change Password</a></li>

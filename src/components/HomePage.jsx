@@ -5,20 +5,25 @@ import LeafletMap from './LeafletMap';
 import Plot from './Plot';
 
 const HomePage = ( props ) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const togglePopMenu = () => {
+    setShowPopup(!showPopup);
   }
 
   return (
     <div className="home-container">
         <Navigation 
          logoutClick = {props.onLogout}
+         togglePlotting={togglePopMenu}
          />
 
-         <Plot />
+        {showPopup && (
+            <Plot 
+            //  togglePlotting={togglePopMenu} 
+            />
+         )}
+         
 
 
         <div className="leaflet-wrapper">

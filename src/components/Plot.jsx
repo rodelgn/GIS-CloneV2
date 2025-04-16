@@ -4,6 +4,8 @@ import './styles/plottingform.css';
 const Plot = () => {
   return (
     <div className='plot-container'>
+
+      <form action="">
         <label htmlFor="">Upload CSV File.</label>
         <input type="file" accept=".csv" required/>
 
@@ -24,6 +26,10 @@ const Plot = () => {
 
         <label>Area (sq.m.)</label>
         <input type="text" required/>
+
+        <button>Save</button>
+
+        </form>
 
     </div>
   )
