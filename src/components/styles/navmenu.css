@@ -3,10 +3,6 @@ body {
     --text-color: #333;
     --hover-color: #007BFF;
 }
-.nav-header {
-    display: flex;
-    align-items: center;
-}
 
 .navbar {
     position: fixed;
@@ -15,9 +11,14 @@ body {
     width: 100%;
     background-color: var(--background-color);
     padding: 1rem;
-    z-index: 1000;
+    z-index: 1001;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.nav-header {
+    display: flex;
     align-items: center;
 }
 
@@ -25,7 +26,7 @@ body {
 .hamburger {
     position: absolute;
     top: 1.5rem;
-    right: 6rem;
+    right: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

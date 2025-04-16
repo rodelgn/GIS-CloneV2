@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/plottingform.css';
 
-const Plot = () => {
+const Plot = ( onClose ) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
   return (
     <div className='plot-container'>
 
-      <form action="">
+      <form action="" className='plot-form'>
+        <h1>Plot Parcel</h1>
         <label htmlFor="">Upload CSV File.</label>
         <input type="file" accept=".csv" required/>
 
@@ -27,9 +31,11 @@ const Plot = () => {
         <label>Area (sq.m.)</label>
         <input type="text" required/>
 
-        <button>Save</button>
-
-        </form>
+        <div className='form-buttons'>
+          <button type='submit' className="btn-submit">Save</button>
+          <button type="button" className="btn-cancel" onClick={onClose}>Cancel</button>
+        </div>
+      </form>
 
     </div>
   )

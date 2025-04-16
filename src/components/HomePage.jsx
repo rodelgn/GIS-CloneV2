@@ -20,7 +20,7 @@ const HomePage = ( props ) => {
 
         {showPopup && (
             <Plot 
-            //  togglePlotting={togglePopMenu} 
+            onClose={() => setShowPlotForm(false)} 
             />
          )}
          

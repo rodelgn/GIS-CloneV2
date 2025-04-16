@@ -82,7 +82,8 @@ body {
     color: #9e9e9e;
 }
 
-button[type="submit"] {
+button[type="submit"],
+button[type="button"] {
     width: 100%;
     padding: 12px;
     background: #667eea;
@@ -97,7 +98,8 @@ button[type="submit"] {
     letter-spacing: 0.5px;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+button[type="button"]:hover {
     background: #764ba2;
     transform: translateY(-2px);
 }
