@@ -30,7 +30,7 @@ body {
     gap: 1rem;
 }
 
-.plot-form h1 {
+h1 {
     color: var(--text-color);
     margin-bottom: 1rem;
     text-align: center;

@@ -11,6 +11,10 @@ const HomePage = ( props ) => {
     setShowPopup(!showPopup);
   }
 
+  const btnCancel = () => {
+    setShowPopup(false);
+  }
+
   return (
     <div className="home-container">
         <Navigation 
@@ -20,7 +24,7 @@ const HomePage = ( props ) => {
 
         {showPopup && (
             <Plot 
-            onClose={() => setShowPlotForm(false)} 
+              onClose={btnCancel}
             />
          )}
          
