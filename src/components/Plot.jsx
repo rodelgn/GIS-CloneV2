@@ -33,6 +33,10 @@ const Plot = ( props ) => {
         <label>Area (sq.m.)</label>
         <input type="text" required/>
 
+        <div>
+        <label>Boundaries:</label>
+        </div>
+
         <div className='form-buttons'>
           <button type='submit' className="btn-submit">Save</button>
           <button type="button" className="btn-cancel" onClick={props.onClose}>Cancel</button>
