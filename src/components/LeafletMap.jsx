@@ -21,6 +21,8 @@ L.Icon.Default.mergeOptions({
 const LeafletMap = () => {
   const mapRef = useRef(null);
 
+
+  //MAP
   useEffect(() => {
     const map = new Map(document.getElementById("leaflet-map"), {
       center: [7.078987297874518, 125.5428209424999],
@@ -29,7 +31,6 @@ const LeafletMap = () => {
     });
 
     //Starting MAP Layer
-
     const openStreetMap = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
