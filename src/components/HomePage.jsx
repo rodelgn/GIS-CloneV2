@@ -6,6 +6,7 @@ import Plot from './Plot';
 
 const HomePage = ( props ) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

@@ -4,6 +4,7 @@ import './styles/navmenu.css';
 
 const Navigation = ( props ) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
 
     const handleLogout = () => {
         props.logoutClick();

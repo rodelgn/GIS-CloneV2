@@ -1,8 +1,9 @@
 import React from 'react'
+import './styles/plottingform.css';
 
 const Plot = () => {
   return (
-    <div>
+    <div className='plot-container'>
         <label htmlFor="">Upload CSV File.</label>
         <input type="file" accept=".csv" required/>
 
