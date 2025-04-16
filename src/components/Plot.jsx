@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './styles/plottingform.css';
 
 const Plot = ( props ) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
   return (
@@ -13,6 +13,9 @@ const Plot = ( props ) => {
         <input type="file" accept=".csv" required/>
 
         <label>Title No.</label>
+        <input type="text" required/>
+
+        <label>Title Name</label>
         <input type="text" required/>
 
         <label>Date</label>
