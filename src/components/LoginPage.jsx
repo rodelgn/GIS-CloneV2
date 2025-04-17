@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 const LoginPage = ({ onLogin }) => {
     const defaultUsername = 'admin';
     const defaultPassword = '12345';
+    // const [isLoading, setIsLoading] = useState(false);
 
     
 
@@ -32,7 +33,12 @@ const LoginPage = ({ onLogin }) => {
 
             onLogin();
         } else {
-            alert('Invalid username or password!');
+            Swal.fire({
+                title: "Invalid User or Password!",
+                text: "Please try again.",
+                icon: "success",
+                draggable: false
+              });
         }
     };
 
