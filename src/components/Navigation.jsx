@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import './styles/navmenu.css';
+import Swal from 'sweetalert2';
 
 
 const Navigation = ( props ) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [subMenuOpen, setSubMenuOpen] = useState(false);
+    // const [subMenuOpen, setSubMenuOpen] = useState(false);
 
     const handleLogout = () => {
         props.logoutClick();
-        alert('Successfully logged out!');
+        Swal.fire({
+            title: "Successfully logged out!",
+            icon: "success",
+            draggable: false
+        });
     }
 
     const toggleMenu = () => {

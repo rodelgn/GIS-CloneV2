@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
 import './styles/loginform.css';
+import Swal from 'sweetalert2';
 
 const LoginPage = ({ onLogin }) => {
     const defaultUsername = 'admin';
     const defaultPassword = '12345';
+
+    
 
     const [formData, setFormData] = useState({
         username: '',
@@ -21,7 +24,12 @@ const LoginPage = ({ onLogin }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formData.username === defaultUsername && formData.password === defaultPassword) {
-            alert('Successfully logged in!');
+            Swal.fire({
+                title: "Successfully logged in!",
+                icon: "success",
+                draggable: false
+              });
+
             onLogin();
         } else {
             alert('Invalid username or password!');
