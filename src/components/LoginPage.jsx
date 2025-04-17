@@ -6,9 +6,6 @@ const LoginPage = ({ onLogin }) => {
     const defaultUsername = 'admin';
     const defaultPassword = '12345';
     // const [isLoading, setIsLoading] = useState(false);
-
-    
-
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -36,7 +33,7 @@ const LoginPage = ({ onLogin }) => {
             Swal.fire({
                 title: "Invalid User or Password!",
                 text: "Please try again.",
-                icon: "success",
+                icon: "error",
                 draggable: false
               });
         }
