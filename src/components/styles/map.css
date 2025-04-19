@@ -17,7 +17,7 @@ html, body {
     margin: 0;
     position: static;
     z-index: auto;
-    border-radius: 0;
+    border-radius: 8px;
   }
 
 .leaflet-wrapper {
@@ -34,13 +34,13 @@ html, body {
     margin: 0;
     position: relative;
     z-index: 1;
-    border-radius: 0;
+    border-radius: 8px;
   }
 
 .map {
     width: 99vw !important;
     height: calc(100vh - 100px);
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     background-color: rgb(125, 193, 220);
-    border-radius: 0;
+    border-radius: 8px;
   }

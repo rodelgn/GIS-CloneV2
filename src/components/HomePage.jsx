@@ -3,6 +3,7 @@ import './styles/map.css';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plot';
+import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
