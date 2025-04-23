@@ -55,10 +55,10 @@ const LoginPage = ({ onLogin }) => {
 
                 <button type='submit'>Login</button>
 
-                {/* <div className='forgot-password'>
-                    <a href="#">Forgot Password?</a>
+                <div className='forgot-password'>
+                    {/* <a href="#">Forgot Password?</a> */}
                     <a href="#">Create User</a>
-                </div> */}
+                </div>
         </form>
     </div>
   )
