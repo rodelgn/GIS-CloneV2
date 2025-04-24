@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './styles/loginform.css';
 import Swal from 'sweetalert2';
 
 const LoginPage = ({ onLogin }) => {
-    const defaultUsername = 'admin';
-    const defaultPassword = '12345';
+    // const defaultUsername = 'admin';
+    // const defaultPassword = '12345';
     // const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
@@ -21,14 +21,21 @@ const LoginPage = ({ onLogin }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.username === defaultUsername && formData.password === defaultPassword) {
+        fetch('/loginUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then((res) => res.json())
+        .then((data) => {
+            if (data.success) {
             Swal.fire({
                 title: "Successfully logged in!",
                 icon: "success",
                 draggable: false
-              });
-
-            onLogin();
+            });
+            onLogin(data);
         } else {
             Swal.fire({
                 title: "Invalid User or Password!",
@@ -36,7 +43,16 @@ const LoginPage = ({ onLogin }) => {
                 icon: "error",
                 draggable: false
               });
-        }
+            }
+        }).catch((error) => {
+            console.log("Error occurd during fetching data: ", error);
+            Swal.fire({
+                title: "Error!",
+                text: "An error occurred while logging in.",
+                icon: "error",
+                draggable: false
+              });
+            });
     };
 
 
