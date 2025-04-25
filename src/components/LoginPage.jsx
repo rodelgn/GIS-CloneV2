@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Axios from '../api/Axios';
 import './styles/loginform.css';
 import Swal from 'sweetalert2';
+import AccountCreation from './AccountCreation';
 
 const LoginPage = ({ onLogin }) => {
     // const defaultUsername = 'admin';
     // const defaultPassword = '12345';
     // const [isLoading, setIsLoading] = useState(false);
+    const [showAccountCreation, setShowAccountCreation] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -89,9 +91,14 @@ const LoginPage = ({ onLogin }) => {
 
                 <div className='forgot-password'>
                     {/* <a href="#">Forgot Password?</a> */}
-                    <a href="#">Create User</a>
+                    <a href="#" onClick={() => setShowAccountCreation(true)}>Create User</a>
                 </div>
         </form>
+
+        {showAccountCreation && (
+        <AccountCreation onClose={() => setShowAccountCreation(false)} />
+      )}
+
     </div>
   )
 }
