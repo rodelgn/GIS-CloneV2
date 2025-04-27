@@ -34,8 +34,9 @@ const AccountCreation = ({ onClose }) => {
                     title: "Account successfuly created!",
                     icon: "success",
                     draggable: false
+                }).then(() => {
+                    onClose();
                 });
-                onClose();
             }
         } catch (error) {
             console.error('Account creation failed:', error);

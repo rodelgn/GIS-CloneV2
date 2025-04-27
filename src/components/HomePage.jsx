@@ -21,6 +21,7 @@ const HomePage = ( props ) => {
         <Navigation 
          logoutClick = {props.onLogout}
          togglePlotting={togglePopMenu}
+         isPlotOpen={showPopup}
          />
 
         {showPopup && (

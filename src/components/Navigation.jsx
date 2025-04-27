@@ -20,6 +20,11 @@ const Navigation = ( props ) => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const handlePlotclick = () => {
+        props.togglePlotting();
+        setIsMenuOpen(false);
+    };
+
 
   return (
         <nav className='navbar'>
@@ -34,7 +39,7 @@ const Navigation = ( props ) => {
                 
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                <li><a onClick={props.togglePlotting}>Plot Parcel</a></li>
+                <li><a onClick={handlePlotclick}>Plot Parcel</a></li>
                 <li><a href="#">Upload KML</a></li>
                 <li><a href="#">User</a></li>
                 <li><a href="#">Change Password</a></li>
