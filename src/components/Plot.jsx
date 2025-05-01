@@ -35,6 +35,22 @@ const Plot = ( props ) => {
 
         <div>
         <label>Boundaries:</label>
+        <br/>
+          <div>
+            <label>Monument</label>
+            <input type="text" />
+
+            <label>Easting</label>
+            <input type="text" />
+
+            <label htmlFor="">Northing</label>
+            <input type="text" />
+          </div>
+
+          <div>
+            <p>Number of Points</p>
+            <input type="text" name="" id="" />
+          </div>
         </div>
 
         <div className='form-buttons'>

@@ -40,7 +40,7 @@ const Navigation = ( props ) => {
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
                 <li><a onClick={handlePlotclick}>Plot Parcel</a></li>
-                <li><a onClick={handlePlotclick}>Upload KML</a></li>
+                <li><a href="#">Upload KML</a></li>
                 <li><a href="#">User</a></li>
                 <li><a href="#">Change Password</a></li>
                 <li><button className='btn-logout' onClick={handleLogout}>Logout</button></li>
