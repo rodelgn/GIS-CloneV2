@@ -2,13 +2,14 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 .plot-container {
     position: fixed;
     top: 0;
     right: 0;
-    width: 30%;
+    width: 35%;
     height: 90vh;
     background-color: var(--background-color);
     border-radius: 8px;
@@ -21,20 +22,15 @@ body {
     margin-right: 0.5rem;
 }
 
-h1 {
-    color: var(--text-color);
-    margin-bottom: 1rem;
-    text-align: center;
-}
 
 .plot-form.active {
     left: 0;
 }
 
-.plot-data {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+h1 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .uploadWrapper {
@@ -50,6 +46,42 @@ h1 {
     width: 60%;
     border: 1px solid #0c0c0c;
     border-radius: 8px;
+    font-weight: bold;
+}
+
+.plot-data {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+}
+
+.plot-data label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color:black;
+    margin-top: 10px;
+}
+
+.plot-data input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: black;
+    background-color: #fff;
+    display: block;
+    text-align: center;
 }
 
 .form-buttons {

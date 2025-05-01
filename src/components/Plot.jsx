@@ -8,41 +8,33 @@ const Plot = ( props ) => {
   return (
     <div className='plot-container'>
       <h1>Plot Parcel</h1>
-      <form action="" >
-      {/* plot-data */}
-        <div className=''>
-          
+      <form action="plot-form" >
           <div className='uploadWrapper'>
-          <label htmlFor="">Upload CSV File for Auto Fill</label>
-          <input type="file" accept=".csv" required/>
+            <label htmlFor="">Upload CSV File for Auto Fill</label>
+            <input type="file" accept=".csv" required/>
           </div>
-    
+
+        <div className='plot-data'>
           <label>Title No.</label>
           <input type="text" required/>
-    
           <label>Title Name</label>
           <input type="text" required/>
-    
           <label>Date</label>
           <input type="date" required/>
-    
           <label>Survey No.</label>
           <input type="text" required/>
-    
           <label htmlFor="">Lot No.</label>
           <input type="text" required/>
-    
           <label htmlFor="">Blk No.</label>
           <input type="text" required/>
-    
           <label>Area (sq.m.)</label>
           <input type="text" required/>
         </div>
 
-        <div>
+        <div className=''>
         <label>Boundaries:</label>
         <br/>
-          <div>
+          <div className='plot-monument'>
             <label>Monument</label>
             <input type="text" />
 
