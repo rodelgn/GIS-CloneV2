@@ -50,6 +50,13 @@ const Plot = ( props ) => {
           <div>
             <p>Number of Points</p>
             <input type="text" name="" id="" />
+
+            <label htmlFor="">Tie Line - 1</label>
+            <select name="" id=""></select>
+            <input type="text" />
+            <input type="text" />
+            <select name="" id=""></select>
+            <input type="text" placeholder='Distance' />
           </div>
         </div>
 
