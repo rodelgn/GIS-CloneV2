@@ -8,30 +8,36 @@ const Plot = ( props ) => {
   return (
     <div className='plot-container'>
       <h1>Plot Parcel</h1>
-      <form action="" className='plot-form'>
-        <label htmlFor="">Upload CSV File.</label>
-        <input type="file" accept=".csv" required/>
-
-        <label>Title No.</label>
-        <input type="text" required/>
-
-        <label>Title Name</label>
-        <input type="text" required/>
-
-        <label>Date</label>
-        <input type="date" required/>
-
-        <label>Survey No.</label>
-        <input type="text" required/>
-
-        <label htmlFor="">Lot No.</label>
-        <input type="text" required/>
-
-        <label htmlFor="">Blk No.</label>
-        <input type="text" required/>
-
-        <label>Area (sq.m.)</label>
-        <input type="text" required/>
+      <form action="" >
+      {/* plot-data */}
+        <div className=''>
+          
+          <div className='uploadWrapper'>
+          <label htmlFor="">Upload CSV File for Auto Fill</label>
+          <input type="file" accept=".csv" required/>
+          </div>
+    
+          <label>Title No.</label>
+          <input type="text" required/>
+    
+          <label>Title Name</label>
+          <input type="text" required/>
+    
+          <label>Date</label>
+          <input type="date" required/>
+    
+          <label>Survey No.</label>
+          <input type="text" required/>
+    
+          <label htmlFor="">Lot No.</label>
+          <input type="text" required/>
+    
+          <label htmlFor="">Blk No.</label>
+          <input type="text" required/>
+    
+          <label>Area (sq.m.)</label>
+          <input type="text" required/>
+        </div>
 
         <div>
         <label>Boundaries:</label>
@@ -57,9 +63,13 @@ const Plot = ( props ) => {
             <input type="text" />
             <select name="" id=""></select>
             <input type="text" placeholder='Distance' />
+
+            <button>Draw</button>
           </div>
         </div>
 
+        <label htmlFor="">Plus Code</label>
+        <input type="text" />
         <div className='form-buttons'>
           <button type='submit' className="btn-submit">Save</button>
           <button type="button" className="btn-cancel" onClick={props.onClose}>Cancel</button>
