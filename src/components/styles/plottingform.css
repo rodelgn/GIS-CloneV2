@@ -42,6 +42,7 @@ h1 {
     margin-bottom: 2rem;
 }
 
+/* input wrapper */
 .uploadWrapper input[type="file"] {
     width: 60%;
     border: 1px solid #0c0c0c;
@@ -49,6 +50,7 @@ h1 {
     font-weight: bold;
 }
 
+/* Input data division */
 .plot-data {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -84,14 +86,51 @@ h1 {
     text-align: center;
 }
 
+/* Boundaries */
+
+.boundaries-cntnr {
+    width: 50%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+}
+
+.plot-monument {
+    margin: 1rem 1rem 1rem 0;
+    padding: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.plot-monument input {
+    width: 105px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: black;
+    background-color: #fff;
+    display: block;
+    text-align: center;
+}
+
+/* Buttons */
 .form-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
 }
+
+.btnDraw-ctn {
+    display: flex;
+    justify-content: flex-end;
+}
   
 .btn-submit,
-.btn-cancel {
+.btn-cancel,
+.btn-draw {
     background-color: var(--hover-color);
     color: white;
     padding: 0.8rem 1.5rem;
@@ -102,6 +141,7 @@ h1 {
 }
 
 .btn-submit:hover,
-.btn-cancel:hover {
+.btn-cancel:hover,
+.btn-draw:hover {
   opacity: 0.9;
 }

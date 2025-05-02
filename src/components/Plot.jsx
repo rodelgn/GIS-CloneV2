@@ -31,9 +31,10 @@ const Plot = ( props ) => {
           <input type="text" required/>
         </div>
 
-        <div className=''>
-        <label>Boundaries:</label>
+        <div className='boundaries-cntnr'>
+        <h4>Boundaries</h4>
         <br/>
+
           <div className='plot-monument'>
             <label>Monument</label>
             <input type="text" />
@@ -41,27 +42,34 @@ const Plot = ( props ) => {
             <label>Easting</label>
             <input type="text" />
 
-            <label htmlFor="">Northing</label>
+            <label>Northing</label>
             <input type="text" />
           </div>
 
-          <div>
+          <div className=''>
+            <div style={{ display: 'flex', gap: '10px' }}>
             <p>Number of Points</p>
-            <input type="text" name="" id="" />
+            <input style={{ width: '55px', borderRadius: '8px' }} type="text" name="" id="" />
+            </div>
 
-            <label htmlFor="">Tie Line - 1</label>
+            <div className='plot-monument'>
+            <label>Tie Line - 1</label>
             <select name="" id=""></select>
             <input type="text" />
             <input type="text" />
             <select name="" id=""></select>
             <input type="text" placeholder='Distance' />
+            </div>
 
-            <button>Draw</button>
+            <div className='btnDraw-ctn'>
+            <button type='submit' className='btn-draw'>Draw</button>
+            </div>
           </div>
         </div>
 
         <label htmlFor="">Plus Code</label>
         <input type="text" />
+
         <div className='form-buttons'>
           <button type='submit' className="btn-submit">Save</button>
           <button type="button" className="btn-cancel" onClick={props.onClose}>Cancel</button>
