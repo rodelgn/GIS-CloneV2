@@ -125,7 +125,8 @@ h1 {
 
 .btnDraw-ctn {
     display: flex;
-    justify-content: flex-end;
+    margin-bottom: 1rem;
+    width: 100px;
 }
   
 .btn-submit,
