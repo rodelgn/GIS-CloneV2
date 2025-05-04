@@ -33,105 +33,123 @@ h1 {
     text-align: center;
 }
 
-.uploadWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-/* input wrapper */
-.uploadWrapper input[type="file"] {
-    width: 60%;
-    border: 1px solid #0c0c0c;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-/* Input data division */
-.plot-data {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin-top: 1rem;
+.upload-group {
     margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: var(--text-color);
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    width: 100%;
-}
+  }
 
-.plot-data label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    color:black;
-    margin-top: 10px;
-}
-
-.plot-data input {
+.upload-group input[type="file"] {
+    margin-top: 0.5rem;
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    color: black;
-    background-color: #fff;
-    display: block;
-    text-align: center;
-}
+    border-radius: 6px;
+  }
 
-/* Boundaries */
-
-.boundaries-cntnr {
-    width: 50%;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: var(--text-color);
-    font-size: 1rem;
-    font-weight: 600;
-    width: 100%;
-}
-
-.plot-monument {
-    margin: 1rem 1rem 1rem 0;
-    padding: 5px;
+.section {
+    margin-bottom: 2rem;
+  }
+  
+  .two-column {
     display: flex;
-    gap: 5px;
-}
-
-.plot-monument input {
-    width: 105px;
-    height: 20px;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: black;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    color: black;
     background-color: #fff;
-    display: block;
+    color: black;
     text-align: center;
-}
+  }
 
-/* Buttons */
+.monument-row {
+    display: flex;
+  }
+  
+  .tie-line-group {
+    margin-top: 1rem;
+  }
+  
+  .tie-line-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .tie-line-row input,
+  .tie-line-row select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 60px;
+    flex: 1;
+  }  
+
+  .tie-line-row input[placeholder="DISTANCE"] {
+    min-width: 100px;
+  }
+
+
 .form-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
 }
 
+.remove-btn {
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+}
+
 .btnDraw-ctn {
+    margin-top: 1rem;
     display: flex;
-    margin-bottom: 1rem;
-    width: 100px;
+    justify-content: end;
+}
+
+.btn-draw {
+    margin-left: auto;
+    background-color: #667eea;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+}
+
+.btn-draw:hover {
+    opacity: 0.9;
+    background: #764ba2;
+    transform: translateY(-2px);
 }
   
 .btn-submit,
-.btn-cancel,
-.btn-draw {
+.btn-cancel {
     background-color: var(--hover-color);
     color: white;
     padding: 0.8rem 1.5rem;
@@ -142,7 +160,6 @@ h1 {
 }
 
 .btn-submit:hover,
-.btn-cancel:hover,
-.btn-draw:hover {
+.btn-cancel:hover {
   opacity: 0.9;
 }
