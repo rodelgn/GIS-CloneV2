@@ -12,7 +12,8 @@ const Plot = ( props ) => {
     area: '',
     monument: '',
     easting: '',
-    northing: ''
+    northing: '',
+    pluscode: ''
   });
 
   const handleInputChange = (e) => {
@@ -21,6 +22,7 @@ const Plot = ( props ) => {
       ...plotData,
       [name]: value
     });
+    console.log(plotData);
   }
 
   const handleSubmit = (e) => {
@@ -33,43 +35,43 @@ const Plot = ( props ) => {
   return (
     <div className='plot-container'>
       <h1>Plot Parcel</h1>
-      <form action="" className='plot-form'>
-  
-        <div className='form-group upload-group'>
+
+      <div className='form-group upload-group'>
           <label>Upload CSV File for Auto Fill</label>
-          <input type="file" accept=".csv" required />
+          <input type="file" accept=".csv" />
         </div>
-  
+        
+      <form onSubmit={handleSubmit} className='plot-form' >
         <div className="section">
           <h3 style={{ marginBottom: '1rem' }}>Plot Details</h3>
           <div className='two-column'>
             <div className="form-group">
               <label>Title No.</label>
-              <input type="text" required />
+              <input type="text" onChange={handleInputChange} name='titleNo' required />
             </div>
             <div className="form-group">
               <label>Title Name</label>
-              <input type="text" required />
+              <input type="text" onChange={handleInputChange} name='titleName' required />
             </div>
             <div className="form-group">
               <label>Date</label>
-              <input type="date" required />
+              <input type="date" onChange={handleInputChange} name='date' required />
             </div>
             <div className="form-group">
               <label>Survey No.</label>
-              <input type="text" required />
+              <input type="text" onChange={handleInputChange} name='surveyNo' required />
             </div>
             <div className="form-group">
               <label>Lot No.</label>
-              <input type="text" required />
+              <input type="text" onChange={handleInputChange} name='lotNo' required />
             </div>
             <div className="form-group">
               <label>Blk No.</label>
-              <input type="text" required />
+              <input type="text" onChange={handleInputChange} name='blkNo' required />
             </div>
             <div className="form-group">
               <label>Area (sq.m.)</label>
-              <input type="text" style={{ width: '130px' }} required />
+              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' required />
             </div>
           </div>
         </div>
@@ -80,15 +82,15 @@ const Plot = ( props ) => {
           <div className='monument-row'>
             <div className='form-group'>
               <label>Monument</label>
-              <input type="text" style={{ width: '150px' }} required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='monument' required/>
             </div>
             <div className='form-group'>
               <label>Easting</label>
-              <input type="text" style={{ width: '150px' }} required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='easting' required/>
             </div>
             <div className='form-group'>
               <label>Northing</label>
-              <input type="text" style={{ width: '150px' }} required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='northing' required/>
             </div>
           </div>
 
@@ -123,7 +125,7 @@ const Plot = ( props ) => {
 
         <div className="form-group">
           <label>Plus Code</label>
-          <input type="text" />
+          <input type="text" onChange={handleInputChange} name='pluscode' />
         </div>
   
         <div className='form-buttons'>
