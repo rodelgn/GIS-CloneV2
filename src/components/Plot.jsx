@@ -4,7 +4,7 @@ import './styles/plottingform.css';
 const Plot = ( props ) => {
   const [plotData, setPlotData] = useState({
     titleNo: '',
-    titleName: '',
+    owner: '',
     date: '',
     surveyNo: '',
     lotNo: '',
@@ -40,7 +40,7 @@ const Plot = ( props ) => {
           <label>Upload CSV File for Auto Fill</label>
           <input type="file" accept=".csv" />
         </div>
-        
+
       <form onSubmit={handleSubmit} className='plot-form' >
         <div className="section">
           <h3 style={{ marginBottom: '1rem' }}>Plot Details</h3>
@@ -50,8 +50,8 @@ const Plot = ( props ) => {
               <input type="text" onChange={handleInputChange} name='titleNo' required />
             </div>
             <div className="form-group">
-              <label>Title Name</label>
-              <input type="text" onChange={handleInputChange} name='titleName' required />
+              <label>Owner</label>
+              <input type="text" onChange={handleInputChange} name='owner' required />
             </div>
             <div className="form-group">
               <label>Date</label>
