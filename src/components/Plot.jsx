@@ -2,13 +2,38 @@ import React, { useState } from 'react'
 import './styles/plottingform.css';
 
 const Plot = ( props ) => {
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [plotData, setPlotData] = useState({
+    titleNo: '',
+    titleName: '',
+    date: '',
+    surveyNo: '',
+    lotNo: '',
+    blkNo: '',
+    area: '',
+    monument: '',
+    easting: '',
+    northing: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPlotData({
+      ...plotData,
+      [name]: value
+    });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log(plotData);
+  }
 
 
   return (
     <div className='plot-container'>
       <h1>Plot Parcel</h1>
-      <form action="plot-form">
+      <form action="" className='plot-form'>
   
         <div className='form-group upload-group'>
           <label>Upload CSV File for Auto Fill</label>
