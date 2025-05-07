@@ -40,7 +40,11 @@ const AccountCreation = ({ onClose }) => {
             }
         } catch (error) {
             console.error('Account creation failed:', error);
-            alert('Error creating account. Please try again.');
+            Swal.fire({
+                icon: "error",
+                title: "Error creating account!",
+                draggable: false
+            })
         }
     };
 
