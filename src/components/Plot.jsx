@@ -24,7 +24,6 @@ const Plot = ( props ) => {
       ...plotData,
       [name]: value
     });
-    console.log(plotData);
   }
 
   const handleSubmit = async (e) => {
@@ -89,31 +88,31 @@ const Plot = ( props ) => {
           <div className='two-column'>
             <div className="form-group">
               <label>Title No.</label>
-              <input type="text" onChange={handleInputChange} name='titleNo' required />
+              <input type="text" onChange={handleInputChange} name='titleNo' placeholder='Title Number' required />
             </div>
             <div className="form-group">
               <label>Owner</label>
-              <input type="text" onChange={handleInputChange} name='owner' required />
+              <input type="text" onChange={handleInputChange} name='owner' placeholder='Owner' required />
             </div>
             <div className="form-group">
               <label>Date</label>
-              <input type="date" onChange={handleInputChange} name='date' required />
+              <input type="date" onChange={handleInputChange} name='date' placeholder='Date' required />
             </div>
             <div className="form-group">
               <label>Survey No.</label>
-              <input type="text" onChange={handleInputChange} name='surveyNo' required />
+              <input type="text" onChange={handleInputChange} name='surveyNo' placeholder='Survey Number' required />
             </div>
             <div className="form-group">
               <label>Lot No.</label>
-              <input type="text" onChange={handleInputChange} name='lotNo' required />
+              <input type="text" onChange={handleInputChange} name='lotNo' placeholder='Lot Number' required />
             </div>
             <div className="form-group">
               <label>Blk No.</label>
-              <input type="text" onChange={handleInputChange} name='blkNo' required />
+              <input type="text" onChange={handleInputChange} name='blkNo' placeholder='Block Number' required />
             </div>
             <div className="form-group">
               <label>Area (sq.m.)</label>
-              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' required />
+              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' placeholder='Lot Area (sqm)' required />
             </div>
           </div>
         </div>
