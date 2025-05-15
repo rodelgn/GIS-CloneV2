@@ -159,7 +159,7 @@ const Plot = ( props ) => {
                 <button className='remove-btn'>x</button>
               </div>
               <div className='btnDraw-ctn'>
-                <button className='btn-draw'>Draw</button>
+                <button className='btn-draw' onClick={props.onDraw}>Draw</button>
               </div>
           </div>
         </div>

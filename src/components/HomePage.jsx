@@ -7,6 +7,7 @@ import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [polygonCoordinates, setPolygonCoordinates] = useState([]);
 
   const togglePopMenu = () => {
     setShowPopup(!showPopup);
@@ -14,6 +15,10 @@ const HomePage = ( props ) => {
 
   const btnCancel = () => {
     setShowPopup(false);
+  }
+
+  const handleDraw = (coordinates) => {
+    console.log("Clicked!");
   }
 
   return (
@@ -25,7 +30,8 @@ const HomePage = ( props ) => {
          />
 
         {showPopup && (
-            <Plot 
+            <Plot
+              onDraw={handleDraw} 
               onClose={btnCancel}
             />
          )}
