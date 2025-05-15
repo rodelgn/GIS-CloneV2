@@ -19,7 +19,18 @@ const HomePage = ( props ) => {
 
   const handleDraw = (coordinates) => {
     console.log("Clicked!");
-  }
+    
+    try {
+      const parsedCoordinates = JSON.parse(coordinates);
+      if (Array.isArray(parsedCoorrdinates) && parsedCoordinates.length >= 3){
+        setPolygonCoordinates(parsedCoordinates);
+      } else {
+        console.error("Invalid coordinates format");
+      }
+    } catch (error) {
+      console.error("Error parsing coordinates:", error);
+    }
+  };
 
   return (
     <div className="home-container">
@@ -39,7 +50,9 @@ const HomePage = ( props ) => {
 
 
         <div className="leaflet-wrapper">
-        <LeafletMap />
+          <LeafletMap 
+            polygonCoordinate = {polygonCoordinates} 
+          />
       </div>
 
     </div>

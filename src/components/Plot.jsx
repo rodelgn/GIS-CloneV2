@@ -12,10 +12,23 @@ const Plot = ( props ) => {
     lotNo: '',
     blkNo: '',
     area: '',
+    pluscode: ''
+  });
+  const [numberOfPoints, setNumberOfPoints] = useState("")
+  const createTieLine = () => {
+    return {
+      degreeAngle: '',
+      degree: '',
+      minutes: '',
+      minutesAngle: '',
+      distance: '',
+    };
+  }
+  const [plottingData, setPlottngData] = useState({
     monument: '',
     easting: '',
     northing: '',
-    pluscode: ''
+    tieLines: [createTieLine()]
   });
 
   const handleInputChange = (e) => {
@@ -24,6 +37,18 @@ const Plot = ( props ) => {
       ...plotData,
       [name]: value
     });
+    setPlottngData({
+      ...plottingData,
+      [name]: value
+    });
+  };
+
+  const handleAddTieLine = () => {
+    const numOfPoints = parseInt(numberOfPoints) + 1;
+    
+    if (isNaN(numOfPoints) && numOfPoints > 0 ) {
+
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -137,7 +162,7 @@ const Plot = ( props ) => {
 
           <div className='form-group' style={{ marginBottom: '1rem', marginTop: '1rem', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
               <label>Number of Points</label>
-              <input type="text" style={{ width: '80px' }} />
+              <input type="text" style={{ width: '80px' }} name='numberOfPoints' />
             </div>
   
           <div className='form-group'>
