@@ -24,7 +24,7 @@ const Plot = ( props ) => {
       distance: '',
     };
   }
-  const [plottingData, setPlottngData] = useState({
+  const [polygonLayer, setPolygonLayer] = useState({
     monument: '',
     easting: '',
     northing: '',
@@ -37,19 +37,63 @@ const Plot = ( props ) => {
       ...plotData,
       [name]: value
     });
-    setPlottngData({
-      ...plottingData,
+    setPolygonLayer({
+      ...polygonLayer,
       [name]: value
     });
+  };
+
+  const decimalBearingCalculation = (degree, minutes) => {
+    return parseFloat(degree) + (parseFloat(minutes) / 60);
+  };
+
+  const azimuthCalculation = (degreeAngle, degree, minutes, minutesAngle  ) => {
+    const decimalBearing = decimalBearingCalculation(degree, minutes);
+    let calculatedCoordinates;
+
+    if (degreeAngle === 'N' && minutesAngle === 'E') {
+      calculatedCoordinates = decimalBearing + 180;
+    } else if (degreeAngle === 'S' && minutesAngle === 'E') {
+      calculatedCoordinates = decimalBearing * -1 + 360;
+    } else if (degreeAngle === 'S' && minutesAngle === 'W') {
+      calculatedCoordinates = decimalBearing;
+    } else if (degreeAngle === 'N' && minutesAngle === 'W') {
+      calculatedCoordinates = decimalBearing * -1 + 180;
+    } else {
+      calculatedCoordinates = "";
+    }
+    return calculatedCoordinates;
   };
 
   const handleAddTieLine = () => {
     const numOfPoints = parseInt(numberOfPoints) + 1;
     
     if (isNaN(numOfPoints) && numOfPoints > 0 ) {
+      const currentTieLines = polygonLayer.tieLines;
+      const newTieLine = Array(numOfPoints).fill().map((_, index) => {
+        const newIndex = index + currentTieLines.length + 1;
+        return createTieLine(newIndex);
+      });
 
+      for (let i = 0; i < Math.min(numOfPoints, currentTieLines.length); i++) {
+        newTieLine[i] = {...currentTieLines[i]}
+      }
+
+      setPolygonLayer({
+        ...polygonLayer,
+        tieLines: newTieLine,
+      })
     }
+  };
+
+  const handleRemoveTieLine = (index) => {
+    const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
+    setPolygonLayer({
+      ...polygonLayer,
+      tieLines: updatedTieLines,
+    });
   }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -162,31 +206,32 @@ const Plot = ( props ) => {
 
           <div className='form-group' style={{ marginBottom: '1rem', marginTop: '1rem', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
               <label>Number of Points</label>
-              <input type="text" style={{ width: '80px' }} name='numberOfPoints' />
+              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
-  
-          <div className='form-group'>
-            <label>Tie Line - 1*</label>
+        {polygonLayer.tieLines.map((tieLine, index) =>
+          <div key={index} className='form-group'>
+            <label>{index === 0 ? 'Tie Line - 1*' : index === polygonLayer.tieLines.length - 1 ? `Point ${index} - Origin*` : `Point ${index} - ${index + 1}*`} </label>
               <div className='tie-line-row'>
-                <select placeholder="N/S">
-                  <option value=""></option>
-                  <option value="">N</option>
-                  <option value="">S</option>
+                <select placeholder="N/S" name={`tieLines[${index}].degreeAngle`} value={tieLine.degreeAngle} onChange={(e) => handleInputChange(e, index)} required>
+                  <option value={null} placeholder='N/S'></option>
+                  <option value="N">N</option>
+                  <option value="S">S</option>
                 </select>
-                <input type="text" />
-                <input type="text" />
-                <select placeholder="E/W">
-                  <option value=""></option>
-                  <option value="">E</option>
-                  <option value="">W</option>
+                <input type="text" name={`tieLines[${index}].degree`} value={tieLine.degree} onChange={(e) => handleInputChange(e, index)} required/>
+                <input type="text" name={`tieLines[${index}].minutes`} value={tieLine.minutes} onChange={(e) => handleInputChange(e, index)} required/>
+                <select placeholder="E/W" value={tieLine.minutesAngle} onChange={(e) => handleInputChange(e, index)} required>
+                  <option value={null} placeholder='E/W'></option>
+                  <option value="E">E</option>
+                  <option value="W">W</option>
                 </select>
-                <input type="text" placeholder="DISTANCE" />
-                <button className='remove-btn'>x</button>
+                <input type="text" placeholder="DISTANCE" name={`tieLines[${index}.distance]`} value={tieLine.distance} onChange={(e) => handleInputChange(e, index)} required/>
+                <button className='remove-btn' onClick={() => handleRemoveTieLine(index)}>x</button>
               </div>
               <div className='btnDraw-ctn'>
                 <button className='btn-draw' onClick={props.onDraw}>Draw</button>
               </div>
           </div>
+          )}
         </div>
 
         <div className="form-group">
