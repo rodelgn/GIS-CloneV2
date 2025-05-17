@@ -37,10 +37,12 @@ const Plot = ( props ) => {
       ...plotData,
       [name]: value
     });
-    setPolygonLayer({
-      ...polygonLayer,
-      [name]: value
-    });
+  };
+
+  const handleTieLineChange = (index, field, value) => {
+    const updated = [...polygonLayer.tieLines];
+    updated[index] = { ...updated[index], [field]: value };
+    setPolygonLayer({ ...polygonLayer, tieLines: updated });
   };
 
   const decimalBearingCalculation = (degree, minutes) => {
@@ -85,8 +87,6 @@ const Plot = ( props ) => {
       })
     }
   };
-
-  console.log(handleAddTieLine);
 
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
@@ -210,24 +210,29 @@ const Plot = ( props ) => {
               <label>Number of Points</label>
               <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
-        {polygonLayer.tieLines.map((tieLine, index) =>
-          <div key={index} className='form-group'>
-            <label>{index === 0 ? 'Tie Line - 1*' : index === polygonLayer.tieLines.length - 1 ? `Point ${index} - Origin*` : `Point ${index} - ${index + 1}*`} </label>
-              <div className='tie-line-row'>
-                <select placeholder="N/S" name={`tieLines[${index}].degreeAngle`} value={tieLine.degreeAngle} onChange={(e) => handleInputChange(e, index)} required>
-                  <option value={null} placeholder='N/S'></option>
+        {polygonLayer.tieLines.map((tieLine, i) =>
+          <div key={i} className='form-group'>
+
+            <label>{i === 0 ? 'Tie Line - 1*' : i === polygonLayer.tieLines.length - 1 ? `Point ${i} - Origin*` : `Point ${i} - ${i + 1}*`} </label>
+              <div className='tie-line-row' style={{ marginBottom: '1rem' }}>
+                <select name='degreeAngle' value={tieLine.degreeAngle} onChange={e => handleTieLineChange(i, 'degreeAngle', e.target.value)} required>
+                  <option value=''></option>
                   <option value="N">N</option>
                   <option value="S">S</option>
                 </select>
-                <input type="text" name={`tieLines[${index}].degree`} value={tieLine.degree} onChange={(e) => handleInputChange(e, index)} required/>
-                <input type="text" name={`tieLines[${index}].minutes`} value={tieLine.minutes} onChange={(e) => handleInputChange(e, index)} required/>
-                <select placeholder="E/W" value={tieLine.minutesAngle} onChange={(e) => handleInputChange(e, index)} required>
-                  <option value={null} placeholder='E/W'></option>
+
+                <input type="text" name='degree' value={tieLine.degree} onChange={e => handleTieLineChange(i, 'degree', e.target.value)} required/>
+                <input type="text" name='minutes' value={tieLine.minutes} onChange={e => handleTieLineChange(i, 'minutes', e.target.value)} required/>
+
+                <select name='minutesAngle' value={tieLine.minutesAngle} onChange={e => handleTieLineChange(i, 'minutesAngle', e.target.value)} required>
+                  <option value=''></option>
                   <option value="E">E</option>
                   <option value="W">W</option>
                 </select>
-                <input type="text" placeholder="DISTANCE" name={`tieLines[${index}.distance]`} value={tieLine.distance} onChange={(e) => handleInputChange(e, index)} required/>
-                <button className='remove-btn' onClick={() => handleRemoveTieLine(index)}>x</button>
+
+                <input type="text" placeholder="D" name='distance' value={tieLine.distance} onChange={e => handleTieLineChange(i, 'distance', e.target.value)} required/>
+                
+                <button className='remove-btn' onClick={() => handleRemoveTieLine(i)}>x</button>
               </div>
           </div>
           )}

@@ -121,15 +121,13 @@ const LeafletMap = ( props ) => {
       
       const polygonCoordinates = polygon.getLatLngs()[0].map((coord) => [coord.lat, coord.lng]);
 
-
-
       polygonCoordinates.bindPopup("Sample Polygon");
     }
     drawLayerRef.current.addTo(map);
 
-    var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
-    const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map)
-    polygon.bindPopup("Sample Polygon")
+    // var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
+    // const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map)
+    // polygon.bindPopup("Sample Polygon")
 
     return () => {
       map.remove();
