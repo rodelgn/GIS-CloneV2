@@ -22,7 +22,7 @@ const HomePage = ( props ) => {
     
     try {
       const parsedCoordinates = JSON.parse(coordinates);
-      if (Array.isArray(parsedCoorrdinates) && parsedCoordinates.length >= 3){
+      if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3){
         setPolygonCoordinates(parsedCoordinates);
       } else {
         console.error("Invalid coordinates format");
