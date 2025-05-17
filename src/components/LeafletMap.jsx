@@ -113,16 +113,16 @@ const LeafletMap = () => {
 
     // Draw A Polygon
 
-    // if (props.polygonCoordinates.length > 0 ) {
-    //   drawLayerRef.current.clearLayers();
-    // }
+    if (props.polygonCoordinates.length > 0 ) {
+      drawLayerRef.current.clearLayers();
+    }
     var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
     const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map)
     polygon.bindPopup("Sample Polygon")
 
-    // return () => {
-    //   map.remove();
-    // };
+    return () => {
+      map.remove();
+    };
 
   }, []);
 

@@ -68,23 +68,25 @@ const Plot = ( props ) => {
   const handleAddTieLine = () => {
     const numOfPoints = parseInt(numberOfPoints) + 1;
     
-    if (isNaN(numOfPoints) && numOfPoints > 0 ) {
+    if (!isNaN(numOfPoints) && numOfPoints > 0 ) {
       const currentTieLines = polygonLayer.tieLines;
-      const newTieLine = Array(numOfPoints).fill().map((_, index) => {
+      const newTieLines = Array(numOfPoints).fill().map((_, index) => {
         const newIndex = index + currentTieLines.length + 1;
         return createTieLine(newIndex);
       });
 
       for (let i = 0; i < Math.min(numOfPoints, currentTieLines.length); i++) {
-        newTieLine[i] = {...currentTieLines[i]}
+        newTieLines[i] = {...currentTieLines[i]}
       }
 
       setPolygonLayer({
         ...polygonLayer,
-        tieLines: newTieLine,
+        tieLines: newTieLines,
       })
     }
   };
+
+  console.log(handleAddTieLine);
 
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
@@ -227,11 +229,11 @@ const Plot = ( props ) => {
                 <input type="text" placeholder="DISTANCE" name={`tieLines[${index}.distance]`} value={tieLine.distance} onChange={(e) => handleInputChange(e, index)} required/>
                 <button className='remove-btn' onClick={() => handleRemoveTieLine(index)}>x</button>
               </div>
-              <div className='btnDraw-ctn'>
-                <button className='btn-draw' onClick={props.onDraw}>Draw</button>
-              </div>
           </div>
           )}
+          <div className='btnDraw-ctn'>
+                <button className='btn-draw' onClick={props.onDraw}>Draw</button>
+              </div>
         </div>
 
         <div className="form-group">
