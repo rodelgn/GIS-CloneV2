@@ -51,7 +51,7 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            polygonCoordinate = {polygonCoordinates} 
+            polygonCoordinates = {polygonCoordinates} 
           />
       </div>
 

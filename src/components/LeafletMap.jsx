@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Map, TileLayer } from 'leaflet';
+import { TileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -18,14 +18,14 @@ L.Icon.Default.mergeOptions({
   shadowSize: [41, 41]
 });
 
-const LeafletMap = () => {
+const LeafletMap = ( props ) => {
   const mapRef = useRef(null);
   const drawLayerRef = useRef(L.featureGroup());
 
 
   //MAP
   useEffect(() => {
-    const map = new Map(document.getElementById("leaflet-map"), {
+    const map = L.map("leaflet-map", {
       center: [7.078987297874518, 125.5428209424999],
       zoom: 13,
       zoomControl: false,
@@ -115,7 +115,18 @@ const LeafletMap = () => {
 
     if (props.polygonCoordinates.length > 0 ) {
       drawLayerRef.current.clearLayers();
+
+      const formattedPolygonCoordinates = props.polygonCoordinates.map((coord) => [coord[0], coord[1]]);
+      const polygon = L.polygon(formattedPolygonCoordinates, { color: 'red' }).addTo(drawLayerRef.current);
+      
+      const polygonCoordinates = polygon.getLatLngs()[0].map((coord) => [coord.lat, coord.lng]);
+
+
+
+      polygonCoordinates.bindPopup("Sample Polygon");
     }
+    drawLayerRef.current.addTo(map);
+
     var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
     const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map)
     polygon.bindPopup("Sample Polygon")
@@ -124,7 +135,7 @@ const LeafletMap = () => {
       map.remove();
     };
 
-  }, []);
+  }, [props.polygonCoordinates]);
 
   return (
     <section className="map-component">
