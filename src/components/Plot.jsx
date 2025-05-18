@@ -33,6 +33,8 @@ const Plot = ( props ) => {
   const [tieLineResults, setTieLineResults] = useState([]);
   const [drawTieLine, setDrawTieLine] = useState("")
   const [tieLineCoordinates, setTieLineCoordinates] = useState("");
+  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState("");
+  const [gridCoordinates, setGridCoordinates] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,7 +62,9 @@ const Plot = ( props ) => {
     handleCalculateCoordinates();
     calculateTieLine();
 
-    // const formattedCoordinates = results.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+    const formattedCoordinates = results.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+    
+    handleGridCoordinatesChange(formattedCoordinates);
 
   }, [polygonLayer, ])
 
@@ -68,7 +72,9 @@ const Plot = ( props ) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
   };
 
+  //c14=degreeAngle, d14=degree, e14=minutes, f14=minutesAngle
   const azimuthCalculation = (degreeAngle, degree, minutes, minutesAngle  ) => {
+
     const decimalBearing = decimalBearingCalculation(degree, minutes);
     let calculatedCoordinates;
 
@@ -89,6 +95,14 @@ const Plot = ( props ) => {
   const tieLineCoordinateChange = (newTieLineCoordinates) => {
     setTieLineCoordinates(newTieLineCoordinates);
   };
+
+  const handleGridCoordinatesChange = (newGridCoordinates) => {
+    setGridCoordinates(newGridCoordinates);
+  };
+
+  useEffect(() => {
+    handleTieLineConvert();
+  }, [gridCoordinates]);
 
   const handleCalculateCoordinates = () => {
     let cumulativeEasting = parseFloat(polygonLayer.easting);
@@ -128,6 +142,7 @@ const Plot = ( props ) => {
         `${easting}, ${northing}\n` +
         `${eastingCoordinate}, ${northingCoordinate}`
       )
+
       tieLineCoordinateChange(drawTieLine);
 
       console.log('Tie Line Coordinates:', drawTieLine);
@@ -155,6 +170,31 @@ const Plot = ( props ) => {
         ...polygonLayer,
         tieLines: newTieLines,
       })
+    }
+  };
+
+  const handleTieLineConvert = () => {
+    const tieLine = tieLineCoordinates.split('\n').map((coordLine) => coordLine.trim());
+    const newTieLineCoordinates = [];
+
+    try {
+      tieLine.forEach((coordLine) => {
+        const [x, y] = coordLine.split(',').map(Number);
+
+        if (!isFinite(x) || !isFinite(y)) {
+          throw new Error(`Invalid coordinate format: ${coordLine}`);
+        }
+
+        const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x,y]);
+        newTieLineCoordinates.push(convertedCoordinate);
+      })
+
+      setTieLineParseCoordinates(newTieLineCoordinates);
+      console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
+
+    } catch (error) {
+      console.error('Error converting tie line coordinates:', error);
+      alert('Error converting tie line coordinates. Please check the format.');
     }
   };
 
@@ -307,7 +347,7 @@ const Plot = ( props ) => {
           </div>
           )}
           <div className='btnDraw-ctn'>
-                <button className='btn-draw' onClick={props.onDraw}>Draw</button>
+                <button className='btn-draw' onClick={() => {props.onDraw(tieLineCoordinates)}}>Draw</button>
               </div>
         </div>
 

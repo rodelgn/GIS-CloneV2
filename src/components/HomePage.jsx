@@ -17,19 +17,15 @@ const HomePage = ( props ) => {
     setShowPopup(false);
   }
 
-  const handleDraw = (coordinates) => {
+  const handleDraw = (coords) => {
     console.log("Clicked!");
     
-    try {
-      const parsedCoordinates = JSON.parse(coordinates);
-      if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3){
-        setPolygonCoordinates(parsedCoordinates);
-      } else {
-        console.error("Invalid coordinates format");
-      }
-    } catch (error) {
-      console.error("Error parsing coordinates:", error);
+    if (!Array.isArray(coords) || coords.length < 3) {
+      console.error("Invalid coordinates:", coords);
+      return;
     }
+
+    setPolygonCoordinates(coords);
   };
 
   return (
