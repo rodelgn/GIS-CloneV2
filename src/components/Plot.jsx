@@ -33,7 +33,7 @@ const Plot = ( props ) => {
   const [tieLineResults, setTieLineResults] = useState([]);
   const [drawTieLine, setDrawTieLine] = useState("")
   const [tieLineCoordinates, setTieLineCoordinates] = useState("");
-  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState("");
+  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
   const [gridCoordinates, setGridCoordinates] = useState("");
 
   const handleInputChange = (e) => {
@@ -62,11 +62,11 @@ const Plot = ( props ) => {
     handleCalculateCoordinates();
     calculateTieLine();
 
-    const formattedCoordinates = results.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
-    
+    const formattedCoordinates = tieLineResults.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+
     handleGridCoordinatesChange(formattedCoordinates);
 
-  }, [polygonLayer, ])
+  }, [polygonLayer, tieLineResults])
 
   const decimalBearingCalculation = (degree, minutes) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
@@ -194,6 +194,7 @@ const Plot = ( props ) => {
 
     } catch (error) {
       console.error('Error converting tie line coordinates:', error);
+
       alert('Error converting tie line coordinates. Please check the format.');
     }
   };
