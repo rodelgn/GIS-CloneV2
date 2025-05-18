@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../api/Axios';
@@ -30,13 +30,24 @@ const Plot = ( props ) => {
     northing: '',
     tieLines: [createTieLine()]
   });
+  const [tieLineResults, setTieLineResults] = useState([]);
+  const [drawTieLine, setDrawTieLine] = useState("")
+  const [tieLineCoordinates, setTieLineCoordinates] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPlotData({
-      ...plotData,
-      [name]: value
-    });
+
+    if (name === 'easting' || name === 'northing' || name === 'monument') {
+      setPolygonLayer({
+        ...polygonLayer,
+        [name]: value
+      });
+    } else {
+      setPlotData({
+        ...plotData,
+        [name]: value
+      });
+    }
   };
 
   const handleTieLineChange = (index, field, value) => {
@@ -44,6 +55,14 @@ const Plot = ( props ) => {
     updated[index] = { ...updated[index], [field]: value };
     setPolygonLayer({ ...polygonLayer, tieLines: updated });
   };
+
+  useEffect(() => {
+    handleCalculateCoordinates();
+    calculateTieLine();
+
+    // const formattedCoordinates = results.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+
+  }, [polygonLayer, ])
 
   const decimalBearingCalculation = (degree, minutes) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
@@ -65,6 +84,57 @@ const Plot = ( props ) => {
       calculatedCoordinates = "";
     }
     return calculatedCoordinates;
+  };
+
+  const tieLineCoordinateChange = (newTieLineCoordinates) => {
+    setTieLineCoordinates(newTieLineCoordinates);
+  };
+
+  const handleCalculateCoordinates = () => {
+    let cumulativeEasting = parseFloat(polygonLayer.easting);
+    let cumulativeNorthing = parseFloat(polygonLayer.northing);
+
+    const tieLinesArray = polygonLayer.tieLines.map((tieLine) => {
+      const azimuth = azimuthCalculation(tieLine.degreeAngle, tieLine.degree, tieLine.minutes, tieLine.minutesAngle);
+
+      const sine = parseFloat(tieLine.distance) * Math.sin(azimuth * (Math.PI / 180)) * -1;
+      const cosine = parseFloat(tieLine.distance) * Math.cos(azimuth * (Math.PI / 180)) * -1;
+
+      const eastingCoordinate = cumulativeEasting + sine;
+      cumulativeEasting = eastingCoordinate;
+
+      const northingCoordinate = cumulativeNorthing + cosine;
+      cumulativeNorthing = northingCoordinate;
+
+      return {eastingCoordinate, northingCoordinate};
+    });
+
+    setTieLineResults(tieLinesArray);
+  }
+
+  const calculateTieLine = () => {
+    const { easting, northing } = polygonLayer;
+
+    if (tieLineResults.length > 0) {
+      const firstTieLine = tieLineResults[0];
+      const { eastingCoordinate, northingCoordinate } = firstTieLine;
+
+      console.log('Easting:', easting);
+      console.log('Northing:', northing);
+      console.log('Easting Coordinate (First Tie Line):', eastingCoordinate);
+      console.log('Northing Coordinate (First Tie Line):', northingCoordinate);
+
+      setDrawTieLine(
+        `${easting}, ${northing}\n` +
+        `${eastingCoordinate}, ${northingCoordinate}`
+      )
+      tieLineCoordinateChange(drawTieLine);
+
+      console.log('Tie Line Coordinates:', drawTieLine);
+      
+    } else {
+      console.log('No tie line results available.');
+    }
   };
 
   const handleAddTieLine = () => {
@@ -109,9 +179,9 @@ const Plot = ( props ) => {
         lotNo: plotData.lotNo,
         blkNo: plotData.blkNo,
         area: plotData.area,
-        monument: plotData.monument,
-        easting: plotData.easting,
-        northing: plotData.northing,
+        monument: polygonLayer.monument,
+        easting: polygonLayer.easting,
+        northing: polygonLayer.northing,
         pluscode: plotData.pluscode
       });
 
