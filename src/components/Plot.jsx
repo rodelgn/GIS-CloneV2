@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import './styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../api/Axios';
+import proj4 from 'proj4';
+
+proj4.defs(
+  "EPSG:3125",
+  "+proj=tmerc +lat_0=0 +lon_0=125 +k=0.99995 +x_0=500000 +y_0=0 +ellps=clrk66 +towgs84=-127.62,-67.24,-47.04,-3.068,4.903,1.578,-1.06 +units=m +no_defs +type=crs"
+);
 
 const Plot = ( props ) => {
   const [plotData, setPlotData] = useState({
@@ -14,7 +20,13 @@ const Plot = ( props ) => {
     area: '',
     pluscode: ''
   });
-  const [numberOfPoints, setNumberOfPoints] = useState("")
+  const [numberOfPoints, setNumberOfPoints] = useState("");
+  const [tieLineResults, setTieLineResults] = useState([]);
+  const [drawTieLine, setDrawTieLine] = useState("")
+  const [tieLineCoordinates, setTieLineCoordinates] = useState([]);
+  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
+  const [gridCoordinates, setGridCoordinates] = useState("");
+
   const createTieLine = () => {
     return {
       degreeAngle: '',
@@ -23,19 +35,16 @@ const Plot = ( props ) => {
       minutesAngle: '',
       distance: '',
     };
-  }
+  };
+
   const [polygonLayer, setPolygonLayer] = useState({
     monument: '',
     easting: '',
     northing: '',
     tieLines: [createTieLine()]
   });
-  const [tieLineResults, setTieLineResults] = useState([]);
-  const [drawTieLine, setDrawTieLine] = useState("")
-  const [tieLineCoordinates, setTieLineCoordinates] = useState("");
-  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
-  const [gridCoordinates, setGridCoordinates] = useState("");
 
+  // Input Change Handler
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -52,26 +61,60 @@ const Plot = ( props ) => {
     }
   };
 
+  //Add Tie Line base on number of points
+  const handleAddTieLine = () => {
+    const numOfPoints = parseInt(numberOfPoints) + 1;
+    
+    if (!isNaN(numOfPoints) && numOfPoints > 0 ) {
+      const currentTieLines = polygonLayer.tieLines;
+      const newTieLines = Array(numOfPoints).fill().map((_, index) => {
+        const newIndex = index + currentTieLines.length + 1;
+        return createTieLine(newIndex);
+      });
+
+      for (let i = 0; i < Math.min(numOfPoints, currentTieLines.length); i++) {
+        newTieLines[i] = {...currentTieLines[i]}
+      }
+
+      setPolygonLayer({
+        ...polygonLayer,
+        tieLines: newTieLines,
+      })
+    }
+  };
+
   const handleTieLineChange = (index, field, value) => {
     const updated = [...polygonLayer.tieLines];
     updated[index] = { ...updated[index], [field]: value };
     setPolygonLayer({ ...polygonLayer, tieLines: updated });
   };
 
+
   useEffect(() => {
     handleCalculateCoordinates();
     calculateTieLine();
 
-    const formattedCoordinates = tieLineResults.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+    const formattedResults = tieLineResults.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
 
-    handleGridCoordinatesChange(formattedCoordinates);
+    handleGridCoordinatesChange(formattedResults);
 
-  }, [polygonLayer, tieLineResults])
+  }, [polygonLayer])
+
+  const tieLineCoordinateChange = (newTieLineCoordinate) => {
+    setTieLineCoordinates(newTieLineCoordinate);
+  };
+
+  const handleGridCoordinatesChange = (newGridCoordinates) => {
+    setGridCoordinates(newGridCoordinates);
+  };
+
+   useEffect(() => {
+    handleConvert();
+   }, [gridCoordinates]);
 
   const decimalBearingCalculation = (degree, minutes) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
   };
-
   //c14=degreeAngle, d14=degree, e14=minutes, f14=minutesAngle
   const azimuthCalculation = (degreeAngle, degree, minutes, minutesAngle  ) => {
 
@@ -91,18 +134,6 @@ const Plot = ( props ) => {
     }
     return calculatedCoordinates;
   };
-
-  const tieLineCoordinateChange = (newTieLineCoordinates) => {
-    setTieLineCoordinates(newTieLineCoordinates);
-  };
-
-  const handleGridCoordinatesChange = (newGridCoordinates) => {
-    setGridCoordinates(newGridCoordinates);
-  };
-
-  useEffect(() => {
-    handleTieLineConvert();
-  }, [gridCoordinates]);
 
   const handleCalculateCoordinates = () => {
     let cumulativeEasting = parseFloat(polygonLayer.easting);
@@ -130,13 +161,14 @@ const Plot = ( props ) => {
     const { easting, northing } = polygonLayer;
 
     if (tieLineResults.length > 0) {
+      
       const firstTieLine = tieLineResults[0];
       const { eastingCoordinate, northingCoordinate } = firstTieLine;
 
-      console.log('Easting:', easting);
-      console.log('Northing:', northing);
-      console.log('Easting Coordinate (First Tie Line):', eastingCoordinate);
-      console.log('Northing Coordinate (First Tie Line):', northingCoordinate);
+      // console.log('Easting:', easting);
+      // console.log('Northing:', northing);
+      // console.log('Easting Coordinate (First Tie Line):', eastingCoordinate);
+      // console.log('Northing Coordinate (First Tie Line):', northingCoordinate);
 
       setDrawTieLine(
         `${easting}, ${northing}\n` +
@@ -152,33 +184,12 @@ const Plot = ( props ) => {
     }
   };
 
-  const handleAddTieLine = () => {
-    const numOfPoints = parseInt(numberOfPoints) + 1;
-    
-    if (!isNaN(numOfPoints) && numOfPoints > 0 ) {
-      const currentTieLines = polygonLayer.tieLines;
-      const newTieLines = Array(numOfPoints).fill().map((_, index) => {
-        const newIndex = index + currentTieLines.length + 1;
-        return createTieLine(newIndex);
-      });
-
-      for (let i = 0; i < Math.min(numOfPoints, currentTieLines.length); i++) {
-        newTieLines[i] = {...currentTieLines[i]}
-      }
-
-      setPolygonLayer({
-        ...polygonLayer,
-        tieLines: newTieLines,
-      })
-    }
-  };
-
-  const handleTieLineConvert = () => {
-    const tieLine = tieLineCoordinates.split('\n').map((coordLine) => coordLine.trim());
+  const handleConvert = () => {
+    const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
     const newTieLineCoordinates = [];
 
     try {
-      tieLine.forEach((coordLine) => {
+      inputTieLines.forEach((coordLine) => {
         const [x, y] = coordLine.split(',').map(Number);
 
         if (!isFinite(x) || !isFinite(y)) {
@@ -190,12 +201,13 @@ const Plot = ( props ) => {
       })
 
       setTieLineParseCoordinates(newTieLineCoordinates);
+
       console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
 
     } catch (error) {
       console.error('Error converting tie line coordinates:', error);
 
-      alert('Error converting tie line coordinates. Please check the format.');
+      // alert('Error converting tie line coordinates. Please check the format.');
     }
   };
 
@@ -206,7 +218,6 @@ const Plot = ( props ) => {
       tieLines: updatedTieLines,
     });
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -321,10 +332,11 @@ const Plot = ( props ) => {
               <label>Number of Points</label>
               <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
+
         {polygonLayer.tieLines.map((tieLine, i) =>
           <div key={i} className='form-group'>
-
             <label>{i === 0 ? 'Tie Line - 1*' : i === polygonLayer.tieLines.length - 1 ? `Point ${i} - Origin*` : `Point ${i} - ${i + 1}*`} </label>
+
               <div className='tie-line-row' style={{ marginBottom: '1rem' }}>
                 <select name='degreeAngle' value={tieLine.degreeAngle} onChange={e => handleTieLineChange(i, 'degreeAngle', e.target.value)} required>
                   <option value=''></option>
@@ -348,7 +360,7 @@ const Plot = ( props ) => {
           </div>
           )}
           <div className='btnDraw-ctn'>
-                <button className='btn-draw' onClick={() => {props.onDraw(tieLineCoordinates)}}>Draw</button>
+                <button className='btn-draw' onClick={() => {props.onDraw(JSON.stringify(tieLineParseCoordinates, null, 2))}}>Draw</button>
               </div>
         </div>
 
