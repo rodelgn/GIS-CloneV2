@@ -330,7 +330,7 @@ const Plot = ( props ) => {
 
           <div className='form-group' style={{ marginBottom: '1rem', marginTop: '1rem', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
               <label>Number of Points</label>
-              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onBlur={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
+              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
 
         {polygonLayer.tieLines.map((tieLine, i) =>
