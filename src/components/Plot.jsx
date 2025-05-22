@@ -309,7 +309,7 @@ const Plot = ( props ) => {
             </div>
           </div>
         </div>
-  
+      </form>
         <div className='section'>
           <h3 style={{ marginBottom: '1rem' }}>Boundaries</h3>
   
@@ -373,7 +373,7 @@ const Plot = ( props ) => {
           <button type='submit' className="btn-submit">Save</button>
           <button type="button" className="btn-cancel" onClick={handleClose}>Cancel</button>
         </div>
-      </form>
+      
     </div>
   )
 }
