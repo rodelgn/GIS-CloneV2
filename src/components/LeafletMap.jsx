@@ -35,7 +35,7 @@ const LeafletMap = ( props ) => {
     const openStreetMap = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
-        maxZoom: 22,
+        maxZoom: 19,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     )
@@ -43,7 +43,7 @@ const LeafletMap = ( props ) => {
     const eriSatteliteMap = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
-        maxZoom: 22,
+        maxZoom: 21,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     );
@@ -51,15 +51,15 @@ const LeafletMap = ( props ) => {
     const googleHybrid = L.tileLayer(
       "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
       {
-        maxZoom: 22,
+        maxZoom: 21,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
-    )
+    ).addTo(map);
 
     const googleSatteliteMap = L.tileLayer(
       "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
       {
-        maxZoom: 22,
+        maxZoom: 21,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     );
@@ -67,7 +67,7 @@ const LeafletMap = ( props ) => {
     const googleTerrainMap = L.tileLayer(
       "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
       {
-        maxZoom: 22,
+        maxZoom: 21,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     );
@@ -75,7 +75,7 @@ const LeafletMap = ( props ) => {
     const googleStreetMap = L.tileLayer(
       "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
       {
-        maxZoom: 22,
+        maxZoom: 21,
         subdomains: ["mt0", "mt1", "mt2", "mt3"],
       }
     );
@@ -100,10 +100,10 @@ const LeafletMap = ( props ) => {
     mapRef.current = map;
 
     // Add base OSM layer
-    new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 21,
-    }).addTo(map);
+    // new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //   maxZoom: 21,
+    // }).addTo(map);
 
     // Add marker
     const marker = L.marker([7.078987297874518, 125.5428209424999]).addTo(map);
@@ -113,18 +113,26 @@ const LeafletMap = ( props ) => {
 
     // Draw A Polygon
 
-    if (props.polygonCoordinates.length > 0 ) {
+    if (props.geoJsonData ) {
       drawLayerRef.current.clearLayers();
 
-      const formattedPolygonCoordinates = props.polygonCoordinates.map((coord) => [coord[0], coord[1]]);
-      const polygon = L.polygon(formattedPolygonCoordinates, { color: 'red' }).addTo(drawLayerRef.current);
-      
-      const polygonCoordinates = polygon.getLatLngs()[0].map((coord) => [coord.lat, coord.lng]);
+        const geoJsonLayer = L.geoJSON(props.geoJsonData, {
+        style: {
+          color: "red",
+          fillOpacity: 0.4,
+        },
+        onEachFeature: (feature, layer) => {
+          layer.bindPopup("Drawn Polygon");
+        }
+      });
 
-      polygonCoordinates.bindPopup("Sample Polygon");
-
+      drawLayerRef.current.addLayer(geoJsonLayer);
       drawLayerRef.current.addTo(map);
-    }
+
+      // Optional: auto-zoom to polygon bounds
+      map.fitBounds(geoJsonLayer.getBounds());
+
+      }
 
     // var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
     // const polygon = L.polygon(latlngs, {color: 'red'}).addTo(map)
@@ -134,7 +142,7 @@ const LeafletMap = ( props ) => {
       map.remove();
     };
 
-  }, [props.polygonCoordinates]);
+  }, [props.geoJsonData]);
 
   return (
     <section className="map-component">

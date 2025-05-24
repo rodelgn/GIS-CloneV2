@@ -7,7 +7,7 @@ import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [polygonCoordinates, setPolygonCoordinates] = useState([]);
+  const [geoJsonData, setGeoJsonData] = useState(null);
 
   const togglePopMenu = () => {
     setShowPopup(!showPopup);
@@ -24,7 +24,19 @@ const HomePage = ( props ) => {
       const parsedCoordinates = JSON.parse(coordinates);
       
       if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3) {
-        setPolygonCoordinates(parsedCoordinates);
+        const closedPolygon = [...parsedCoordinates, parsedCoordinates[0]];
+
+        const feature = {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [closedPolygon], // GeoJSON requires [ [ [lng, lat], ... ] ]
+        },
+        properties: {},
+      };
+
+      setGeoJsonData(feature);
+
       } else {
         console.error("Invalid coordinates format");
       }
@@ -52,7 +64,7 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            polygonCoordinates = {polygonCoordinates} 
+            geoJsonData={geoJsonData}
           />
       </div>
 
