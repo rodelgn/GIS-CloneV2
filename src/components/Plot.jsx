@@ -162,22 +162,17 @@ const Plot = ( props ) => {
 
     if (tieLineResults.length > 0) {
       
-      const firstTieLine = tieLineResults[0];
-      const { eastingCoordinate, northingCoordinate } = firstTieLine;
+      let lines = [`${easting}, ${northing}`];
 
-      // console.log('Easting:', easting);
-      // console.log('Northing:', northing);
-      // console.log('Easting Coordinate (First Tie Line):', eastingCoordinate);
-      // console.log('Northing Coordinate (First Tie Line):', northingCoordinate);
+      tieLineResults.forEach(result => {
+        lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
+      });
 
-      setDrawTieLine(
-        `${easting}, ${northing}\n` +
-        `${eastingCoordinate}, ${northingCoordinate}`
-      )
+      const drawString = lines.join('\n');
+      setDrawTieLine(drawString);
+      tieLineCoordinateChange(drawString);
 
-      tieLineCoordinateChange(drawTieLine);
-
-      console.log('Tie Line Coordinates:', drawTieLine);
+      console.log('All Tie Line Coordinates:', drawString);
       
     } else {
       console.log('No tie line results available.');
