@@ -122,7 +122,7 @@ const LeafletMap = ( props ) => {
           fillOpacity: 0.4,
         },
         onEachFeature: (feature, layer) => {
-          layer.bindPopup("Drawn Polygon");
+          layer.bindPopup("Drawn Polygon Test!!");
         }
       });
 
