@@ -165,10 +165,12 @@ const Plot = ( props ) => {
       let lines = [`${easting}, ${northing}`];
 
       tieLineResults.forEach(result => {
-        lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
+        if (result && result.eastingCoordinate && result.northingCoordinate) {
+          lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
+        }
       });
 
-      const drawString = lines.join('\n');
+      const drawString = lines.join('\n').trim();
       setDrawTieLine(drawString);
       tieLineCoordinateChange(drawString);
 
@@ -183,27 +185,31 @@ const Plot = ( props ) => {
     const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
     const newTieLineCoordinates = [];
 
-    try {
-      inputTieLines.forEach((coordLine) => {
-        const [x, y] = coordLine.split(',').map(Number);
-
-        if (!isFinite(x) || !isFinite(y)) {
-          throw new Error(`Invalid coordinate format: ${coordLine}`);
-        }
-
-        const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x,y]);
-        newTieLineCoordinates.push(convertedCoordinate);
-      })
-
-      setTieLineParseCoordinates(newTieLineCoordinates);
-
-      console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
-
-    } catch (error) {
-      console.error('Error converting tie line coordinates:', error);
-
-      // alert('Error converting tie line coordinates. Please check the format.');
-    }
+      try {
+        inputTieLines.forEach((coordLine, index) => {
+          const parts = coordLine.split(',');
+        
+          if (parts.length !== 2) {
+            console.warn(`Skipping malformed line ${index + 1}: ${coordLine}`);
+            return; // skip lines without exactly two parts
+          }
+        
+          const [x, y] = parts.map(Number);
+        
+          if (!isFinite(x) || !isFinite(y)) {
+            console.warn(`Skipping invalid coordinate at line ${index + 1}: ${coordLine}`);
+            return; // skip invalid numbers
+          }
+        
+          const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x, y]);
+          newTieLineCoordinates.push(convertedCoordinate);
+        });
+      
+        setTieLineParseCoordinates(newTieLineCoordinates);
+        console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
+      } catch (error) {
+        console.error('Error converting tie line coordinates:', error);
+      }
   };
 
   const handleRemoveTieLine = (index) => {
@@ -325,7 +331,7 @@ const Plot = ( props ) => {
 
           <div className='form-group' style={{ marginBottom: '1rem', marginTop: '1rem', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
               <label>Number of Points</label>
-              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onBlur={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
+              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
 
         {polygonLayer.tieLines.map((tieLine, i) =>
