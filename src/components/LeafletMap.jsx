@@ -108,7 +108,7 @@ const LeafletMap = ( props ) => {
     // Add base OSM layer
     new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 21,
+      maxZoom: 19,
     }).addTo(map);
 
     // Add marker
