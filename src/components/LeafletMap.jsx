@@ -123,20 +123,19 @@ const LeafletMap = ( props ) => {
       var sumlng = 0;
 
       for (let i = 0; i < coordinates.length; i++) {
-        sumLat += coordinates[i][0];
-        sumlng += coordinates[i][1];
+        sumLat += coordinates[i][1];
+        sumlng += coordinates[i][0];
       }
 
       const centerLat = sumLat / coordinates.length;
       const centerLng = sumlng / coordinates.length;
       const plusCode = new PlusCodes();
-      const centroidPlusCode = plusCode.encode(centerLng, centerLat, 12);
+      const centroidPlusCode = plusCode.encode(centerLat, centerLng, 12);
 
       return [centerLat, centerLng, centroidPlusCode];
     }
 
     // Draw A Polygon
-
     if (props.geoJsonData ) {
       drawLayerRef.current.clearLayers();
 
@@ -147,11 +146,35 @@ const LeafletMap = ( props ) => {
         },
         onEachFeature: (feature, layer) => {
           layer.bindPopup("Drawn Polygon Test!!");
-          layer.bindPopup(popupContent);
         }
       });
 
-      const centerCoordinate = calculateCenterCoordinates(geoJsonLayer);
+      let features = [];
+
+      if (props.geoJsonData.type === "FeatureCollection") {
+        features = props.geoJsonData.features;
+      } else if (props.geoJsonData.type === "Feature") {
+        features = [props.geoJsonData];
+      } else {
+        console.error("Invalid GeoJSON data format:", props.geoJsonData);
+        return;
+      }
+
+      let coordinates = [];
+
+      features.forEach((feature) => {
+        const geom = feature.geometry;
+
+        if (geom.type === "Polygon") {
+          coordinates = coordinates.concat(geom.coordinates[0]);
+        } else if (geom.type === "MultiPolygon") {
+          geom.coordinates.forEach((poly) => {
+            coordinates = coordinates.concat(poly[0]);
+          });
+        }
+      });
+
+      const centerCoordinate = calculateCenterCoordinates(coordinates);
       const centerLat = centerCoordinate[0];
       const centerLng = centerCoordinate[1];
       const centroidPlusCode = centerCoordinate[2];
@@ -162,6 +185,8 @@ const LeafletMap = ( props ) => {
         Longitude: ${centerLng.toFixed(6)}<br />
         Plus Code: ${centroidPlusCode}
       `;
+
+      geoJsonLayer.bindPopup(popupContent);
       
       drawLayerRef.current.addLayer(geoJsonLayer);
       drawLayerRef.current.addTo(map);
