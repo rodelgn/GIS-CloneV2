@@ -30,7 +30,7 @@ const HomePage = ( props ) => {
         type: "Feature",
         geometry: {
           type: "Polygon",
-          coordinates: [closedPolygon], // GeoJSON requires [ [ [lng, lat], ... ] ]
+          coordinates: [closedPolygon],
         },
         properties: {},
       };

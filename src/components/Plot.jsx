@@ -22,8 +22,8 @@ const Plot = ( props ) => {
   });
   const [numberOfPoints, setNumberOfPoints] = useState("");
   const [tieLineResults, setTieLineResults] = useState([]);
-  const [drawTieLine, setDrawTieLine] = useState("")
-  const [tieLineCoordinates, setTieLineCoordinates] = useState([]);
+  // const [drawTieLine, setDrawTieLine] = useState("")
+  // const [tieLineCoordinates, setTieLineCoordinates] = useState([]);
   const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
   const [gridCoordinates, setGridCoordinates] = useState("");
 
@@ -100,9 +100,9 @@ const Plot = ( props ) => {
 
   }, [polygonLayer])
 
-  const tieLineCoordinateChange = (newTieLineCoordinate) => {
-    setTieLineCoordinates(newTieLineCoordinate);
-  };
+  // const tieLineCoordinateChange = (newTieLineCoordinate) => {
+  //   setTieLineCoordinates(newTieLineCoordinate);
+  // };
 
   const handleGridCoordinatesChange = (newGridCoordinates) => {
     setGridCoordinates(newGridCoordinates);
@@ -115,6 +115,7 @@ const Plot = ( props ) => {
   const decimalBearingCalculation = (degree, minutes) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
   };
+
   //c14=degreeAngle, d14=degree, e14=minutes, f14=minutesAngle
   const azimuthCalculation = (degreeAngle, degree, minutes, minutesAngle  ) => {
 
@@ -171,8 +172,9 @@ const Plot = ( props ) => {
       });
 
       const drawString = lines.join('\n').trim();
-      setDrawTieLine(drawString);
-      tieLineCoordinateChange(drawString);
+
+      // setDrawTieLine(drawString);
+      // tieLineCoordinateChange(drawString);
 
       console.log('All Tie Line Coordinates:', drawString);
       
@@ -191,14 +193,14 @@ const Plot = ( props ) => {
         
           if (parts.length !== 2) {
             console.warn(`Skipping malformed line ${index + 1}: ${coordLine}`);
-            return; // skip lines without exactly two parts
+            return;
           }
         
           const [x, y] = parts.map(Number);
         
           if (!isFinite(x) || !isFinite(y)) {
             console.warn(`Skipping invalid coordinate at line ${index + 1}: ${coordLine}`);
-            return; // skip invalid numbers
+            return;
           }
         
           const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x, y]);
@@ -206,6 +208,7 @@ const Plot = ( props ) => {
         });
       
         setTieLineParseCoordinates(newTieLineCoordinates);
+
         console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
       } catch (error) {
         console.error('Error converting tie line coordinates:', error);
