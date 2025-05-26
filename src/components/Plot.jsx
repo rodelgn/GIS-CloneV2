@@ -61,7 +61,7 @@ const Plot = ( props ) => {
     }
   };
 
-  //Add Tie Line base on number of points
+  // Add Tie Line Handler
   const handleAddTieLine = () => {
     const numOfPoints = parseInt(numberOfPoints) + 1;
     
@@ -83,6 +83,7 @@ const Plot = ( props ) => {
     }
   };
 
+  // Handle Tie Line Change
   const handleTieLineChange = (index, field, value) => {
     const updated = [...polygonLayer.tieLines];
     updated[index] = { ...updated[index], [field]: value };

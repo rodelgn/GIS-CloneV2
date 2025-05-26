@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { TileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { TileLayer } from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { PlusCodes } from 'olc-plus-codes'
+
 
 // Fix for default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -25,6 +27,10 @@ const LeafletMap = ( props ) => {
 
   //MAP
   useEffect(() => {
+    if (mapRef.current) {
+    return; // Map already initialized
+  }
+
     const map = L.map("leaflet-map", {
       center: [7.078987297874518, 125.5428209424999],
       zoom: 13,
@@ -100,16 +106,34 @@ const LeafletMap = ( props ) => {
     mapRef.current = map;
 
     // Add base OSM layer
-    // new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    //   maxZoom: 21,
-    // }).addTo(map);
+    new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 21,
+    }).addTo(map);
 
     // Add marker
     const marker = L.marker([7.078987297874518, 125.5428209424999]).addTo(map);
     marker.bindPopup(`
-      A pretty CSS3 popup. <br /> Easily customizable.
+      Center of the current MAP <br />.
     `);
+    
+    //Center Coordinate to get Plus Code
+    const calculateCenterCoordinates = (coordinates) => {
+      var sumLat = 0;
+      var sumlng = 0;
+
+      for (let i = 0; i < coordinates.length; i++) {
+        sumLat += coordinates[i][0];
+        sumlng += coordinates[i][1];
+      }
+
+      const centerLat = sumLat / coordinates.length;
+      const centerLng = sumlng / coordinates.length;
+      const plusCode = new PlusCodes();
+      const centroidPlusCode = plusCode.encode(centerLng, centerLat, 12);
+
+      return [centerLat, centerLng, centroidPlusCode];
+    }
 
     // Draw A Polygon
 
@@ -123,9 +147,22 @@ const LeafletMap = ( props ) => {
         },
         onEachFeature: (feature, layer) => {
           layer.bindPopup("Drawn Polygon Test!!");
+          layer.bindPopup(popupContent);
         }
       });
 
+      const centerCoordinate = calculateCenterCoordinates(geoJsonLayer);
+      const centerLat = centerCoordinate[0];
+      const centerLng = centerCoordinate[1];
+      const centroidPlusCode = centerCoordinate[2];
+
+      const popupContent = `
+        <strong>Polygon Centroid:</strong><br />
+        Latitude: ${centerLat.toFixed(6)}<br />
+        Longitude: ${centerLng.toFixed(6)}<br />
+        Plus Code: ${centroidPlusCode}
+      `;
+      
       drawLayerRef.current.addLayer(geoJsonLayer);
       drawLayerRef.current.addTo(map);
 
@@ -140,6 +177,7 @@ const LeafletMap = ( props ) => {
 
     return () => {
       map.remove();
+      mapRef.current = null;
     };
 
   }, [props.geoJsonData]);
