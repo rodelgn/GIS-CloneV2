@@ -64,7 +64,7 @@ const HomePage = ( props ) => {
             <Plot
               onDraw = {handleDraw} 
               onClose = {btnCancel}
-              handlePlusCodes = {handlePlusCode}
+              plusCode = {plusCode}
             />
          )}
          

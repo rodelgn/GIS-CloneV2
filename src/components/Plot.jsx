@@ -18,7 +18,7 @@ const Plot = ( props ) => {
     lotNo: '',
     blkNo: '',
     area: '',
-    pluscode: ''
+    plusCode: props.plusCode
   });
   const [numberOfPoints, setNumberOfPoints] = useState("");
   const [tieLineResults, setTieLineResults] = useState([]);
@@ -371,7 +371,7 @@ const Plot = ( props ) => {
 
         <div className="form-group">
           <label>Plus Code</label>
-          <input type="text" onChange={handleInputChange} name='pluscode' />
+          <input type="text" value={props.plusCode} name='plusCode' readOnly/>
         </div>
   
         <div className='form-buttons'>
