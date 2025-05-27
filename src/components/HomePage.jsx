@@ -44,6 +44,8 @@ const HomePage = ( props ) => {
 
       setGeoJsonData(feature);
 
+      console.log("GeoJSON Data:", feature);
+
       } else {
         console.error("Invalid coordinates format");
       }

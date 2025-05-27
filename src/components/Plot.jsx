@@ -22,8 +22,6 @@ const Plot = ( props ) => {
   });
   const [numberOfPoints, setNumberOfPoints] = useState("");
   const [tieLineResults, setTieLineResults] = useState([]);
-  // const [drawTieLine, setDrawTieLine] = useState("")
-  // const [tieLineCoordinates, setTieLineCoordinates] = useState([]);
   const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
   const [gridCoordinates, setGridCoordinates] = useState("");
 
@@ -174,9 +172,6 @@ const Plot = ( props ) => {
 
       const drawString = lines.join('\n').trim();
 
-      // setDrawTieLine(drawString);
-      // tieLineCoordinateChange(drawString);
-
       console.log('All Tie Line Coordinates:', drawString);
       
     } else {
@@ -239,7 +234,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        pluscode: plotData.pluscode
+        pluscode: plotData.plusCode
       });
 
       console.log(response.data);
