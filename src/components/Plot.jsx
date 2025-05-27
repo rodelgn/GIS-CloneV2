@@ -99,10 +99,6 @@ const Plot = ( props ) => {
 
   }, [polygonLayer])
 
-  // const tieLineCoordinateChange = (newTieLineCoordinate) => {
-  //   setTieLineCoordinates(newTieLineCoordinate);
-  // };
-
   const handleGridCoordinatesChange = (newGridCoordinates) => {
     setGridCoordinates(newGridCoordinates);
   };
@@ -234,7 +230,8 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        pluscode: plotData.plusCode
+        geojson: JSON.stringify(props.geoJsonData),
+        pluscode: props.plusCode
       });
 
       console.log(response.data);
@@ -370,7 +367,7 @@ const Plot = ( props ) => {
         </div>
   
         <div className='form-buttons'>
-          <button type='submit' className="btn-submit">Save</button>
+          <button type='submit' className="btn-submit" onClick={handleSubmit}>Save</button>
           <button type="button" className="btn-cancel" onClick={handleClose}>Cancel</button>
         </div>
       

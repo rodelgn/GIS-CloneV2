@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/map.css';
+import Axios from 'axios';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plot';
@@ -21,7 +22,7 @@ const HomePage = ( props ) => {
   const handlePlusCode = (plusCodes) => {
     setPlusCode(plusCodes);
 
-    console.log("Plus Code:", plusCode);
+    console.log("Plus Code:", plusCodes);
   };
 
   const handleDraw = (coordinates) => {
@@ -66,7 +67,9 @@ const HomePage = ( props ) => {
             <Plot
               onDraw = {handleDraw} 
               onClose = {btnCancel}
+              plusCodes = {handlePlusCode}
               plusCode = {plusCode}
+              geoJsonData = {geoJsonData}
             />
          )}
          
