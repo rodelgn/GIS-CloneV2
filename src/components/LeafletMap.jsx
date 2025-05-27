@@ -183,11 +183,13 @@ const LeafletMap = ( props ) => {
         <strong>Polygon Centroid:</strong><br />
         Latitude: ${centerLat.toFixed(6)}<br />
         Longitude: ${centerLng.toFixed(6)}<br />
+        <br />
         Plus Code: ${centroidPlusCode}
       `;
 
       geoJsonLayer.bindPopup(popupContent);
       
+      props.handlePlusCodes(centroidPlusCode);
       drawLayerRef.current.addLayer(geoJsonLayer);
       drawLayerRef.current.addTo(map);
 

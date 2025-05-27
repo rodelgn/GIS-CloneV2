@@ -8,6 +8,7 @@ import './styles/home.css';
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
   const [geoJsonData, setGeoJsonData] = useState(null);
+  const [plusCode, setPlusCode] = useState("");
 
   const togglePopMenu = () => {
     setShowPopup(!showPopup);
@@ -16,6 +17,12 @@ const HomePage = ( props ) => {
   const btnCancel = () => {
     setShowPopup(false);
   }
+
+  const handlePlusCode = (plusCodes) => {
+    setPlusCode(plusCodes);
+
+    console.log("Plus Code:", plusCode);
+  };
 
   const handleDraw = (coordinates) => {
     console.log("Clicked!");
@@ -49,14 +56,15 @@ const HomePage = ( props ) => {
     <div className="home-container">
         <Navigation 
          logoutClick = {props.onLogout}
-         togglePlotting={togglePopMenu}
-         isPlotOpen={showPopup}
+         togglePlotting = {togglePopMenu}
+         isPlotOpen = {showPopup}
          />
 
         {showPopup && (
             <Plot
-              onDraw={handleDraw} 
-              onClose={btnCancel}
+              onDraw = {handleDraw} 
+              onClose = {btnCancel}
+              handlePlusCodes = {handlePlusCode}
             />
          )}
          
@@ -64,7 +72,8 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            geoJsonData={geoJsonData}
+            geoJsonData = {geoJsonData}
+            handlePlusCodes = {handlePlusCode}
           />
       </div>
 
