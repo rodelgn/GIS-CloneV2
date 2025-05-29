@@ -55,6 +55,13 @@ const HomePage = ( props ) => {
     }
   };
 
+  useEffect(() => {
+    const fetchGeoJsonData = async () => {};
+
+    fetchGeoJsonData();
+
+  }, []);
+
   return (
     <div className="home-container">
         <Navigation 

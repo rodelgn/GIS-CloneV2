@@ -28,8 +28,8 @@ const LeafletMap = ( props ) => {
   //MAP
   useEffect(() => {
     if (mapRef.current) {
-    return; // Map already initialized
-  }
+    return;
+  } 
 
     const map = L.map("leaflet-map", {
       center: [7.078987297874518, 125.5428209424999],
@@ -42,9 +42,10 @@ const LeafletMap = ( props ) => {
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         maxZoom: 19,
-        subdomains: ["mt0", "mt1", "mt2", "mt3"],
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: ["a", "b", "c"],
       }
-    )
+    );
 
     const eriSatteliteMap = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -106,16 +107,16 @@ const LeafletMap = ( props ) => {
     mapRef.current = map;
 
     // Add base OSM layer
-    new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map);
+    // new TileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //   maxZoom: 19,
+    // }).addTo(map);
 
     // Add marker
-    const marker = L.marker([7.078987297874518, 125.5428209424999]).addTo(map);
-    marker.bindPopup(`
-      Center of the current MAP <br />.
-    `);
+    // const marker = L.marker([7.078987297874518, 125.5428209424999]).addTo(map);
+    // marker.bindPopup(`
+    //   Center of the current MAP <br />.
+    // `);
     
     //Center Coordinate to get Plus Code
     const calculateCenterCoordinates = (coordinates) => {
