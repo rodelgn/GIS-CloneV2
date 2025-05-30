@@ -11,6 +11,13 @@ const HomePage = ( props ) => {
   const [geoJsonData, setGeoJsonData] = useState(null);
   const [plusCode, setPlusCode] = useState("");
 
+  useEffect(() => {
+    const fetchGeoJsonData = async () => {};
+
+    fetchGeoJsonData();
+
+  }, []);
+
   const togglePopMenu = () => {
     setShowPopup(!showPopup);
   }
@@ -20,9 +27,7 @@ const HomePage = ( props ) => {
   }
 
   const handlePlusCode = (plusCodes) => {
-    setPlusCode(plusCodes);
-
-    console.log("Plus Code:", plusCodes);
+    setPlusCode(plusCodes); 
   };
 
   const handleDraw = (coordinates) => {
@@ -54,13 +59,6 @@ const HomePage = ( props ) => {
       console.error("Error parsing coordinates:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchGeoJsonData = async () => {};
-
-    fetchGeoJsonData();
-
-  }, []);
 
   return (
     <div className="home-container">
