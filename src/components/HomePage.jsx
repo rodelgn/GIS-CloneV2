@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
 import './styles/map.css';
-import Axios from 'axios';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plot';
@@ -8,7 +8,7 @@ import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
-  // const [geoJsonData, setGeoJsonData] = useState(null);
+  const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
 
   // useEffect(() => {
@@ -115,7 +115,7 @@ const HomePage = ( props ) => {
               onClose = {btnCancel}
               plusCodes = {handlePlusCode}
               plusCode = {plusCode}
-              // geoJsonData = {geoJsonData}
+              setPolygonCoordinates = {setPolygonCoordinates}
             />
          )}
          
@@ -123,7 +123,7 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            // geoJsonData = {geoJsonData}
+            setPolygonCoordinates = {setPolygonCoordinates}
             handlePlusCodes = {handlePlusCode}
           />
       </div>
