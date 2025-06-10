@@ -123,8 +123,8 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            setPolygonCoordinates = {setPolygonCoordinates}
             handlePlusCodes = {handlePlusCode}
+            setPolygonCoordinates = {setPolygonCoordinates}
           />
       </div>
 

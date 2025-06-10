@@ -33,13 +33,13 @@ const Plot = ( props ) => {
     tieLines: [createTieLine()]
   });
 
+  useEffect(() => {
+    handleAddTieLine();
+   }, [numberOfPoints]);
+
    useEffect(() => {
     handleCalculateCoordinates();
   }, [polygonLayer, results])
-
-   useEffect(() => {
-    handleAddTieLine();
-   }, [numberOfPoints]);
 
   // Input Change Handler
   const handleInputChange = (e) => {

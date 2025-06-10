@@ -14,6 +14,11 @@ const DrawPolygon = ({ results }) => {
     const { setPolygonCoordinates } = usePolygonCoordinates();
     const [parseCoordinates, setParseCoordinates] = useState([]);
 
+
+    useEffect (() => {
+        handleConvert();
+    }, [results])
+
     const handleConvert = () => {
         if (typeof results !== "string") {
             return;
@@ -27,24 +32,20 @@ const DrawPolygon = ({ results }) => {
                 const [x, y] = line.split(',').map(Number);
 
                 if (!isFinite(x) || !isFinite(y)) {
-                    throw new Error (`Invalid corrdinate: ${line}`);
+                    throw new Error(`Invalid corrdinate: ${line}`);
                 }
 
-                const converted = proj4("EPSG: 3125", "EPSG: 4326", [x, y]);
+                const converted = proj4("EPSG:3125", "EPSG:4326", [x, y]);
                 newCoordinates.push(converted);
             });
 
             setParseCoordinates(newCoordinates);
-            console.log(newCoordinates);
+            console.log("New Coordinates: ", newCoordinates);
 
         } catch (error) {
             console.log("Error converting coordinates: ", error);
         }
     };
-
-    useEffect (() => {
-        handleConvert();
-    }, [results])
 
     const handleDraw = () => {
         const coordinates = (JSON.stringify(parseCoordinates, null, 2));
@@ -55,11 +56,7 @@ const DrawPolygon = ({ results }) => {
             if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3) {
                 setPolygonCoordinates(parsedCoordinates);
             } else {
-                Swal.fire({
-                    title: "Please enter valid coordinates.",
-                    icon: "error",
-                    draggable: false
-                });
+                alert("Please enter valid coordinates.");
             }
         } catch (error) {
             Swal.fire({

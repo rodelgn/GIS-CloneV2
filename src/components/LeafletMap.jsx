@@ -4,6 +4,7 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
 import { PlusCodes } from 'olc-plus-codes'
 
 
@@ -23,6 +24,7 @@ const LeafletMap = ( props ) => {
   const mapRef = useRef(null);
   const drawnLayerRef = useRef(L.featureGroup());
   const mapInitialized = useRef(false); 
+  const { polygonCoordinates } = usePolygonCoordinates();
 
 
   //MAP
@@ -128,10 +130,32 @@ const LeafletMap = ( props ) => {
       const centroidPlusCode = plusCode.encode(centerLat, centerLng, 12);
 
       return [centerLat, centerLng, centroidPlusCode];
-    }
+    };
 
     // Draw A Polygon
-  })
+    if (mapInitialized.current) {
+      if (Array.isArray(polygonCoordinates) && polygonCoordinates.length > 0 ) {
+        const formattedPolygonCoordinates = polygonCoordinates.map((coord) => [
+          coord[1],
+          coord[0],
+        ]);
+        const polygon = L.polygon(formattedPolygonCoordinates, {
+          color: "red",
+        });
+
+        drawnLayerRef.current.clearLayers().addLayer(polygon);
+        mapRef.current.fitBounds(polygon.getBounds(), { maxZoom: 19 });
+
+        var centerCoord = calculateCenterCoordinates(polygonCoordinates);
+        var centerLng = centerCoord[0];
+        var centerLat = centerCoord[1];
+
+        var popUpContent = "<p>Centroid</p>";
+        popUpContent += "<pre>Latitude: " + centerLat + ", Longitude: " + centerLng + "</pre>";
+
+      }
+    }
+  }, [polygonCoordinates]);
 
   return (
     <section className="map-component">
