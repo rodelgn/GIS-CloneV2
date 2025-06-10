@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import './styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../api/Axios';
+import DrawPolygon from './DrawPolygon';
 
 const Plot = ( props ) => {
   const [numberOfPoints, setNumberOfPoints] = useState("");
-  const [tieLineResults, setTieLineResults] = useState([]);
-  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
-  const [gridCoordinates, setGridCoordinates] = useState("");
+  const [results, setResults] = useState([]);
   const [plotData, setPlotData] = useState({
     titleNo: '',
     owner: '',
@@ -33,6 +32,14 @@ const Plot = ( props ) => {
     northing: '',
     tieLines: [createTieLine()]
   });
+
+   useEffect(() => {
+    handleCalculateCoordinates();
+  }, [polygonLayer, results])
+
+   useEffect(() => {
+    handleAddTieLine();
+   }, [numberOfPoints]);
 
   // Input Change Handler
   const handleInputChange = (e) => {
@@ -80,25 +87,6 @@ const Plot = ( props ) => {
     setPolygonLayer({ ...polygonLayer, tieLines: updated });
   };
 
-
-  useEffect(() => {
-    handleCalculateCoordinates();
-    calculateTieLine();
-
-    const formattedResults = tieLineResults.map((coord) => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
-
-    handleGridCoordinatesChange(formattedResults);
-
-  }, [polygonLayer])
-
-  const handleGridCoordinatesChange = (newGridCoordinates) => {
-    setGridCoordinates(newGridCoordinates);
-  };
-
-   useEffect(() => {
-    handleConvert();
-   }, [gridCoordinates]);
-
   const decimalBearingCalculation = (degree, minutes) => {
     return parseFloat(degree) + (parseFloat(minutes) / 60);
   };
@@ -129,43 +117,42 @@ const Plot = ( props ) => {
 
     const tieLinesArray = polygonLayer.tieLines.map((tieLine) => {
       const azimuth = azimuthCalculation(tieLine.degreeAngle, tieLine.degree, tieLine.minutes, tieLine.minutesAngle);
-
       const sine = parseFloat(tieLine.distance) * Math.sin(azimuth * (Math.PI / 180)) * -1;
       const cosine = parseFloat(tieLine.distance) * Math.cos(azimuth * (Math.PI / 180)) * -1;
-
       const eastingCoordinate = cumulativeEasting + sine;
       cumulativeEasting = eastingCoordinate;
-
       const northingCoordinate = cumulativeNorthing + cosine;
       cumulativeNorthing = northingCoordinate;
 
       return {eastingCoordinate, northingCoordinate};
     });
 
-    setTieLineResults(tieLinesArray);
-  }
-
-  const calculateTieLine = () => {
-    const { easting, northing } = polygonLayer;
-
-    if (tieLineResults.length > 0) {
-      
-      let lines = [`${easting}, ${northing}`];
-
-      tieLineResults.forEach(result => {
-        if (result && result.eastingCoordinate && result.northingCoordinate) {
-          lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
-        }
-      });
-
-      const drawString = lines.join('\n').trim();
-
-      console.log('All Tie Line Coordinates:', drawString);
-      
-    } else {
-      console.log('No tie line results available.');
-    }
+    const formattedResults = tieLinesArray.map(coord => `${coord.eastingCoordinate}, ${coord.northingCoordinate}`).join('\n');
+    setResults(formattedResults);
+    console.log("Formatted Result: ", formattedResults);
   };
+
+  // const calculateTieLine = () => {
+  //   const { easting, northing } = polygonLayer;
+
+  //   if (tieLineResults.length > 0) {
+      
+  //     let lines = [`${easting}, ${northing}`];
+
+  //     tieLineResults.forEach(result => {
+  //       if (result && result.eastingCoordinate && result.northingCoordinate) {
+  //         lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
+  //       }
+  //     });
+
+  //     const drawString = lines.join('\n').trim();
+
+  //     console.log('All Tie Line Coordinates:', drawString);
+      
+  //   } else {
+  //     console.log('No tie line results available.');
+  //   }
+  // };
 
   // const handleConvert = () => {
   //   const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
@@ -349,7 +336,7 @@ const Plot = ( props ) => {
           </div>
           )}
           <div className='btnDraw-ctn'>
-                <button className='btn-draw'>Draw</button>
+                <DrawPolygon results={results}/>
               </div>
         </div>
 

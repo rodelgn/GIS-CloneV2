@@ -1,6 +1,7 @@
-import proj4 from "proj4"
 import './styles/plottingform.css';
 import {useState, useEffect} from 'react'
+import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
+import proj4 from "proj4"
 import Swal from "sweetalert2";
 
 
@@ -9,15 +10,16 @@ proj4.defs(
   "+proj=tmerc +lat_0=0 +lon_0=125 +k=0.99995 +x_0=500000 +y_0=0 +ellps=clrk66 +towgs84=-127.62,-67.24,-47.04,-3.068,4.903,1.578,-1.06 +units=m +no_defs +type=crs"
 );
 
-const DrawPolygon = () => {
+const DrawPolygon = ({ results }) => {
+    const { setPolygonCoordinates } = usePolygonCoordinates();
     const [parseCoordinates, setParseCoordinates] = useState([]);
 
     const handleConvert = () => {
-        if (typeof result !== "string") {
+        if (typeof results !== "string") {
             return;
         }
 
-        const inputLines = result.split('\n').map(line => line.trim());
+        const inputLines = results.split('\n').map(line => line.trim());
         const newCoordinates = [];
 
         try {
@@ -42,7 +44,7 @@ const DrawPolygon = () => {
 
     useEffect (() => {
         handleConvert();
-    }, [result])
+    }, [results])
 
     const handleDraw = () => {
         const coordinates = (JSON.stringify(parseCoordinates, null, 2));
@@ -71,7 +73,7 @@ const DrawPolygon = () => {
 
   return (
     <div>
-        <button className='btn-draw' onClick={handleDraw}>Draw</button>
+        <button className='btn-draw' style={{ width: '100%'}} onClick={handleDraw}>Draw</button>
     </div>
   )
 }

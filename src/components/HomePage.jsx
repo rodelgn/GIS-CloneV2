@@ -8,7 +8,7 @@ import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [geoJsonData, setGeoJsonData] = useState(null);
+  // const [geoJsonData, setGeoJsonData] = useState(null);
   const [plusCode, setPlusCode] = useState("");
 
   // useEffect(() => {
@@ -72,35 +72,35 @@ const HomePage = ( props ) => {
     setPlusCode(plusCodes); 
   };
 
-  const handleDraw = (coordinates) => {
-    console.log("Clicked!");
+  // const handleDraw = (coordinates) => {
+  //   console.log("Clicked!");
     
-    try {
-      const parsedCoordinates = JSON.parse(coordinates);
+  //   try {
+  //     const parsedCoordinates = JSON.parse(coordinates);
       
-      if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3) {
-        const closedPolygon = [...parsedCoordinates, parsedCoordinates[0]];
+  //     if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3) {
+  //       const closedPolygon = [...parsedCoordinates, parsedCoordinates[0]];
 
-        const feature = {
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [closedPolygon],
-        },
-        properties: {},
-      };
+  //       const feature = {
+  //       type: "Feature",
+  //       geometry: {
+  //         type: "Polygon",
+  //         coordinates: [closedPolygon],
+  //       },
+  //       properties: {},
+  //     };
 
-      setGeoJsonData(feature);
+  //     setGeoJsonData(feature);
 
-      console.log("GeoJSON Data:", feature);
+  //     console.log("GeoJSON Data:", feature);
 
-      } else {
-        console.error("Invalid coordinates format");
-      }
-    } catch (error) {
-      console.error("Error parsing coordinates:", error);
-    }
-  };
+  //     } else {
+  //       console.error("Invalid coordinates format");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error parsing coordinates:", error);
+  //   }
+  // };
 
   return (
     <div className="home-container">
@@ -112,11 +112,10 @@ const HomePage = ( props ) => {
 
         {showPopup && (
             <Plot
-              onDraw = {handleDraw} 
               onClose = {btnCancel}
               plusCodes = {handlePlusCode}
               plusCode = {plusCode}
-              geoJsonData = {geoJsonData}
+              // geoJsonData = {geoJsonData}
             />
          )}
          
@@ -124,7 +123,7 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            geoJsonData = {geoJsonData}
+            // geoJsonData = {geoJsonData}
             handlePlusCodes = {handlePlusCode}
           />
       </div>
