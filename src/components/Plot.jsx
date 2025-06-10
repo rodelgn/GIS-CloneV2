@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../api/Axios';
 
 const Plot = ( props ) => {
+  const [numberOfPoints, setNumberOfPoints] = useState("");
+  const [tieLineResults, setTieLineResults] = useState([]);
+  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
+  const [gridCoordinates, setGridCoordinates] = useState("");
   const [plotData, setPlotData] = useState({
     titleNo: '',
     owner: '',
@@ -14,11 +18,6 @@ const Plot = ( props ) => {
     area: '',
     plusCode: props.plusCode
   });
-  const [numberOfPoints, setNumberOfPoints] = useState("");
-  const [tieLineResults, setTieLineResults] = useState([]);
-  const [tieLineParseCoordinates, setTieLineParseCoordinates] = useState([]);
-  const [gridCoordinates, setGridCoordinates] = useState("");
-
   const createTieLine = () => {
     return {
       degreeAngle: '',
@@ -28,7 +27,6 @@ const Plot = ( props ) => {
       distance: '',
     };
   };
-
   const [polygonLayer, setPolygonLayer] = useState({
     monument: '',
     easting: '',
@@ -351,7 +349,7 @@ const Plot = ( props ) => {
           </div>
           )}
           <div className='btnDraw-ctn'>
-                <button className='btn-draw' onClick={() => {props.onDraw(JSON.stringify(tieLineParseCoordinates, null, 2))}}>Draw</button>
+                <button className='btn-draw'>Draw</button>
               </div>
         </div>
 
