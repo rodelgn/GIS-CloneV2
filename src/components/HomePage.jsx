@@ -11,54 +11,54 @@ const HomePage = ( props ) => {
   const [geoJsonData, setGeoJsonData] = useState(null);
   const [plusCode, setPlusCode] = useState("");
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // const fetchGeoJsonData = async () => {
+  //   // const fetchGeoJsonData = async () => {
 
-    //   try {
-    //     const response = await Axios.get("/plottingData");
+  //   //   try {
+  //   //     const response = await Axios.get("/plottingData");
 
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     const rows = await response.json();
+  //   //     if (!response.ok) {
+  //   //       throw new Error("Network response was not ok");
+  //   //     }
+  //   //     const rows = await response.json();
 
-    //     const features = rows.map((row) => {
+  //   //     const features = rows.map((row) => {
 
-    //       try {
-    //         const parsed = JSON.parse(row.geojson);
+  //   //       try {
+  //   //         const parsed = JSON.parse(row.geojson);
 
-    //         if (parsed.type === "Feature" && parsed.geometry !=null && parsed.geometry.type === "Polygon") {
-    //           return parsed;
-    //         }
-    //       } catch (err) {
-    //         console.warn("Skipping invalid GeoJSON:", row.id, err);
-    //       } 
-    //       return null;
+  //   //         if (parsed.type === "Feature" && parsed.geometry !=null && parsed.geometry.type === "Polygon") {
+  //   //           return parsed;
+  //   //         }
+  //   //       } catch (err) {
+  //   //         console.warn("Skipping invalid GeoJSON:", row.id, err);
+  //   //       } 
+  //   //       return null;
 
-    //     }).filter((f) => f !== null);
+  //   //     }).filter((f) => f !== null);
 
-    //     if (features.length === 0) {
-    //       setGeoJsonData(null);
-    //       return;
-    //     }
+  //   //     if (features.length === 0) {
+  //   //       setGeoJsonData(null);
+  //   //       return;
+  //   //     }
 
-    //     const featureCollection = {
-    //       type: "FeatureCollection",
-    //       features: features,
-    //     };
+  //   //     const featureCollection = {
+  //   //       type: "FeatureCollection",
+  //   //       features: features,
+  //   //     };
 
-    //     setGeoJsonData(featureCollection);
+  //   //     setGeoJsonData(featureCollection);
 
-    //   } catch (error) {
-    //     console.error("Error fetching Plotting Data: ", error);
-    //     setGeoJsonData(null);
-    //   }
-    // };
+  //   //   } catch (error) {
+  //   //     console.error("Error fetching Plotting Data: ", error);
+  //   //     setGeoJsonData(null);
+  //   //   }
+  //   // };
 
-    // fetchGeoJsonData();
+  //   // fetchGeoJsonData();
 
-  }, []);
+  // }, []);
 
   const togglePopMenu = () => {
     setShowPopup(!showPopup);

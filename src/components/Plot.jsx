@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../api/Axios';
-import proj4 from 'proj4';
-
-proj4.defs(
-  "EPSG:3125",
-  "+proj=tmerc +lat_0=0 +lon_0=125 +k=0.99995 +x_0=500000 +y_0=0 +ellps=clrk66 +towgs84=-127.62,-67.24,-47.04,-3.068,4.903,1.578,-1.06 +units=m +no_defs +type=crs"
-);
 
 const Plot = ( props ) => {
   const [plotData, setPlotData] = useState({
@@ -175,37 +169,37 @@ const Plot = ( props ) => {
     }
   };
 
-  const handleConvert = () => {
-    const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
-    const newTieLineCoordinates = [];
+  // const handleConvert = () => {
+  //   const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
+  //   const newTieLineCoordinates = [];
 
-      try {
-        inputTieLines.forEach((coordLine, index) => {
-          const parts = coordLine.split(',');
+  //     try {
+  //       inputTieLines.forEach((coordLine, index) => {
+  //         const parts = coordLine.split(',');
         
-          if (parts.length !== 2) {
-            console.warn(`Skipping malformed line ${index + 1}: ${coordLine}`);
-            return;
-          }
+  //         if (parts.length !== 2) {
+  //           console.warn(`Skipping malformed line ${index + 1}: ${coordLine}`);
+  //           return;
+  //         }
         
-          const [x, y] = parts.map(Number);
+  //         const [x, y] = parts.map(Number);
         
-          if (!isFinite(x) || !isFinite(y)) {
-            console.warn(`Skipping invalid coordinate at line ${index + 1}: ${coordLine}`);
-            return;
-          }
+  //         if (!isFinite(x) || !isFinite(y)) {
+  //           console.warn(`Skipping invalid coordinate at line ${index + 1}: ${coordLine}`);
+  //           return;
+  //         }
         
-          const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x, y]);
-          newTieLineCoordinates.push(convertedCoordinate);
-        });
+  //         const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x, y]);
+  //         newTieLineCoordinates.push(convertedCoordinate);
+  //       });
       
-        setTieLineParseCoordinates(newTieLineCoordinates);
+  //       setTieLineParseCoordinates(newTieLineCoordinates);
 
-        console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
-      } catch (error) {
-        console.error('Error converting tie line coordinates:', error);
-      }
-  };
+  //       console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
+  //     } catch (error) {
+  //       console.error('Error converting tie line coordinates:', error);
+  //     }
+  // };
 
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);

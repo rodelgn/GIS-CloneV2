@@ -1,4 +1,7 @@
 import proj4 from "proj4"
+import './styles/plottingform.css';
+import {useState, useEffect} from 'react'
+import Swal from "sweetalert2";
 
 
 proj4.defs(
@@ -7,9 +10,68 @@ proj4.defs(
 );
 
 const DrawPolygon = () => {
+    const [parseCoordinates, setParseCoordinates] = useState([]);
+
+    const handleConvert = () => {
+        if (typeof result !== "string") {
+            return;
+        }
+
+        const inputLines = result.split('\n').map(line => line.trim());
+        const newCoordinates = [];
+
+        try {
+            inputLines.forEach(line => {
+                const [x, y] = line.split(',').map(Number);
+
+                if (!isFinite(x) || !isFinite(y)) {
+                    throw new Error (`Invalid corrdinate: ${line}`);
+                }
+
+                const converted = proj4("EPSG: 3125", "EPSG: 4326", [x, y]);
+                newCoordinates.push(converted);
+            });
+
+            setParseCoordinates(newCoordinates);
+            console.log(newCoordinates);
+
+        } catch (error) {
+            console.log("Error converting coordinates: ", error);
+        }
+    };
+
+    useEffect (() => {
+        handleConvert();
+    }, [result])
+
+    const handleDraw = () => {
+        const coordinates = (JSON.stringify(parseCoordinates, null, 2));
+
+        try {
+            const parsedCoordinates = JSON.parse(coordinates);
+
+            if (Array.isArray(parsedCoordinates) && parsedCoordinates.length >= 3) {
+                setPolygonCoordinates(parsedCoordinates);
+            } else {
+                Swal.fire({
+                    title: "Please enter valid coordinates.",
+                    icon: "error",
+                    draggable: false
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Please enter valid coordinates.",
+                icon: "error",
+                draggable: false
+            });
+        }
+    };
+
+
   return (
     <div>
-        <button className='btn-draw' onClick={() => {props.onDraw(JSON.stringify(tieLineParseCoordinates, null, 2))}}>Draw</button>
+        <button className='btn-draw' onClick={handleDraw}>Draw</button>
     </div>
   )
 }
