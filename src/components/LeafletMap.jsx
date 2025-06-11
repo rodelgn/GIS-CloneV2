@@ -149,10 +149,15 @@ const LeafletMap = ( props ) => {
         var centerCoord = calculateCenterCoordinates(polygonCoordinates);
         var centerLng = centerCoord[0];
         var centerLat = centerCoord[1];
+        var centroidPlusCode = centerCoord[2];
 
         var popUpContent = "<p>Centroid</p>";
-        popUpContent += "<pre>Latitude: " + centerLat + ", Longitude: " + centerLng + "</pre>";
+        popUpContent += "<pre>Latitude: " + centerLat.toFixed(4) + 
+        ", Longitude: " + centerLng.toFixed(4) + "</pre>";
+        popUpContent += "<p>Pluscode: </p>";
+        popUpContent += "<pre>" + centroidPlusCode + "</pre>";
 
+        polygon.bindPopup(popUpContent);
       }
     }
   }, [polygonCoordinates]);
