@@ -152,8 +152,8 @@ const LeafletMap = ( props ) => {
         var centroidPlusCode = centerCoord[2];
 
         var popUpContent = "<p>Centroid</p>";
-        popUpContent += "<pre>Latitude: " + centerLat.toFixed(4) + 
-        ", Longitude: " + centerLng.toFixed(4) + "</pre>";
+        popUpContent += "<pre>Latitude: " + centerLat.toFixed(6) + 
+        ", Longitude: " + centerLng.toFixed(6) + "</pre>";
         popUpContent += "<p>Pluscode: </p>";
         popUpContent += "<pre>" + centroidPlusCode + "</pre>";
 

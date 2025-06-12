@@ -132,60 +132,6 @@ const Plot = ( props ) => {
     console.log("Formatted Result: ", formattedResults);
   };
 
-  // const calculateTieLine = () => {
-  //   const { easting, northing } = polygonLayer;
-
-  //   if (tieLineResults.length > 0) {
-      
-  //     let lines = [`${easting}, ${northing}`];
-
-  //     tieLineResults.forEach(result => {
-  //       if (result && result.eastingCoordinate && result.northingCoordinate) {
-  //         lines.push(`${result.eastingCoordinate}, ${result.northingCoordinate}`);
-  //       }
-  //     });
-
-  //     const drawString = lines.join('\n').trim();
-
-  //     console.log('All Tie Line Coordinates:', drawString);
-      
-  //   } else {
-  //     console.log('No tie line results available.');
-  //   }
-  // };
-
-  // const handleConvert = () => {
-  //   const inputTieLines = gridCoordinates.split('\n').map((coordLine) => coordLine.trim());
-  //   const newTieLineCoordinates = [];
-
-  //     try {
-  //       inputTieLines.forEach((coordLine, index) => {
-  //         const parts = coordLine.split(',');
-        
-  //         if (parts.length !== 2) {
-  //           console.warn(`Skipping malformed line ${index + 1}: ${coordLine}`);
-  //           return;
-  //         }
-        
-  //         const [x, y] = parts.map(Number);
-        
-  //         if (!isFinite(x) || !isFinite(y)) {
-  //           console.warn(`Skipping invalid coordinate at line ${index + 1}: ${coordLine}`);
-  //           return;
-  //         }
-        
-  //         const convertedCoordinate = proj4("EPSG:3125", "EPSG:4326", [x, y]);
-  //         newTieLineCoordinates.push(convertedCoordinate);
-  //       });
-      
-  //       setTieLineParseCoordinates(newTieLineCoordinates);
-
-  //       console.log('Converted Tie Line Coordinates:', newTieLineCoordinates);
-  //     } catch (error) {
-  //       console.error('Error converting tie line coordinates:', error);
-  //     }
-  // };
-
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
     setPolygonLayer({
@@ -209,7 +155,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        geojson: JSON.stringify(props.geoJsonData),
+        // geojson: JSON.stringify(props.geoJsonData),
         pluscode: props.plusCode
       });
 
