@@ -27,7 +27,7 @@ const LeafletMap = ( props ) => {
   const { polygonCoordinates } = usePolygonCoordinates();
 
 
-  //MAP
+  //Initialized Map
   useEffect(() => {
       if (!mapInitialized.current) {
       
@@ -158,6 +158,8 @@ const LeafletMap = ( props ) => {
         popUpContent += "<pre>" + centroidPlusCode + "</pre>";
 
         polygon.bindPopup(popUpContent);
+
+        props.handlePlusCodes(centroidPlusCode);
       }
     }
   }, [polygonCoordinates]);
