@@ -155,7 +155,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        geojson: props.setPolygonCoordinates,
+        // geojson: props.setPolygonCoordinates,
         pluscode: props.plusCode
       });
 
