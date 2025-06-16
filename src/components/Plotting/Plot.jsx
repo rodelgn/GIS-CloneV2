@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import './styles/plottingform.css';
+import '../styles/plottingform.css';
 import Swal from 'sweetalert2';
-import Axios from '../api/Axios';
+import Axios from '../../api/Axios';
 import DrawPolygon from './DrawPolygon';
 
 const Plot = ( props ) => {
@@ -155,7 +155,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        // geojson: JSON.stringify(props.geoJsonData),
+        geojson: props.setPolygonCoordinates,
         pluscode: props.plusCode
       });
 

@@ -1,6 +1,6 @@
-import './styles/plottingform.css';
+import '../styles/plottingform.css';
 import {useState, useEffect} from 'react'
-import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
+import { usePolygonCoordinates } from '../hooks/usePolygonCoordinates';
 import proj4 from "proj4"
 import Swal from "sweetalert2";
 

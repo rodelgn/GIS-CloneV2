@@ -3,7 +3,7 @@ import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
 import './styles/map.css';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
-import Plot from './Plot';
+import Plot from './Plotting/Plot';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
