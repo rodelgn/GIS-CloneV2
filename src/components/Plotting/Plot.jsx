@@ -3,8 +3,10 @@ import '../styles/plottingform.css';
 import Swal from 'sweetalert2';
 import Axios from '../../api/Axios';
 import DrawPolygon from './DrawPolygon';
+import { usePolygonCoordinates } from '../hooks/usePolygonCoordinates';
 
 const Plot = ( props ) => {
+  const { polygonCoordinates } = usePolygonCoordinates();
   const [numberOfPoints, setNumberOfPoints] = useState("");
   const [results, setResults] = useState([]);
   const [plotData, setPlotData] = useState({
@@ -143,6 +145,14 @@ const Plot = ( props ) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const feature = {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [polygonCoordinates]
+      }
+    };
+
     try {
       const response = await Axios.post('/plottingData', {
         titleNo: plotData.titleNo,
@@ -155,7 +165,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        // geojson: props.setPolygonCoordinates,
+        geojson: JSON.stringify(feature),
         pluscode: props.plusCode
       });
 
