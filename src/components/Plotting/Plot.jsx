@@ -145,12 +145,10 @@ const Plot = ( props ) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const feature = {
-      type: "Feature",
-      geometry: {
+    const geometry = {
         type: "Polygon",
         coordinates: [polygonCoordinates]
-      }
+      
     };
 
     try {
@@ -165,7 +163,7 @@ const Plot = ( props ) => {
         monument: polygonLayer.monument,
         easting: polygonLayer.easting,
         northing: polygonLayer.northing,
-        geojson: JSON.stringify(feature),
+        geojson: JSON.stringify(geometry),
         pluscode: props.plusCode
       });
 
