@@ -4,6 +4,7 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import Axios from '../api/Axios';
 import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
 import { PlusCodes } from 'olc-plus-codes'
 
@@ -25,6 +26,24 @@ const LeafletMap = ( props ) => {
   const drawnLayerRef = useRef(L.featureGroup());
   const mapInitialized = useRef(false); 
   const { polygonCoordinates } = usePolygonCoordinates();
+
+  //Center Coordinate to get Plus Code
+    const calculateCenterCoordinates = (coordinates) => {
+      var sumLat = 0;
+      var sumlng = 0;
+
+      for (let i = 0; i < coordinates.length; i++) {
+        sumLat += coordinates[i][1];
+        sumlng += coordinates[i][0];
+      }
+
+      const centerLat = sumLat / coordinates.length;
+      const centerLng = sumlng / coordinates.length;
+      const plusCode = new PlusCodes();
+      const centroidPlusCode = plusCode.encode(centerLat, centerLng, 12);
+
+      return [centerLat, centerLng, centroidPlusCode];
+    };
 
 
   //Initialized Map
@@ -103,35 +122,33 @@ const LeafletMap = ( props ) => {
 
       //Zoom Control
       L.control.zoom({ position: "topleft" }).addTo(map);
-      map.getContainer().style.cursor = "pointer";
+      // map.getContainer().style.cursor = "pointer";
+
+      //fetched Plotting Data
+      Axios.get('plottingData').then(res => {
+        const geojson = res.data 
+
+        drawnLayerRef.current.clearLayers()
+
+        L.geoJSON(geojson, {
+          style: { color: 'blue' },
+          onEachFeature: (feature, layer) => {
+            layer.bindPopup(`
+              <strong>${feature.properties.title_no}</strong><br/>
+              ${feature.properties.title_name}
+            `)
+          }
+        }).addTo(drawnLayerRef.current)
+      }).catch(err => console.error('Error loading saved polygons: ', err))
+
       mapRef.current = map;
-
       drawnLayerRef.current.addTo(map);
-
       mapInitialized.current = true;
     } 
     
   });
 
   useEffect(() => {
-    //Center Coordinate to get Plus Code
-    const calculateCenterCoordinates = (coordinates) => {
-      var sumLat = 0;
-      var sumlng = 0;
-
-      for (let i = 0; i < coordinates.length; i++) {
-        sumLat += coordinates[i][1];
-        sumlng += coordinates[i][0];
-      }
-
-      const centerLat = sumLat / coordinates.length;
-      const centerLng = sumlng / coordinates.length;
-      const plusCode = new PlusCodes();
-      const centroidPlusCode = plusCode.encode(centerLat, centerLng, 12);
-
-      return [centerLat, centerLng, centroidPlusCode];
-    };
-
     // Draw A Polygon
     if (mapInitialized.current) {
       if (Array.isArray(polygonCoordinates) && polygonCoordinates.length > 0 ) {
