@@ -133,12 +133,25 @@ const LeafletMap = ( props ) => {
         L.geoJSON(geojson, {
           style: { color: 'blue' },
           onEachFeature: (feature, layer) => {
+
+            const polygonCoord = feature.geometry.coordinates[0];
+            const [ centerLat, centerLng ] = calculateCenterCoordinates(polygonCoord)
+
+            // console.log("Mao ni: ", polygonCoord);
+
+            let popup = '<p>Centeroid</p>';
+            popup += `<pre>Latitude: ${centerLat.toFixed(6)}, Longitude: ${centerLng.toFixed(6)}</pre>`;
+            popup += '<p>Pluscode:</p>';
+            popup += `<pre>${feature.properties.pluscode}</pre>`;
+
             layer.bindPopup(`
               <strong>${feature.properties.title_no}</strong><br/>
-              ${feature.properties.title_name}
-            `)
+              ${feature.properties.title_name}<br><br>
+              ${popup}
+            `);
           }
         }).addTo(drawnLayerRef.current)
+        
       }).catch(err => console.error('Error loading saved polygons: ', err))
 
       mapRef.current = map;
