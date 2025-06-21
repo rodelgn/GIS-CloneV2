@@ -4,19 +4,25 @@ import './styles/map.css';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
+import Kml from './Kml';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopupPlot, setShowPopupPlot] = useState(false);
+  const [showKML, setShowKML] = useState(false)
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
 
   const togglePopMenu = () => {
-    setShowPopup(!showPopup);
+    setShowPopupPlot(!showPopupPlot);
+  }
+
+  const toggleKML = () => {
+    setShowKML(!showKML);
   }
 
   const btnCancel = () => {
-    setShowPopup(false);
+    setShowPopupPlot(false);
   }
 
   const handlePlusCode = (plusCodes) => {
@@ -28,16 +34,21 @@ const HomePage = ( props ) => {
         <Navigation 
          logoutClick = {props.onLogout}
          togglePlotting = {togglePopMenu}
-         isPlotOpen = {showPopup}
+         toggleKML = {toggleKML}
+         isPlotOpen = {showPopupPlot}
          />
 
-        {showPopup && (
+        {showPopupPlot && (
             <Plot
               onClose = {btnCancel}
               plusCodes = {handlePlusCode}
               plusCode = {plusCode}
               setPolygonCoordinates = {setPolygonCoordinates}
             />
+         )}
+
+         {showKML && ( 
+            <Kml />
          )}
          
 

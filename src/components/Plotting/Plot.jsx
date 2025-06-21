@@ -197,7 +197,7 @@ const Plot = ( props ) => {
 
 
   return (
-    <div className='plot-container'>
+    <div className='form-container'>
       <h1>Plot Parcel</h1>
 
       <div className='form-group upload-group'>
