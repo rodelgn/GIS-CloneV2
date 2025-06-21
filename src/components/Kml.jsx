@@ -1,8 +1,13 @@
 import React from 'react';
 import '../components/styles/plottingform.css';
+import '../components/styles/formContainer.css';
 
 
-const Kml = () => {
+const Kml = (props) => {
+
+    const handleClose = () => {
+    props.onClose();
+  }
 
     return (
         <div className='form-container'>
@@ -10,6 +15,9 @@ const Kml = () => {
                 <label htmlFor="">Upload KML File.</label>
                 <input type="file" accept=".csv" />
             </div>
+
+            <button>Save</button>
+            <button onClick={handleClose}>Cancel</button>
         </div>
     );
 };

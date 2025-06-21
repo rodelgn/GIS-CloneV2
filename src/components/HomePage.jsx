@@ -48,7 +48,9 @@ const HomePage = ( props ) => {
          )}
 
          {showKML && ( 
-            <Kml />
+            <Kml 
+              onClose = {btnCancel}
+            />
          )}
          
 
