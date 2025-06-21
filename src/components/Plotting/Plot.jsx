@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/plottingform.css';
-import '../components/styles/formContainer.css';
+import '../styles/formContainer.css';
 import Swal from 'sweetalert2';
 import Axios from '../../api/Axios';
 import DrawPolygon from './DrawPolygon';

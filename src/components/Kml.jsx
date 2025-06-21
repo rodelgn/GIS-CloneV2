@@ -16,8 +16,10 @@ const Kml = (props) => {
                 <input type="file" accept=".csv" />
             </div>
 
-            <button>Save</button>
-            <button onClick={handleClose}>Cancel</button>
+            <div className='form-buttons' style={{ width: '50%' }}>
+            <button type='submit'>Save</button>
+            <button type="button" onClick={handleClose}>Cancel</button>
+            </div>
         </div>
     );
 };

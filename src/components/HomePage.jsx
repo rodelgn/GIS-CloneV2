@@ -23,6 +23,7 @@ const HomePage = ( props ) => {
 
   const btnCancel = () => {
     setShowPopupPlot(false);
+    setShowKML(false);
   }
 
   const handlePlusCode = (plusCodes) => {
