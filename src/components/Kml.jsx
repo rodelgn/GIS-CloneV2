@@ -72,7 +72,7 @@ const Kml = (props) => {
     };
 
     const generateTableRows = (data, headerNames) => {
-        const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'boundary', 'owner' ];
+        const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'owner' ];
 
         const filteredHeaderNames = headerNames.filter(name => displayHeaders.includes(name));
 
@@ -94,7 +94,7 @@ const Kml = (props) => {
         <div className='form-container'>
             <div className='form-group upload-group'>
                 <label htmlFor="">Upload KML File.</label>
-                <input type="file" name="kmlFile" accept=".kml" />
+                <input type="file" name="kmlFile" accept=".kml" onChange={handleKmlUpload} />
             </div>
 
             <div className='form-buttons' style={{ width: '50%' }}>
@@ -103,7 +103,7 @@ const Kml = (props) => {
             </div>
 
             <div>
-                <table>
+                <table style = {{ width: '100%', marginTop: '1em', borderCollapse: 'collapse' }}>
                     <thead>
                         <tr>{tableRows[0]}</tr>
                     </thead>
