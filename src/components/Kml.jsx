@@ -9,21 +9,6 @@ const Kml = (props) => {
     const [extractedData, setExtractedData] = useState(null)
     const [extractedCoordinates, setExtractedCoordinates] = useState([]);
 
-    const generateTableRows = (data, headerNames) => {
-        const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'boundary', 'owner' ];
-
-        const filteredHeaderNames = headerNames.filter(name => displayHeaders.includes(name));
-
-        const headerRow = filteredHeaderNames.map(name => <th key={name}>{name.toUpperCase()}</th>);
-        const bodyRows = data.map((item, i) => {
-            <tr key={i}>{filteredHeaderNames.map(name => (
-                <td key={name}>{item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ''}</td>
-            ))}</tr>
-        });
-
-        return [headerRow, ...bodyRows];
-    };
-
     const handleKmlUpload = (e) => {
         const file = e.target.files[0];
 
@@ -50,6 +35,21 @@ const Kml = (props) => {
         }
     };
 
+    const generateTableRows = (data, headerNames) => {
+        const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'boundary', 'owner' ];
+
+        const filteredHeaderNames = headerNames.filter(name => displayHeaders.includes(name));
+
+        const headerRow = filteredHeaderNames.map(name => <th key={name}>{name.toUpperCase()}</th>);
+        const bodyRows = data.map((item, i) => {
+            <tr key={i}>{filteredHeaderNames.map(name => (
+                <td key={name}>{item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ''}</td>
+            ))}</tr>
+        });
+
+        return [headerRow, ...bodyRows];
+    };
+
     const handleClose = () => {
         props.onClose();
     };
@@ -69,9 +69,9 @@ const Kml = (props) => {
             <div>
                 <table>
                     <thead>
-                        <tr></tr>
+                        <tr>{tableRows[0]}</tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>{tableRows[1]}</tbody>
                 </table>
             </div>
         </div>

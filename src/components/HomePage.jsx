@@ -30,6 +30,10 @@ const HomePage = ( props ) => {
     setPlusCode(plusCodes); 
   };
 
+  const handleKMLUploadCoord = (convertedGeoJSON) => {
+    setPolygonCoordinates(convertedGeoJSON)
+  }
+
   return (
     <div className="home-container">
         <Navigation 
@@ -51,6 +55,7 @@ const HomePage = ( props ) => {
          {showKML && ( 
             <Kml 
               onClose = {btnCancel}
+              onKMLUpload = {handleKMLUploadCoord}
             />
          )}
          
