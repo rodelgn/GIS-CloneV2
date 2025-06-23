@@ -35,6 +35,37 @@ const Kml = (props) => {
         }
     };
 
+    const extractedKMLData = (kmlData) => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(kmlData, 'text/html');
+        const coordinatesNodes = xmlDoc.querySelectorAll('coordinates');
+        const simpleDataNodeList = xmlDoc.querySelectorAll('Placemark');
+        const extractedData = [];
+        const headerNames = new Set();
+        const extractedCoordinates = [];
+
+        coordinatesNodes.forEach((coordinatesNode, index) => {
+            const simpleDataNodes = simpleDataNodeList[index].querySelectorAll('SimpleData');
+
+            const data = {
+                coordinates: coordinatesNode ? coordinatesNode.textContent : '',
+                SimpleData: {}
+            };
+
+            const coords = coordinatesNode ? coordinatesNode.textContent.split(' ') : [];
+            extractedCoordinates.push(coords);
+
+            simpleDataNodes.forEach((node) => {
+                const name = node.getAttribute('name');
+                const value = node.textContent;
+                data.SimpleData[name] = value;
+                headerNames.add(name);
+
+                extractedData.push(data);
+            });
+        });
+    }
+
     const generateTableRows = (data, headerNames) => {
         const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'boundary', 'owner' ];
 
