@@ -60,11 +60,16 @@ const Kml = (props) => {
                 const value = node.textContent;
                 data.SimpleData[name] = value;
                 headerNames.add(name);
-
-                extractedData.push(data);
             });
+
+            const area = parseFloat(data.SimpleData['area']).toFixed(2);
+            data.SimpleData['area'] = area;
+
+            extractedData.push(data);
         });
-    }
+
+        return { extractedData, extractedCoordinates, headerNames: Array.from(headerNames) };
+    };
 
     const generateTableRows = (data, headerNames) => {
         const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'boundary', 'owner' ];
