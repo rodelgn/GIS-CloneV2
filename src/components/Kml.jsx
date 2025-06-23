@@ -1,18 +1,41 @@
 import { useState } from 'react';
 import '../components/styles/plottingform.css';
 import '../components/styles/formContainer.css';
+import toGeoJSON from 'togeojson';
 
 
 const Kml = (props) => {
     const [tableRows, setTableRows] = useState([]);
+    const [extractedData, setExtractedData] = useState(null)
+    const [extractedCoordinates, setExtractedCoordinates] = useState([]);
 
     const handleKmlUpload = (e) => {
         const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const kmlData = event.target.result;
+                    const convertedGeoJSON = toGeoJSON.kml(new DOMParser().parseFromString(kmlData, 'text/html'));
+                    props.onKMLUpload(convertedGeoJSON);
+
+                    const { extractedData, extractedCoordinates, headerNames } = extractedKMLData(kmlData);
+                    setExtractedData(extractedData);
+                    setExtractedCoordinates(extractedCoordinates);
+                    const rows = generateTableRows(extractedData, headerNames);
+                    setTableRows(rows);
+
+                } catch (err) {
+                    console.error("Error processing KML data: ", err)
+                }
+            }
+        }
     }
 
     const handleClose = () => {
-    props.onClose();
-  }
+        props.onClose();
+    }
 
     return (
         <div className='form-container'>
