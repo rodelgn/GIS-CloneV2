@@ -208,7 +208,7 @@ const Plot = ( props ) => {
 
       <form onSubmit={handleSubmit} className='plot-form' >
         <div className="section">
-          <h3 style={{ marginBottom: '1rem' }}>Plot Details</h3>
+          <h3 style={{ marginBottom: '1rem', marginTop: '2rem' }}>Parcel Details</h3>
           <div className='two-column'>
             <div className="form-group">
               <label>Title No.</label>
