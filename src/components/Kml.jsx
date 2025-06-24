@@ -20,9 +20,9 @@ const Kml = (props) => {
                     const convertedGeoJSON = toGeoJSON.kml(new DOMParser().parseFromString(kmlData, 'text/html'));
                     props.onKMLUpload(convertedGeoJSON);
 
-                    const { extractedData, extractedCoordinates, headerNames } = extractedKMLData(kmlData);
+                    const { extractedData, extractedCoord, headerNames } = extractedKMLData(kmlData);
                     setExtractedData(extractedData);
-                    setExtractedCoordinates(extractedCoordinates);
+                    setExtractedCoordinates(extractedCoord);
                     const rows = generateTableRows(extractedData, headerNames);
                     setTableRows(rows);
 
@@ -42,7 +42,7 @@ const Kml = (props) => {
         const simpleDataNodeList = xmlDoc.querySelectorAll('Placemark');
         const extractedData = [];
         const headerNames = new Set();
-        const extractedCoordinates = [];
+        const extractedKmlCoordinates = [];
 
         coordinatesNodes.forEach((coordinatesNode, index) => {
             const simpleDataNodes = simpleDataNodeList[index].querySelectorAll('SimpleData');
@@ -53,7 +53,7 @@ const Kml = (props) => {
             };
 
             const coords = coordinatesNode ? coordinatesNode.textContent.split(' ') : [];
-            extractedCoordinates.push(coords);
+            extractedKmlCoordinates.push(coords);
 
             simpleDataNodes.forEach((node) => {
                 const name = node.getAttribute('name');

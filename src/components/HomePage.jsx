@@ -32,6 +32,8 @@ const HomePage = ( props ) => {
 
   const handleKMLUploadCoord = (convertedGeoJSON) => {
     setPolygonCoordinates(convertedGeoJSON)
+
+    console.log('Coordinates: ', convertedGeoJSON)
   }
 
   return (
