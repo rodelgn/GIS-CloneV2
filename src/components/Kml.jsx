@@ -68,7 +68,7 @@ const Kml = (props) => {
             extractedData.push(data);
         });
 
-        return { extractedData, extractedCoordinates, headerNames: Array.from(headerNames) };
+        return { extractedData, extractedKmlCoordinates, headerNames: Array.from(headerNames) };
     };
 
     const generateTableRows = (data, headerNames) => {
