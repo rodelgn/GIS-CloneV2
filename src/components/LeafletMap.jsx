@@ -24,7 +24,8 @@ L.Icon.Default.mergeOptions({
 const LeafletMap = ( props ) => {
   const mapRef = useRef(null);
   const drawnLayerRef = useRef(L.featureGroup());
-  const mapInitialized = useRef(false); 
+  const mapInitialized = useRef(false);
+  const kmlPolygonsLayer = useref(L.featureGroup());
   const { polygonCoordinates } = usePolygonCoordinates();
 
   //Center Coordinate to get Plus Code
@@ -188,7 +189,6 @@ const LeafletMap = ( props ) => {
         popUpContent += "<pre>" + centroidPlusCode + "</pre>";
 
         polygon.bindPopup(popUpContent);
-
         props.handlePlusCodes(centroidPlusCode);
       }
     }
