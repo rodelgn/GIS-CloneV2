@@ -31,10 +31,14 @@ const HomePage = ( props ) => {
   };
 
   const handleKMLUploadCoord = (convertedGeoJSON) => {
-    setPolygonCoordinates(convertedGeoJSON)
+    if (convertedGeoJSON?.features?.length > 0 ) {
+      setPolygonCoordinates(convertedGeoJSON);
+    } else {
+      console.warn("Invalid or empty GeoJson from KML.")
+    }
 
     console.log('Coordinates: ', convertedGeoJSON)
-  }
+  };
 
   return (
     <div className="home-container">
@@ -72,6 +76,6 @@ const HomePage = ( props ) => {
 
     </div>
   )
-}
+};
 
 export default HomePage;
