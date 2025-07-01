@@ -157,6 +157,7 @@ const LeafletMap = ( props ) => {
 
       mapRef.current = map;
       drawnLayerRef.current.addTo(map);
+      kmlPolygonsLayer.current.addTo(map);
       mapInitialized.current = true;
     } 
     
@@ -193,6 +194,33 @@ const LeafletMap = ( props ) => {
       }
     }
   }, [polygonCoordinates]);
+
+  useEffect(() => {
+    if (!mapInitialized.current || !kmlGeoJsonData?.features) return;
+
+    kmlPolygonsLayer.current.clearLayers();
+
+    kmlGeoJsonData.features.forEach ((feature) => {
+      if (feature.geometry.type === 'Polygon') {
+        const coords = feature.geometry.coordinates[0];
+        const latLngs = coords.map(([lng, lat]) => [lat, lng]);
+        const polygon = L.polygon(latLngs, {color: 'red'});
+        const [centerLat, centerLng, plusCode] = calculateCenterCoordinates(coords);
+
+        let popup = `<p>Centroid</p>
+        <pre>Latitude: ${centerLat.toFixed(6)}, Longitude: ${centerLng.toFixed(6)} </pre>
+        <p>Pluscode:</p>
+        <pre>${plusCode}</pre>`;
+
+        polygon.bindPopup(`<strong>${feature.properties?.title_no || "No Title"} </strong><br/>
+          ${feature.properties?.title_name || ""}<br/><br/>
+          ${popup}`);
+
+          polygon.addTo(kmlPolygonsLayer.current);
+      }
+    });
+    mapRef.current.fitBounds(kmlPolygonsLayer.current.getBounds(), { maxZoom: 19 });
+  },[kmlGeoJsonData]);
 
   return (
     <section className="map-component">

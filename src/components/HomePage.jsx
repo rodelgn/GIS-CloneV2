@@ -12,6 +12,7 @@ const HomePage = ( props ) => {
   const [showKML, setShowKML] = useState(false)
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
+  const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
 
   const togglePopMenu = () => {
     setShowPopupPlot(!showPopupPlot);
@@ -30,14 +31,14 @@ const HomePage = ( props ) => {
     setPlusCode(plusCodes); 
   };
 
-  const handleKMLUploadCoord = (convertedGeoJSON) => {
-    if (convertedGeoJSON?.features?.length > 0 ) {
-      setPolygonCoordinates(convertedGeoJSON);
+  const handleKMLUploadCoord = (geoJson) => {
+    if (geoJson?.features?.length > 0 ) {
+      setKmlGeoJsonData(geoJson);
     } else {
       console.warn("Invalid or empty GeoJson from KML.")
     }
 
-    console.log('Coordinates: ', convertedGeoJSON)
+    console.log('Coordinates: ', geoJson)
   };
 
   return (
@@ -71,6 +72,7 @@ const HomePage = ( props ) => {
           <LeafletMap 
             handlePlusCodes = {handlePlusCode}
             setPolygonCoordinates = {setPolygonCoordinates}
+            kmlGeoJsonData = {kmlGeoJsonData}
           />
       </div>
 
