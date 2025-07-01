@@ -25,7 +25,8 @@ const LeafletMap = ( props ) => {
   const mapRef = useRef(null);
   const drawnLayerRef = useRef(L.featureGroup());
   const mapInitialized = useRef(false);
-  const kmlPolygonsLayer = useref(L.featureGroup());
+  const { kmlGeoJsonData } = props;
+  const kmlPolygonsLayer = useRef(L.featureGroup());
   const { polygonCoordinates } = usePolygonCoordinates();
 
   //Center Coordinate to get Plus Code
@@ -213,7 +214,7 @@ const LeafletMap = ( props ) => {
         <pre>${plusCode}</pre>`;
 
         polygon.bindPopup(`<strong>${feature.properties?.title_no || "No Title"} </strong><br/>
-          ${feature.properties?.title_name || ""}<br/><br/>
+          ${feature.properties?.owner || ""}<br/><br/>
           ${popup}`);
 
           polygon.addTo(kmlPolygonsLayer.current);
