@@ -8,6 +8,8 @@ const Kml = (props) => {
     const [tableRows, setTableRows] = useState([]);
     const [extractedData, setExtractedData] = useState(null)
     const [extractedCoordinates, setExtractedCoordinates] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 10;
 
     const handleKmlUpload = (e) => {
         const file = e.target.files[0];
@@ -97,6 +99,18 @@ const Kml = (props) => {
         props.onClose();
     };
 
+    //Pagination logic
+    const totalPages = tableRows[1] ? Math.ceil(tableRows[1].length / rowsPerPage) : 0;
+    const currentRows = tableRows[1] ? tableRows[1].slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage) : [];
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    }
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    }
+
     return (
         <div className='form-container'>
             <div className='form-group upload-group'>
@@ -114,8 +128,17 @@ const Kml = (props) => {
                     <thead>
                         <tr>{tableRows[0]}</tr>
                     </thead>
-                    <tbody>{tableRows[1]}</tbody>
+                    <tbody>{currentRows}</tbody>
                 </table>
+
+                {tableRows[1] && tableRows[1].length > rowsPerPage && (
+                    <div className="pagination-controls">
+                        <button onClick={goToPreviousPage} disabled={currentPage === 1}>Previous</button>
+                        <span> Page {currentPage} of {totalPages} </span>
+                        <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next</button>
+                    </div>
+                )}
+
             </div>
         </div>
     );
