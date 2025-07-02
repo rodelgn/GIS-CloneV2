@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import '../components/styles/plottingform.css';
 import '../components/styles/formContainer.css';
-import '../components/styles/kml.module.css';
+import '../components/styles/kml.css';
 import toGeoJSON from 'togeojson';
 
 

@@ -1,0 +1,22 @@
+.table-container {
+    margin-top: 1em;
+}
+
+.tableBody { 
+    width: 100%;
+    margin-top: 3em;
+    border-collapse: collapse;
+}
+
+.tableBody {
+    border: 1px solid #2c2b2b;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+td, th {
+    border: 1px solid #2c2b2b;
+    padding: 8px;
+    text-align: center;
+    white-space: pre-wrap;
+}
