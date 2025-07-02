@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import '../components/styles/plottingform.css';
 import '../components/styles/formContainer.css';
+import '../components/styles/kml.module.css';
 import toGeoJSON from 'togeojson';
 
 
@@ -76,14 +77,21 @@ const Kml = (props) => {
 
         const filteredHeaderNames = headerNames.filter(name => displayHeaders.includes(name));
 
-        const headerRow = filteredHeaderNames.map(name => <th key={name}>{name.toUpperCase()}</th>);
+        const headerRow = filteredHeaderNames.map(name => 
+            <th key={name}>{name.toUpperCase()}</th>
+        );
+
         const bodyRows = data.map((item, i) => {
+            return (
+
             <tr key={i}>{filteredHeaderNames.map(name => (
                 <td key={name}>{item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ''}</td>
-            ))}</tr>
-        });
+            ))}
+            </tr>
 
-        return [headerRow, ...bodyRows];
+        )});
+
+        return [headerRow, bodyRows];
     };
 
     const handleClose = () => {
@@ -102,8 +110,8 @@ const Kml = (props) => {
             <button type="button" onClick={handleClose}>Cancel</button>
             </div>
 
-            <div>
-                <table style = {{ width: '100%', marginTop: '1em', borderCollapse: 'collapse' }}>
+            <div className='table-container'>
+                <table className='tableBody'>
                     <thead>
                         <tr>{tableRows[0]}</tr>
                     </thead>
