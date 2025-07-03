@@ -111,6 +111,10 @@ const Kml = (props) => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     }
 
+    const handleSaveData = (e) => {
+        e.preventDefault();
+    }
+
     return (
         <div className='form-container'>
             <div className='form-group upload-group'>
