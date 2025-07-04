@@ -113,7 +113,18 @@ const Kml = (props) => {
 
     const handleSaveData = (e) => {
         e.preventDefault();
-    }
+
+        const geometry = {
+            type: '',
+            coordinates: [extractedCoordinates]
+        }
+
+         try {
+
+         } catch (err) {
+            console.error("Error saving data: ", err);
+         }
+    };
 
     return (
         <div className='form-container'>
