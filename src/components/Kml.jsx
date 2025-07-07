@@ -120,6 +120,11 @@ const Kml = (props) => {
         }
 
          try {
+            const response = props.onSaveKMLData(extractedData, geometry);
+            if (response) {
+                console.log("Data saved successfully");
+                handleClose();
+            }
 
          } catch (err) {
             console.error("Error saving data: ", err);
