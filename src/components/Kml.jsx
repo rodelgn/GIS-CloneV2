@@ -105,11 +105,11 @@ const Kml = (props) => {
 
     const goToPreviousPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
-    }
+    };
 
     const goToNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-    }
+    };
 
     const handleSaveData = (e) => {
         e.preventDefault();
@@ -139,7 +139,7 @@ const Kml = (props) => {
             </div>
 
             <div className='form-buttons' style={{ width: '50%' }}>
-            <button type='submit'>Save</button>
+            <button onClick={handleSaveData}>Save</button>
             <button type="button" onClick={handleClose}>Cancel</button>
             </div>
 
