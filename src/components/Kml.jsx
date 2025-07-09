@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../components/styles/formContainer.css';
 import '../components/styles/kml.css';
 import toGeoJSON from 'togeojson';
-import Axios from '../../api/Axios';
+import Axios from '../api/Axios';
 
 
 const Kml = (props) => {
@@ -144,7 +144,7 @@ const Kml = (props) => {
             </div>
 
             <div className='form-buttons' style={{ width: '50%' }}>
-            <button onClick={handleSaveData}>Save</button>
+            <button type="submit" onClick={handleSaveData}>Save</button>
             <button type="button" onClick={handleClose}>Cancel</button>
             </div>
 
