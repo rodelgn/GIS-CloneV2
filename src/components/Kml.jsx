@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '../components/styles/formContainer.css';
 import '../components/styles/kml.css';
 import toGeoJSON from 'togeojson';
+import Axios from '../../api/Axios';
 
 
 const Kml = (props) => {
@@ -111,7 +112,7 @@ const Kml = (props) => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
-    const handleSaveData = (e) => {
+    const handleSaveData = async (e) => {
         e.preventDefault();
 
         const geometry = {
@@ -120,10 +121,14 @@ const Kml = (props) => {
         }
 
          try {
-            const response = props.onSaveKMLData(extractedData, geometry);
-            if (response) {
+            const response = await Axios.post('/plottingData', {
+                data: extractedData,
+                geometry: geometry
+            });
+
+            if (response.data.status === 'ok') {
                 console.log("Data saved successfully");
-                handleClose();
+                props.onClose();
             }
 
          } catch (err) {
