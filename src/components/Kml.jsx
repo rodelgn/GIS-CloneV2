@@ -111,14 +111,15 @@ const Kml = (props) => {
     const goToNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
-
+    //end 
+    
     const handleSaveData = async (e) => {
         e.preventDefault();
 
         const geometry = {
             type: '',
             coordinates: [extractedCoordinates]
-        }
+        } 
 
          try {
             const response = await Axios.post('/plottingData', {
