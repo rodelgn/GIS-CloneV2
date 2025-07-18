@@ -116,25 +116,35 @@ const Kml = (props) => {
     const handleSaveData = async (e) => {
         e.preventDefault();
 
-        const geometry = {
-            type: '',
-            coordinates: [extractedCoordinates]
-        } 
-
          try {
-            const response = await Axios.post('/plottingData', {
-                data: extractedData,
-                geometry: geometry
-            });
 
-            if (response.data.status === 'ok') {
-                console.log("Data saved successfully");
-                props.onClose();
+            for (let i = 0; i < extractedData.length; i++) {
+                const item = extractedData[i];
+                const simpleData = item.SimpleData;
+
+                const dataToSave = { 
+                    titleNo: simpleData['title_no'] || '',
+                    owner: simpleData['owner'] || '',
+                    date: simpleData['t_date'] || '',
+                    surveyNo: simpleData['surv_no'] || '',
+                    lotNo: simpleData['lot_no'] || '',
+                    blkNo: simpleData['blk_no'] || '',
+                    area: simpleData['area'] || '',
+                    geoJson: {
+                        type: 'Polygon',
+                        coordinates: [extractedCoordinates[i] || []]
+                    }
+                };
+                await Axios.post('/plottingData', dataToSave);
             }
+
+            console.log("All data saved successfully");
+            props.onClose();
 
          } catch (err) {
             console.error("Error saving data: ", err);
          }
+         
     };
 
     return (
