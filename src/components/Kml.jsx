@@ -123,6 +123,14 @@ const Kml = (props) => {
                 const simpleData = item.SimpleData;
 
                 const dataToSave = { 
+                    titleNo: simpleData['title_no'] || '',
+                    owner: simpleData['owner'] || '',
+                    date: simpleData['t_date'] || '',
+                    surveyNo: simpleData['surv_no'] || '',
+                    lotNo: simpleData['lot_no'] || '',
+                    blkNo: simpleData['blk_no'] || '',
+                    area: parseFloat(simpleData['area']) || 0,
+                    coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : ''
                     
                 };
                 await Axios.post('/plottingData', dataToSave);
