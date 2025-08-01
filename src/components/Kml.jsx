@@ -129,7 +129,10 @@ const Kml = (props) => {
                     surveyNo: simpleData['surv_no'] || '',
                     lotNo: simpleData['lot_no'] || '',
                     blkNo: simpleData['blk_no'] || '',
-                    area: parseFloat(simpleData['area']) || 0,
+                    area: parseFloat(simpleData['area']) || '',
+                    monument: '',
+                    easting: '',
+                    northing: '',
                     coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : ''
                     
                 };
