@@ -130,10 +130,12 @@ const Kml = (props) => {
                     lotNo: simpleData['lot_no'] || '',
                     blkNo: simpleData['blk_no'] || '',
                     area: parseFloat(simpleData['area']) || '',
+                    coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : '',
+                    // additional fields to be saved
                     monument: '',
                     easting: '',
                     northing: '',
-                    coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : ''
+                    
                     
                 };
                 await Axios.post('/plottingData', dataToSave);
