@@ -131,13 +131,12 @@ const Kml = (props) => {
                     blkNo: simpleData['blk_no'] || '',
                     area: parseFloat(simpleData['area']) || '',
                     coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : '',
-                    // additional fields to be saved
+                    // none existing fields or data row from simpleData(kml file)
                     monument: '',
                     easting: '',
                     northing: '',
-                    
-                    
                 };
+                
                 await Axios.post('/plottingData', dataToSave);
             }
 
