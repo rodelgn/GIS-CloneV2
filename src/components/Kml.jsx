@@ -125,6 +125,8 @@ const Kml = (props) => {
                 const item = extractedData[i];
                 const simpleData = item.SimpleData;
 
+                const coordsArray = Array.isArray(extractedCoordinates[i]) ? extractedCoordinates[i] : [];
+
                 const dataToSave = { 
                     titleNo: simpleData['title_no'] || '',
                     owner: simpleData['owner'] || '',
@@ -133,11 +135,11 @@ const Kml = (props) => {
                     lotNo: simpleData['lot_no'] || '',
                     blkNo: simpleData['blk_no'] || '',
                     area: parseFloat(simpleData['area']) || '',
-                    coordinates: extractedCoordinates[i] ? extractedCoordinates[i].join(' ') : '',
+                    coordinates: coordsArray.join(' '),
                     // none existing fields or data row from simpleData(kml file)
-                    monument: '',
-                    easting: '',
-                    northing: '',
+                    // monument: '',
+                    // easting: '',
+                    // northing: '',
                 };
                 
                 await Axios.post('/plottingData', dataToSave);
