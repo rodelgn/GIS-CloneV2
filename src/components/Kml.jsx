@@ -48,7 +48,10 @@ const Kml = (props) => {
         const extractedKmlCoordinates = [];
 
         coordinatesNodes.forEach((coordinatesNode, index) => {
-            const simpleDataNodes = simpleDataNodeList[index].querySelectorAll('SimpleData');
+            const simpleDataElement  = simpleDataNodeList[index];
+             if (!simpleDataElement) return;
+
+             const simpleDataNodes = simpleDataElement.querySelectorAll('SimpleData');
 
             const data = {
                 coordinates: coordinatesNode ? coordinatesNode.textContent : '',
@@ -125,7 +128,7 @@ const Kml = (props) => {
                 const dataToSave = { 
                     titleNo: simpleData['title_no'] || '',
                     owner: simpleData['owner'] || '',
-                    date: simpleData['t_date'] || '',
+                    date: simpleData['t_date'] || '',   
                     surveyNo: simpleData['surv_no'] || '',
                     lotNo: simpleData['lot_no'] || '',
                     blkNo: simpleData['blk_no'] || '',
