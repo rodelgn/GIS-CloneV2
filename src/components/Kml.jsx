@@ -3,6 +3,7 @@ import '../components/styles/formContainer.css';
 import '../components/styles/kml.css';
 import toGeoJSON from 'togeojson';
 import Axios from '../api/Axios';
+import Swal from 'sweetalert2';
 
 
 const Kml = (props) => {
@@ -118,6 +119,15 @@ const Kml = (props) => {
     
     const handleSaveData = async (e) => {
         e.preventDefault();
+
+        if (!extractedData || extractedCoordinates) {
+            Swal.fire({
+                title: 'Error',
+                text: 'No KML data to save. Please upload a valid KML file.',
+                icon: 'error',
+            });
+            return;
+        };
 
          try {
 
