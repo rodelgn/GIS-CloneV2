@@ -129,37 +129,47 @@ const Kml = (props) => {
             return;
         };
 
-         try {
-
-            for (let i = 0; i < extractedData.length; i++) {
-                const item = extractedData[i];
-                const simpleData = item.SimpleData;
-
-                const coordsArray = Array.isArray(extractedCoordinates[i]) ? extractedCoordinates[i] : [];
-
-                const dataToSave = { 
-                    titleNo: simpleData['title_no'] || '',
-                    owner: simpleData['owner'] || '',
-                    date: simpleData['t_date'] || '',   
-                    surveyNo: simpleData['surv_no'] || '',
-                    lotNo: simpleData['lot_no'] || '',
-                    blkNo: simpleData['blk_no'] || '',
-                    area: parseFloat(simpleData['area']) || '',
-                    coordinates: coordsArray.join(' '),
-                    // none existing fields or data row from simpleData(kml file)
-                    // monument: '',
-                    // easting: '',
-                    // northing: '',
-                };
+         if (extractedData.length > 0 && extractedCoordinates.length > 0) {
+            for (let r = 0; r < extractedData.length; r++) {
+                const placemarkData = extractedData[r];
+                const placemarkCoordinates = extractedCoordinates[r];
                 
+                const filterCoordinates = placemarkCoordinates.filter(item => item.trim() !== '');
+                const coordinatedPairs = filterCoordinates.map(pair => {
+                    const [lng, lat] = pair.split(',').map(Number);
+                    return { lng, lat };
+                });
+
+                const geometry = {
+                    type: 'Polygon',
+                    coordinates: [coordinatedPairs]
+                }
+
+                const {
+                    title_no,
+                    t_date,
+                    surv_no,
+                    lot_no,
+                    blk_no,
+                    area,
+                    owner,
+                } = placemarkData.SimpleData;
+
+                const dataToSave = {
+                    title: title_no || '',
+                    date: t_date || '',
+                    surveyNo: surv_no || '',
+                    lotNo: lot_no || '',
+                    blkNo: blk_no || '',
+                    area: area || '',
+                    owner: owner || '',
+                    geojson: JSON.stringify(geometry),
+                };
+
                 await Axios.post('/plottingData', dataToSave);
             }
-
-            console.log("All data saved successfully");
-            props.onClose();
-
-         } catch (err) {
-            console.error("Error saving data: ", err);
+         } else {
+            alert('No data to save. Please ensure the KML file contains valid data.');
          }
          
     };
