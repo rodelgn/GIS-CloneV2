@@ -132,6 +132,7 @@ const Kml = (props) => {
         //Undefined. reading length of extractedData and extractedCoordinates
          if (extractedData.length > 0 && extractedCoordinates.length > 0) {
             for (let r = 0; r < extractedData.length; r++) {
+                if (!extractedData[r] || !extractedCoordinates[r]) continue;
                 const placemarkData = extractedData[r];
                 const placemarkCoordinates = extractedCoordinates[r];
                 
