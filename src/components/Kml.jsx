@@ -120,7 +120,7 @@ const Kml = (props) => {
     const handleSaveData = async (e) => {
         e.preventDefault();
 
-        if (!extractedData || extractedCoordinates) {
+        if (!extractedData || !extractedCoordinates.length) {
             Swal.fire({
                 title: 'Error',
                 text: 'No KML data to save. Please upload a valid KML file.',
