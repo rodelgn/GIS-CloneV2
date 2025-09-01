@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 const Kml = (props) => {
     const [tableRows, setTableRows] = useState([]);
-    const [extractedData, setExtractedData] = useState(null)
+    const [extractedData, setExtractedData] = useState([])
     const [extractedCoordinates, setExtractedCoordinates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -24,9 +24,9 @@ const Kml = (props) => {
                     const convertedGeoJSON = toGeoJSON.kml(new DOMParser().parseFromString(kmlData, 'text/html'));
                     props.onKMLUpload(convertedGeoJSON);
 
-                    const { extractedData, extractedCoord, headerNames } = extractedKMLData(kmlData);
+                    const { extractedData, extractedKmlCoordinates, headerNames } = extractedKMLData(kmlData);
                     setExtractedData(extractedData);
-                    setExtractedCoordinates(extractedCoord);
+                    setExtractedCoordinates(extractedKmlCoordinates);
                     const rows = generateTableRows(extractedData, headerNames);
                     setTableRows(rows);
 
