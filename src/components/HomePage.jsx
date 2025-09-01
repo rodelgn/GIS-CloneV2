@@ -63,6 +63,7 @@ const HomePage = ( props ) => {
             <Kml 
               onClose = {btnCancel}
               onKMLUpload = {handleKMLUploadCoord}
+              plusCodes = {handlePlusCode}
             />
          )}
          

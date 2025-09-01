@@ -136,10 +136,19 @@ const Kml = (props) => {
                 const placemarkCoordinates = extractedCoordinates[r];
                 
                 const filterCoordinates = placemarkCoordinates.filter(item => item.trim() !== '');
+
                 const coordinatedPairs = filterCoordinates.map(pair => {
                     const [lng, lat] = pair.split(',').map(Number);
-                    return { lng, lat };
+                    return [ lng, lat ];
                 });
+
+                if (coordinatedPairs.length > 2) {
+                    const first = coordinatedPairs[0];
+                    const last = coordinatedPairs[coordinatedPairs.length - 1];
+                    if (first[0] !== last[0] || first[1] !== last[1]) {
+                        coordinatedPairs.push(first);
+                    }
+                }
 
                 const geometry = {
                     type: 'Polygon',
@@ -157,14 +166,15 @@ const Kml = (props) => {
                 } = placemarkData.SimpleData;
 
                 const dataToSave = {
-                    title: title_no || '',
+                    titleNo: title_no || '',
                     date: t_date || '',
                     surveyNo: surv_no || '',
                     lotNo: lot_no || '',
                     blkNo: blk_no || '',
                     area: area || '',
                     owner: owner || '',
-                    geojson: JSON.stringify(geometry),
+                    geojson: geometry,
+                    pluscode: props.plusCodes || '',
                 };
 
                 await Axios.post('/plottingData', dataToSave);
