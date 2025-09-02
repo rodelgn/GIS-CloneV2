@@ -13,6 +13,7 @@ const HomePage = ( props ) => {
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
   const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
+  const [plusCodes, setPlusCodes] = useState({});
 
   const togglePopMenu = () => {
     setShowPopupPlot(!showPopupPlot);
@@ -27,8 +28,13 @@ const HomePage = ( props ) => {
     setShowKML(false);
   }
 
-  const handlePlusCode = (plusCodes) => {
-    setPlusCode(plusCodes); 
+  const handlePlusCode = (index, plusCode) => {
+    setPlusCodes ((prev) => ({
+      ...prev,
+      [index]: plusCode,
+    }));
+
+    console.log("Plus Code in Home: ", plusCodes)
   };
 
   const handleKMLUploadCoord = (geoJson) => {
@@ -53,7 +59,6 @@ const HomePage = ( props ) => {
         {showPopupPlot && (
             <Plot
               onClose = {btnCancel}
-              plusCodes = {handlePlusCode}
               plusCode = {plusCode}
               setPolygonCoordinates = {setPolygonCoordinates}
             />
@@ -63,7 +68,7 @@ const HomePage = ( props ) => {
             <Kml 
               onClose = {btnCancel}
               onKMLUpload = {handleKMLUploadCoord}
-              plusCodes = {handlePlusCode}
+              plusCodes = {plusCodes}
             />
          )}
          
@@ -71,7 +76,7 @@ const HomePage = ( props ) => {
 
         <div className="leaflet-wrapper">
           <LeafletMap 
-            handlePlusCodes = {handlePlusCode}
+            handlePlusCodes={handlePlusCode}
             setPolygonCoordinates = {setPolygonCoordinates}
             kmlGeoJsonData = {kmlGeoJsonData}
           />

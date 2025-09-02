@@ -208,6 +208,8 @@ const LeafletMap = ( props ) => {
         const polygon = L.polygon(latLngs, {color: 'red'});
         const [centerLat, centerLng, plusCode] = calculateCenterCoordinates(coords);
 
+        props.handlePlusCodes(index, plusCode);
+
         let popup = `<p>Centroid</p>
         <pre>Latitude: ${centerLat.toFixed(6)}, Longitude: ${centerLng.toFixed(6)} </pre>
         <p>Pluscode:</p>
