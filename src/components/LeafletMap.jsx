@@ -201,14 +201,12 @@ const LeafletMap = ( props ) => {
 
     kmlPolygonsLayer.current.clearLayers();
 
-    kmlGeoJsonData.features.forEach ((feature) => {
+    kmlGeoJsonData.features.forEach ((feature, index) => {
       if (feature.geometry.type === 'Polygon') {
         const coords = feature.geometry.coordinates[0];
         const latLngs = coords.map(([lng, lat]) => [lat, lng]);
         const polygon = L.polygon(latLngs, {color: 'red'});
         const [centerLat, centerLng, plusCode] = calculateCenterCoordinates(coords);
-
-        props.handlePlusCodes(index, plusCode);
 
         let popup = `<p>Centroid</p>
         <pre>Latitude: ${centerLat.toFixed(6)}, Longitude: ${centerLng.toFixed(6)} </pre>
@@ -220,6 +218,8 @@ const LeafletMap = ( props ) => {
           ${popup}`);
 
           polygon.addTo(kmlPolygonsLayer.current);
+
+          props.kmlPlusCodes(index, plusCode);
       }
     });
     mapRef.current.fitBounds(kmlPolygonsLayer.current.getBounds(), { maxZoom: 19 });

@@ -27,7 +27,7 @@ const Kml = (props) => {
                     const { extractedData, extractedKmlCoordinates, headerNames } = extractedKMLData(kmlData);
                     setExtractedData(extractedData);
                     setExtractedCoordinates(extractedKmlCoordinates);
-                    const rows = generateTableRows(extractedData, headerNames);
+                    const rows = generateTableRows(extractedData, headerNames, props.plusCodes);
                     setTableRows(rows);
 
                 } catch (err) {
@@ -78,21 +78,30 @@ const Kml = (props) => {
         return { extractedData, extractedKmlCoordinates, headerNames: Array.from(headerNames) };
     };
 
-    const generateTableRows = (data, headerNames) => {
+    const generateTableRows = (data, headerNames, plusCodes) => {
         const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'owner' ];
 
-        const filteredHeaderNames = headerNames.filter(name => displayHeaders.includes(name));
-
-        const headerRow = filteredHeaderNames.map(name => 
-            <th key={name}>{name.toUpperCase()}</th>
+        const filteredHeaderNames = headerNames.filter(name => 
+            displayHeaders.includes(name)
         );
+
+        const headerRow = [
+            ...filteredHeaderNames.map((name) => (
+              <th key={name}>{name.toUpperCase()}</th>
+            )),
+            <th key="pluscode">PLUSCODE</th>,
+        ];
 
         const bodyRows = data.map((item, i) => {
             return (
 
-            <tr key={i}>{filteredHeaderNames.map(name => (
-                <td key={name}>{item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ''}</td>
-            ))}
+            <tr key={i}>
+                {filteredHeaderNames.map((name) => (
+                  <td key={name}>
+                    {item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ""}
+                  </td>
+                ))}
+                    <td>{plusCodes[i] || "N/A"}</td>
             </tr>
 
         )});
@@ -129,7 +138,7 @@ const Kml = (props) => {
             return;
         };
 
-        //Undefined. reading length of extractedData and extractedCoordinates
+        
          if (extractedData.length > 0 && extractedCoordinates.length > 0) {
             for (let r = 0; r < extractedData.length; r++) {
                 const placemarkData = extractedData[r];
@@ -174,7 +183,7 @@ const Kml = (props) => {
                     area: area || '',
                     owner: owner || '',
                     geojson: geometry,
-                    pluscode: props.plusCodes || '',
+                    pluscode: props.plusCodes[r] || "",
                 };
 
                 await Axios.post('/plottingData', dataToSave);
