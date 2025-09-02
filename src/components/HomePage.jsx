@@ -39,7 +39,7 @@ const HomePage = ( props ) => {
       [index]: kmlPluscode,
     }));
 
-    console.log("Plus Codes from KML: ", kmlPluscode)
+    console.log("KML Plus Codes in Home: ", kmlPluscode)
   }
 
   const handleKMLUploadCoord = (geoJson) => {
@@ -73,7 +73,7 @@ const HomePage = ( props ) => {
             <Kml 
               onClose = {btnCancel}
               onKMLUpload = {handleKMLUploadCoord}
-              plusCodes = {kmlPluscode}
+              kmlPluscode = {kmlPluscode}
             />
          )}
 

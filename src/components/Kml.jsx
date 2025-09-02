@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../components/styles/formContainer.css';
 import '../components/styles/kml.css';
 import toGeoJSON from 'togeojson';
@@ -12,6 +12,14 @@ const Kml = (props) => {
     const [extractedCoordinates, setExtractedCoordinates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
+
+    useEffect(() => {
+        if (extractedData.length > 0) {
+          const headerNames = Object.keys(extractedData[0].SimpleData || {});
+          const rows = generateTableRows(extractedData, headerNames, props.kmlPluscode);
+          setTableRows(rows);
+        }
+    }, [props.kmlPluscode, extractedData]);
 
     const handleKmlUpload = (e) => {
         const file = e.target.files[0];
@@ -27,7 +35,7 @@ const Kml = (props) => {
                     const { extractedData, extractedKmlCoordinates, headerNames } = extractedKMLData(kmlData);
                     setExtractedData(extractedData);
                     setExtractedCoordinates(extractedKmlCoordinates);
-                    const rows = generateTableRows(extractedData, headerNames, props.plusCodes);
+                    const rows = generateTableRows(extractedData, headerNames, props.kmlPluscode);
                     setTableRows(rows);
 
                 } catch (err) {
@@ -78,7 +86,7 @@ const Kml = (props) => {
         return { extractedData, extractedKmlCoordinates, headerNames: Array.from(headerNames) };
     };
 
-    const generateTableRows = (data, headerNames, plusCodes) => {
+    const generateTableRows = (data, headerNames, kmlPluscode) => {
         const displayHeaders = ['title_no', 't_date', 'surv_no', 'lot_no', 'blk_no', 'area', 'owner' ];
 
         const filteredHeaderNames = headerNames.filter(name => 
@@ -101,7 +109,7 @@ const Kml = (props) => {
                     {item.SimpleData[name] ? item.SimpleData[name].toUpperCase() : ""}
                   </td>
                 ))}
-                    <td>{plusCodes[i] || "N/A"}</td>
+                    <td>{kmlPluscode?.[i] || "N/A"}</td>
             </tr>
 
         )});
@@ -183,7 +191,7 @@ const Kml = (props) => {
                     area: area || '',
                     owner: owner || '',
                     geojson: geometry,
-                    pluscode: props.plusCodes[r] || "",
+                    pluscode: props.kmlPluscode[r] || "",
                 };
 
                 await Axios.post('/plottingData', dataToSave);
