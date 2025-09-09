@@ -172,8 +172,6 @@ const Kml = (props) => {
                     coordinates: [coordinatedPairs]
                 }
 
-                console.log('Geometry to be saved:', geometry);
-
                 const {
                     title_no,
                     t_date,
