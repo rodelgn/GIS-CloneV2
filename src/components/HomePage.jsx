@@ -4,7 +4,7 @@ import './styles/map.css';
 import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
-import Kml from './Kml';
+import Kml from './KML/Kml';
 import './styles/home.css';
 
 const HomePage = ( props ) => {

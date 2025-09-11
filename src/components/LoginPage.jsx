@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Axios from '../api/Axios';
 import './styles/loginform.css';
 import Swal from 'sweetalert2';
-import AccountCreation from './AccountCreation';
+import AccountCreation from './CreateAccount/AccountCreation';
 
 const LoginPage = ({ onLogin }) => {
     // const defaultUsername = 'admin';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './styles/createUser.css';
+import '../styles/createUser.css';
 import Swal from 'sweetalert2';
 import Axios from '../../api/Axios';
 
