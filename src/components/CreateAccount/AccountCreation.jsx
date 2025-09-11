@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './styles/createUser.css';
 import Swal from 'sweetalert2';
-import Axios from '../api/Axios';
+import Axios from '../../api/Axios';
 
 const AccountCreation = ({ onClose }) => {
     const [formData, setFormData] = useState({
