@@ -191,7 +191,7 @@ const Kml = (props) => {
                     area: area || '',
                     owner: owner || '',
                     geojson: geometry,
-                    // pluscode: props.kmlPluscode[r] || "",
+                    pluscode: props.kmlPluscode[r] || "",
                 };
 
                 await Axios.post('/plottingData', dataToSave);
