@@ -20,6 +20,13 @@ const Plot = ( props ) => {
     area: '',
     plusCode: props.plusCode
   });
+  const [polygonLayer, setPolygonLayer] = useState({
+    monument: '',
+    easting: '',
+    northing: '',
+    tieLines: [createTieLine()]
+  });
+
   const createTieLine = () => {
     return {
       degreeAngle: '',
@@ -29,12 +36,23 @@ const Plot = ( props ) => {
       distance: '',
     };
   };
-  const [polygonLayer, setPolygonLayer] = useState({
-    monument: '',
-    easting: '',
-    northing: '',
-    tieLines: [createTieLine()]
-  });
+
+  const handleCSVUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const csvData = event.target.result;
+          setResults(csvData);
+          console.log("CSV Data: ", csvData);
+        } catch (err) {
+          console.error("Error reading CSV file: ", err);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
 
   useEffect(() => {
     handleAddTieLine();
