@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import Axios from '../../api/Axios';
 import DrawPolygon from './DrawPolygon';
 import { usePolygonCoordinates } from '../hooks/usePolygonCoordinates';
+import Papa from 'papaparse';
 
 const Plot = ( props ) => {
   const { polygonCoordinates } = usePolygonCoordinates();
@@ -39,19 +40,16 @@ const Plot = ( props ) => {
 
   const handleCSVUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const csvData = event.target.result;
-          setResults(csvData);
-          console.log("CSV Data: ", csvData);
-        } catch (err) {
-          console.error("Error reading CSV file: ", err);
-        }
-      };
-      reader.readAsText(file);
-    }
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        console.log("CSV Data: ", results.data);
+        setResults(results.data);
+      }
+    })
   };
 
   useEffect(() => {
