@@ -47,8 +47,6 @@ const Plot = ( props ) => {
       skipEmptyLines: true,
       complete: (results) => {
         console.log("CSV Data: ", results.data);
-        setResults(results.data);
-
         const rows = results.data[0] || {};
 
         setPlotData((prev) => ({
@@ -240,7 +238,7 @@ const Plot = ( props ) => {
 
       <div className='form-group upload-group'>
           <label>Upload CSV File for Auto Fill</label>
-          <input type="file" accept=".csv" />
+          <input type="file" accept=".csv" onChange={handleCSVUpload} />
         </div>
 
       <form onSubmit={handleSubmit} className='plot-form' >
@@ -249,31 +247,31 @@ const Plot = ( props ) => {
           <div className='two-column'>
             <div className="form-group">
               <label>Title No.</label>
-              <input type="text" onChange={handleInputChange} name='titleNo' placeholder='Title Number' required />
+              <input type="text" onChange={handleInputChange} name='titleNo' value={plotData.titleNo} placeholder='Title Number' required />
             </div>
             <div className="form-group">
               <label>Owner</label>
-              <input type="text" onChange={handleInputChange} name='owner' placeholder='Owner' required />
+              <input type="text" onChange={handleInputChange} name='owner' value={plotData.owner} placeholder='Owner' required />
             </div>
             <div className="form-group">
               <label>Date</label>
-              <input type="date" onChange={handleInputChange} name='date' placeholder='Date' required />
+              <input type="date" onChange={handleInputChange} name='date' value={plotData.date} placeholder='Date' required />
             </div>
             <div className="form-group">
               <label>Survey No.</label>
-              <input type="text" onChange={handleInputChange} name='surveyNo' placeholder='Survey Number' required />
+              <input type="text" onChange={handleInputChange} name='surveyNo' value={plotData.surveyNo} placeholder='Survey Number' required />
             </div>
             <div className="form-group">
               <label>Lot No.</label>
-              <input type="text" onChange={handleInputChange} name='lotNo' placeholder='Lot Number' required />
+              <input type="text" onChange={handleInputChange} name='lotNo' value={plotData.lotNo} placeholder='Lot Number' required />
             </div>
             <div className="form-group">
               <label>Blk No.</label>
-              <input type="text" onChange={handleInputChange} name='blkNo' placeholder='Block Number' required />
+              <input type="text" onChange={handleInputChange} name='blkNo' value={plotData.blkNo} placeholder='Block Number' required />
             </div>
             <div className="form-group">
               <label>Area (sq.m.)</label>
-              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' placeholder='Lot Area (sqm)' required />
+              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' value={plotData.area} placeholder='Lot Area (sqm)' required />
             </div>
           </div>
         </div>
