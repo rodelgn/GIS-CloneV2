@@ -48,6 +48,27 @@ const Plot = ( props ) => {
       complete: (results) => {
         console.log("CSV Data: ", results.data);
         setResults(results.data);
+
+        const rows = results.data[0] || {};
+
+        setPlotData((prev) => ({
+          ...prev,
+          titleNo: rows['Title No.'] || prev.titleNo,
+          owner: rows['Owner'] || prev.owner,
+          date: rows['Date'] || prev.date,
+          surveyNo: rows['Survey No.'] || prev.surveyNo,
+          lotNo: rows['Lot No.'] || prev.lotNo,
+          blkNo: rows['Blk No.'] || prev.blkNo,
+          area: rows['Area (sq.m.)'] || prev.area,
+          plusCode: props.plusCode || prev.plusCode,
+        }));
+
+        setPolygonLayer((prev) => ({
+          ...prev,
+          monument: rows['Monument'] || prev.monument,
+          easting: rows['Easting'] || prev.easting,
+          northing: rows['Northing'] || prev.northing,
+        }));
       }
     })
   };
