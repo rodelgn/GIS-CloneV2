@@ -21,12 +21,6 @@ const Plot = ( props ) => {
     area: '',
     plusCode: props.plusCode
   });
-  const [polygonLayer, setPolygonLayer] = useState({
-    monument: '',
-    easting: '',
-    northing: '',
-    tieLines: [createTieLine()]
-  });
 
   const createTieLine = () => {
     return {
@@ -38,38 +32,12 @@ const Plot = ( props ) => {
     };
   };
 
-  const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        console.log("CSV Data: ", results.data);
-        const rows = results.data[0] || {};
-
-        setPlotData((prev) => ({
-          ...prev,
-          titleNo: rows['Title No.'] || prev.titleNo,
-          owner: rows['Owner'] || prev.owner,
-          date: rows['Date'] || prev.date,
-          surveyNo: rows['Survey No.'] || prev.surveyNo,
-          lotNo: rows['Lot No.'] || prev.lotNo,
-          blkNo: rows['Blk No.'] || prev.blkNo,
-          area: rows['Area (sq.m.)'] || prev.area,
-          plusCode: props.plusCode || prev.plusCode,
-        }));
-
-        setPolygonLayer((prev) => ({
-          ...prev,
-          monument: rows['Monument'] || prev.monument,
-          easting: rows['Easting'] || prev.easting,
-          northing: rows['Northing'] || prev.northing,
-        }));
-      }
-    })
-  };
+  const [polygonLayer, setPolygonLayer] = useState({
+    monument: '',
+    easting: '',
+    northing: '',
+    tieLines: [createTieLine()]
+  });
 
   useEffect(() => {
     handleAddTieLine();
@@ -170,6 +138,39 @@ const Plot = ( props ) => {
     console.log("Formatted Result: ", formattedResults);
   };
 
+  const handleCSVUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        console.log("CSV Data: ", results.data);
+        const rows = results.data[0] || {};
+
+        setPlotData((prev) => ({
+          ...prev,
+          titleNo: rows['Title No.'] || prev.titleNo,
+          owner: rows['Owner'] || prev.owner,
+          date: rows['Date'] || prev.date,
+          surveyNo: rows['Survey No.'] || prev.surveyNo,
+          lotNo: rows['Lot No.'] || prev.lotNo,
+          blkNo: rows['Blk No.'] || prev.blkNo,
+          area: rows['Area'] || prev.area,
+          plusCode: props.plusCode || prev.plusCode,
+        }));
+
+        setPolygonLayer((prev) => ({
+          ...prev,
+          monument: rows['Monument'] || prev.monument,
+          easting: rows['Easting'] || prev.easting,
+          northing: rows['Northing'] || prev.northing,
+        }));
+      }
+    })
+  };
+
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
     setPolygonLayer({
@@ -231,7 +232,6 @@ const Plot = ( props ) => {
     props.onClose();
   }
 
-
   return (
     <div className='form-container'>
       <h1>Plot Parcel</h1>
@@ -255,7 +255,7 @@ const Plot = ( props ) => {
             </div>
             <div className="form-group">
               <label>Date</label>
-              <input type="date" onChange={handleInputChange} name='date' value={plotData.date} placeholder='Date' required />
+              <input type="text" onChange={handleInputChange} name='date' value={plotData.date} placeholder='Date' required />
             </div>
             <div className="form-group">
               <label>Survey No.</label>
@@ -282,15 +282,15 @@ const Plot = ( props ) => {
           <div className='monument-row'>
             <div className='form-group'>
               <label>Monument</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='monument' required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='monument' value={polygonLayer.monument} required/>
             </div>
             <div className='form-group'>
               <label>Easting</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='easting' required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='easting' value={polygonLayer.easting} required/>
             </div>
             <div className='form-group'>
               <label>Northing</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='northing' required/>
+              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='northing' value={polygonLayer.northing} required/>
             </div>
           </div>
 
