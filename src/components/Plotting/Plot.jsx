@@ -146,27 +146,43 @@ const Plot = ( props ) => {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        console.log("CSV Data: ", results.data);
+        // console.log("CSV Data: ", results.data);
         const rows = results.data[0] || {};
+        if (!rows.length) return;
+        const firstRow = rows[0];
 
         setPlotData((prev) => ({
           ...prev,
-          titleNo: rows['Title No.'] || prev.titleNo,
-          owner: rows['Owner'] || prev.owner,
-          date: rows['Date'] || prev.date,
-          surveyNo: rows['Survey No.'] || prev.surveyNo,
-          lotNo: rows['Lot No.'] || prev.lotNo,
-          blkNo: rows['Blk No.'] || prev.blkNo,
-          area: rows['Area'] || prev.area,
+          titleNo: firstRow['Title No.'] || prev.titleNo,
+          owner: firstRow['Owner'] || prev.owner,
+          date: firstRow['Date'] || prev.date,
+          surveyNo: firstRow['Survey No.'] || prev.surveyNo,
+          lotNo: firstRow['Lot No.'] || prev.lotNo,
+          blkNo: firstRow['Blk No.'] || prev.blkNo,
+          area: firstRow['Area'] || prev.area,
           plusCode: props.plusCode || prev.plusCode,
+        }));
+
+        const numPoints = parseInt(rows['Number of Points'], 10) || 0;
+
+        const tieLines = rows.slice(0, numPoints).map((row) => ({
+          degreeAngle: row['Degree Angle'] || '',
+          degree: row['Degree'] || '',
+          minutes: row['Minutes'] || '',
+          minutesAngle: row['Minutes Angle'] || '',
+          distance: row['Distance'] || '',
         }));
 
         setPolygonLayer((prev) => ({
           ...prev,
-          monument: rows['Monument'] || prev.monument,
-          easting: rows['Easting'] || prev.easting,
-          northing: rows['Northing'] || prev.northing,
+          monument: firstRow['Monument'] || prev.monument,
+          easting: firstRow['Easting'] || prev.easting,
+          northing: firstRow['Northing'] || prev.northing,
+          tieLines: tieLines.length ? tieLines : prev.tieLines
         }));
+
+        setNumberOfPoints(numPoints);
+        
       }
     })
   };
