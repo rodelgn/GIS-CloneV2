@@ -139,53 +139,35 @@ const Plot = ( props ) => {
   };
 
   const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        // console.log("CSV Data: ", results.data);
-        const rows = results.data[0] || {};
-        if (!rows.length) return;
-        const firstRow = rows[0];
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: (result) => {
+      const row = result.data[0] || {};
 
-        setPlotData((prev) => ({
-          ...prev,
-          titleNo: firstRow['Title No.'] || prev.titleNo,
-          owner: firstRow['Owner'] || prev.owner,
-          date: firstRow['Date'] || prev.date,
-          surveyNo: firstRow['Survey No.'] || prev.surveyNo,
-          lotNo: firstRow['Lot No.'] || prev.lotNo,
-          blkNo: firstRow['Blk No.'] || prev.blkNo,
-          area: firstRow['Area'] || prev.area,
-          plusCode: props.plusCode || prev.plusCode,
-        }));
+      setPlotData((prev) => ({
+        ...prev,
+        titleNo: row["Title No."] || prev.titleNo,
+        owner: row["Owner"] || prev.owner,
+        date: row["Date"] || prev.date,
+        surveyNo: row["Survey No."] || prev.surveyNo,
+        lotNo: row["Lot No."] || prev.lotNo,
+        blkNo: row["Blk No."] || prev.blkNo,
+        area: row["Area"] || prev.area,
+      }));
 
-        const numPoints = parseInt(rows['Number of Points'], 10) || 0;
-
-        const tieLines = rows.slice(0, numPoints).map((row) => ({
-          degreeAngle: row['Degree Angle'] || '',
-          degree: row['Degree'] || '',
-          minutes: row['Minutes'] || '',
-          minutesAngle: row['Minutes Angle'] || '',
-          distance: row['Distance'] || '',
-        }));
-
-        setPolygonLayer((prev) => ({
-          ...prev,
-          monument: firstRow['Monument'] || prev.monument,
-          easting: firstRow['Easting'] || prev.easting,
-          northing: firstRow['Northing'] || prev.northing,
-          tieLines: tieLines.length ? tieLines : prev.tieLines
-        }));
-
-        setNumberOfPoints(numPoints);
-        
-      }
-    })
-  };
+      setPolygonLayer((prev) => ({
+        ...prev,
+        monument: row["Monument"] || prev.monument,
+        easting: row["Easting"] || prev.easting,
+        northing: row["Northing"] || prev.northing,
+      }));
+    },
+  });
+};
 
   const handleRemoveTieLine = (index) => {
     const updatedTieLines = polygonLayer.tieLines.filter((_, i) => i !== index);
