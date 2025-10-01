@@ -160,13 +160,6 @@ const Plot = ( props ) => {
         area: row["Area"] || prev.area,
       }));
 
-      setPolygonLayer((prev) => ({
-        ...prev,
-        monument: row["Monument"] || prev.monument,
-        easting: row["Easting"] || prev.easting,
-        northing: row["Northing"] || prev.northing,
-      }));
-
       const numberOfPoints = row["Number of Points"] || "";
       setNumberOfPoints(numberOfPoints);
 
@@ -185,6 +178,15 @@ const Plot = ( props ) => {
           minutesAngle: row['Minutes Angle'] || "",
           distance: row['Distance'] || "",
       }));
+
+      setPolygonLayer((prev) => ({
+        ...prev,
+        monument: row["Monument"] || prev.monument,
+        easting: row["Easting"] || prev.easting,
+        northing: row["Northing"] || prev.northing,
+        tieLines,
+      }));
+
     },
   });
 };
