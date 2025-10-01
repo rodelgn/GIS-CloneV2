@@ -146,6 +146,7 @@ const Plot = ( props ) => {
     header: true,
     skipEmptyLines: true,
     complete: (result) => {
+      console.log("Parsed CSV Result: ", result.data);
       const row = result.data[0] || {};
 
       setPlotData((prev) => ({
@@ -164,6 +165,25 @@ const Plot = ( props ) => {
         monument: row["Monument"] || prev.monument,
         easting: row["Easting"] || prev.easting,
         northing: row["Northing"] || prev.northing,
+      }));
+
+      const numberOfPoints = row["Number of Points"] || "";
+      setNumberOfPoints(numberOfPoints);
+
+      const tieLines = result.data.filter((row) => 
+        !(
+          row['Degree Angle'] === "" &&
+          row["Degree"] === "" &&
+          row["Minutes"] === "" &&
+          row["Minutes Angle"] === "" &&
+          row["Distance"] === ""
+        )
+      ).map((row) => ({
+          degreeAngle: row['Degree Angle'] || "",
+          degree: row['Degree'] || "",
+          minutes: row['Minutes'] || "",
+          minutesAngle: row['Minutes Angle'] || "",
+          distance: row['Distance'] || "",
       }));
     },
   });
