@@ -5,11 +5,13 @@ import Navigation from './Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
 import Kml from './KML/Kml';
+import Monuments from './monuments/Monuments';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopupPlot, setShowPopupPlot] = useState(false);
   const [showKML, setShowKML] = useState(false)
+  const [showMonuments, setShowMonuments] = useState(false);
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
   const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
@@ -21,6 +23,10 @@ const HomePage = ( props ) => {
 
   const toggleKML = () => {
     setShowKML(!showKML);
+  }
+
+  const toggleMonument = () => {
+    setShowMonuments(!showMonuments);
   }
 
   const btnCancel = () => {
@@ -58,6 +64,7 @@ const HomePage = ( props ) => {
          logoutClick = {props.onLogout}
          togglePlotting = {togglePopMenu}
          toggleKML = {toggleKML}
+         toggleMonument = {toggleMonument}
          isPlotOpen = {showPopupPlot}
          />
 
@@ -74,6 +81,12 @@ const HomePage = ( props ) => {
               onClose = {btnCancel}
               onKMLUpload = {handleKMLUploadCoord}
               kmlPluscode = {kmlPluscode}
+            />
+         )}
+
+         {showMonuments && (
+            <Monuments 
+              onClose = {btnCancel}
             />
          )}
 

@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 35%;
+    height: 90vh;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 1rem;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-top: 4rem;
+    margin-right: 0.5rem;
+}

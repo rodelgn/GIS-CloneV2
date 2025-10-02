@@ -30,6 +30,11 @@ const Navigation = ( props ) => {
         setIsMenuOpen(false);
     }
 
+    const handleMonumentClick = () => {
+        props.toggleMonument();
+        setIsMenuOpen(false);
+    }
+
 
   return (
         <nav className='navbar'>
@@ -46,7 +51,7 @@ const Navigation = ( props ) => {
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
                 <li><a onClick={handlePlotclick}>Plot Parcel</a></li>
                 <li><a onClick={handleKmlClick}>Upload KML</a></li>
-                <li><a href="#">Monuments</a></li>
+                <li><a onClick={handleMonumentClick}>Monuments</a></li>
                 <li><a href="#">Change Password</a></li>
                 <li><button className='btn-logout' onClick={handleLogout}>Logout</button></li>
             </ul>

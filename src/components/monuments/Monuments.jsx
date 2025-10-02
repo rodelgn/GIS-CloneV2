@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/monuments.css'
 import Axios from '../../api/Axios'
 
 const Monuments = () => {
@@ -15,7 +16,7 @@ const Monuments = () => {
 
 
   return (
-    <div>
+    <div  className="form-container">
         <h1>Monuments</h1>
         <table>
             <thead>
