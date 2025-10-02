@@ -21,7 +21,6 @@ const Monuments = () => {
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Monument</th>
                     <th>Easting</th>
                     <th>Northing</th>
