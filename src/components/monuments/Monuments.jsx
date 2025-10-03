@@ -1,23 +1,24 @@
-import React from 'react'
+import {useEffect, useState} from 'react'
 import '../styles/monuments.css'
 import Axios from '../../api/Axios'
 
 const Monuments = (props) => {
+    const [monumets, setMonuments] = useState([]);
 
-    const fetchMonuments = async () => {
-        try {
-                const response = await Axios.get('/monumentData');
-                console.log('Monuments data:', response.data);
-            } catch (error) {
-                console.error('Error fetching monuments:', error);
-            }
-    }
+    useEffect(() => {
+        Axios.get('/monumentData')
+            .then((response) => {
+                setMonuments(response.data);
+                console.log("Monuments Data: ", response.data)
+            }).catch((error) => {
+                console.error("Error fetching monuments data: ", error);
+            
+            });
+    }, []);
 
     const handleClose = () => {
         props.onClose();
-    }
-
-
+    } 
 
   return (
     <div  className="form-container">
@@ -30,6 +31,15 @@ const Monuments = (props) => {
                     <th>Northing</th>
                 </tr>
             </thead>
+            <tbody>
+                {monumets.map((index) => (
+                    <tr key={index.id}>
+                        <td>{index.monument}</td>
+                        <td>{index.easting}</td>
+                        <td>{index.northing}</td>
+                    </tr>
+                ))}
+            </tbody>
         </table>
 
         <div className='btn-close-container'>
@@ -37,6 +47,6 @@ const Monuments = (props) => {
         </div>  
     </div>
   )
-}
+};
 
-export default Monuments
+export default Monuments;
