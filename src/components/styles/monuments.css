@@ -9,7 +9,7 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 25%;
+    width: 27%;
     height: 90vh;
     background-color: var(--background-color);
     border-radius: 8px;
@@ -60,4 +60,22 @@ td, th {
     align-items: center;
     margin-bottom: 1rem;
     width: 25%;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1.5rem;
+}
+
+.pagination button {
+    border: 1px solid gray;
+    width: 80px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
 }

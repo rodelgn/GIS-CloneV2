@@ -3,7 +3,9 @@ import '../styles/monuments.css'
 import Axios from '../../api/Axios'
 
 const Monuments = (props) => {
-    const [monumets, setMonuments] = useState([]);
+    const [monuments, setMonuments] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 15;
 
     useEffect(() => {
         Axios.get('/monumentData')
@@ -18,7 +20,22 @@ const Monuments = (props) => {
 
     const handleClose = () => {
         props.onClose();
-    } 
+    }
+
+    const totalPages = Math.ceil(monuments.length / rowsPerPage);
+    const currentRows = monuments.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+    );
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
 
   return (
     <div  className="form-container">
@@ -32,7 +49,7 @@ const Monuments = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {monumets.map((index) => (
+                {currentRows.map((index) => (
                     <tr key={index.id}>
                         <td>{index.monument}</td>
                         <td>{index.easting}</td>
@@ -41,6 +58,18 @@ const Monuments = (props) => {
                 ))}
             </tbody>
         </table>
+
+        <div className='pagination'>
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+                  Previous
+            </button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+                  Next
+            </button>
+        </div>
 
         <div className='btn-close-container'>
             <button type='button' className='btn-close' onClick={handleClose}>Close</button>
