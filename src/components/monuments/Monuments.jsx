@@ -2,7 +2,7 @@ import React from 'react'
 import '../styles/monuments.css'
 import Axios from '../../api/Axios'
 
-const Monuments = () => {
+const Monuments = (props) => {
 
     const fetchMonuments = async () => {
         try {
@@ -13,12 +13,16 @@ const Monuments = () => {
             }
     }
 
+    const handleClose = () => {
+        props.onClose();
+    }
+
 
 
   return (
     <div  className="form-container">
         <h1>Monuments</h1>
-        <table>
+        <table className='tableBody'>
             <thead>
                 <tr>
                     <th>Monument</th>
@@ -28,8 +32,9 @@ const Monuments = () => {
             </thead>
         </table>
 
-        
-        
+        <div className='btn-close-container'>
+            <button type='button' className='btn-close' onClick={handleClose}>Close</button>
+        </div>  
     </div>
   )
 }

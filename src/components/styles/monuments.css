@@ -21,3 +21,43 @@ body {
     margin-top: 4rem;
     margin-right: 0.5rem;
 }
+
+.table-container {
+    margin-top: 1em;
+}
+
+.tableBody { 
+    width: 100%;
+    margin-top: 3em;
+    border-collapse: collapse;
+}
+
+.tableBody {
+    border: 1px solid #2c2b2b;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+td, th {
+    border: 1px solid #2c2b2b;
+    padding: 8px;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-close-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 25%;
+}

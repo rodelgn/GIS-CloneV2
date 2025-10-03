@@ -32,6 +32,7 @@ const HomePage = ( props ) => {
   const btnCancel = () => {
     setShowPopupPlot(false);
     setShowKML(false);
+    setShowMonuments(false);
   }
 
   const handlePlusCode = (plusCode) => {
