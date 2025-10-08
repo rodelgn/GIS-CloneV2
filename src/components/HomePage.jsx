@@ -1,17 +1,19 @@
 import { useState } from 'react'
 import { usePolygonCoordinates } from './hooks/usePolygonCoordinates';
 import './styles/map.css';
-import Navigation from './Navigation';
+import Navigation from './navBar/Navigation';
 import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
 import Kml from './KML/Kml';
 import Monuments from './monuments/Monuments';
+import UserManagement from './management/userManagement';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
   const [showPopupPlot, setShowPopupPlot] = useState(false);
   const [showKML, setShowKML] = useState(false)
   const [showMonuments, setShowMonuments] = useState(false);
+  const [userManagementOpen, setUserManagementOpen] = useState(false);
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
   const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
@@ -27,6 +29,10 @@ const HomePage = ( props ) => {
 
   const toggleMonument = () => {
     setShowMonuments(!showMonuments);
+  }
+
+  const toggleUserManagement = () => {
+    setUserManagementOpen(!userManagementOpen);
   }
 
   const btnCancel = () => {

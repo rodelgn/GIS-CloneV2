@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Axios from '../../api/Axios';
 
-const userManagement = () => {
+const UserManagement = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -19,4 +19,4 @@ const userManagement = () => {
   );
 };
 
-export default userManagement;
+export default UserManagement;
