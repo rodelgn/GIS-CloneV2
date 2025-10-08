@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './styles/navmenu.css';
+import '../styles/navmenu.css';
 import Swal from 'sweetalert2';
 
 
@@ -35,6 +35,11 @@ const Navigation = ( props ) => {
         setIsMenuOpen(false);
     }
 
+    const handleUserManagementClick = () => {
+        props.toggleUsersManagement();
+        setIsMenuOpen(false);
+    }
+
 
   return (
         <nav className='navbar'>
@@ -52,7 +57,7 @@ const Navigation = ( props ) => {
                 <li><a onClick={handlePlotclick}>Plot Parcel</a></li>
                 <li><a onClick={handleKmlClick}>Upload KML</a></li>
                 <li><a onClick={handleMonumentClick}>Monuments</a></li>
-                <li><a href="#">Change Password</a></li>
+                <li><a onClick={handleUserManagementClick}>Change Password</a></li>
                 <li><button className='btn-logout' onClick={handleLogout}>Logout</button></li>
             </ul>
         </nav>

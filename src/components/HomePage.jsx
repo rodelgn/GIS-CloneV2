@@ -6,7 +6,7 @@ import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
 import Kml from './KML/Kml';
 import Monuments from './monuments/Monuments';
-import UserManagement from './management/userManagement';
+import UserManagement from './management/UserManagement';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
@@ -39,6 +39,7 @@ const HomePage = ( props ) => {
     setShowPopupPlot(false);
     setShowKML(false);
     setShowMonuments(false);
+    setUserManagementOpen(false);
   }
 
   const handlePlusCode = (plusCode) => {
@@ -72,6 +73,7 @@ const HomePage = ( props ) => {
          togglePlotting = {togglePopMenu}
          toggleKML = {toggleKML}
          toggleMonument = {toggleMonument}
+         toggleUsersManagement = {toggleUserManagement}
          isPlotOpen = {showPopupPlot}
          />
 
@@ -93,6 +95,12 @@ const HomePage = ( props ) => {
 
          {showMonuments && (
             <Monuments 
+              onClose = {btnCancel}
+            />
+         )}
+
+         {userManagementOpen && (
+            <UserManagement 
               onClose = {btnCancel}
             />
          )}
