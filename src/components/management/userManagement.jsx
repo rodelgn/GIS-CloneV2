@@ -25,12 +25,8 @@ const UserManagement = (props) => {
 
       <div className='form-box'>
         <form action="" className='user-form'>
-          <label>Username:</label>
-          <select name="username" id="username">
-            {users.map((user, index) => (
-              <option key={index} value={user.username}>{user.username}</option>
-            ))}
-          </select>
+          <label>Email/User</label>
+          <input type="text" name="username" id="username" disabled value={users.length > 0 ? users[0].email : ''} />
           <label>Current Password</label>
           <input type="password" name="currentPassword" id="currentPassword" />
           <label>New Password</label>
