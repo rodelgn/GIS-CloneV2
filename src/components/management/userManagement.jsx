@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Axios from '../../api/Axios';
 import "../styles/usermanagement.css";
 
-const UserManagement = () => {
+const UserManagement = (props) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -14,19 +14,23 @@ const UserManagement = () => {
         });
     }, []);
 
+    const handleClose = () => {
+        props.onClose();
+    }
+
 
   return (
     <div className='form-container'>
       <h1>Change Password</h1>
 
-      <div>
-        <form action="">
+      <div className='form-box'>
+        <form action="" className='user-form'>
           <label>Username:</label>
           <select name="username" id="username">
             {users.map((user, index) => (
               <option key={index} value={user.username}>{user.username}</option>
             ))}
-            </select>
+          </select>
           <label>Current Password</label>
           <input type="password" name="currentPassword" id="currentPassword" />
           <label>New Password</label>
@@ -35,7 +39,7 @@ const UserManagement = () => {
           <input type="password" name="confirmNewPassword" id="confirmNewPassword" />
           <div className='button-container'>
             <button type="submit" className='submit-btn'>Submit</button>
-            <button type="button" className='cancel-btn' onClick={() => {}}>Cancel</button>
+            <button type="button" className='cancel-btn' onClick={handleClose}>Cancel</button>
           </div>
         </form>
       </div>

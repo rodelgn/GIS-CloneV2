@@ -13,7 +13,7 @@ const HomePage = ( props ) => {
   const [showPopupPlot, setShowPopupPlot] = useState(false);
   const [showKML, setShowKML] = useState(false)
   const [showMonuments, setShowMonuments] = useState(false);
-  const [userManagementOpen, setUserManagementOpen] = useState(false);
+  const [showUserManagement, setShowUserManagement] = useState(false);
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
   const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
@@ -32,14 +32,14 @@ const HomePage = ( props ) => {
   }
 
   const toggleUserManagement = () => {
-    setUserManagementOpen(!userManagementOpen);
+    setShowUserManagement(!showUserManagement);
   }
 
   const btnCancel = () => {
     setShowPopupPlot(false);
     setShowKML(false);
     setShowMonuments(false);
-    setUserManagementOpen(false);
+    setShowUserManagement(false);
   }
 
   const handlePlusCode = (plusCode) => {
@@ -99,7 +99,7 @@ const HomePage = ( props ) => {
             />
          )}
 
-         {userManagementOpen && (
+         {showUserManagement && (
             <UserManagement 
               onClose = {btnCancel}
             />
