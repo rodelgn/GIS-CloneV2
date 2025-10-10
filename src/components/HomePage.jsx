@@ -6,7 +6,7 @@ import LeafletMap from './LeafletMap';
 import Plot from './Plotting/Plot';
 import Kml from './KML/Kml';
 import Monuments from './monuments/Monuments';
-import UserManagement from './management/UserManagement';
+import UserManagement from './management/userManagement';
 import './styles/home.css';
 
 const HomePage = ( props ) => {

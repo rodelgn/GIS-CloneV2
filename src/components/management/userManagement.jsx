@@ -4,6 +4,7 @@ import "../styles/usermanagement.css";
 
 const UserManagement = (props) => {
     const [users, setUsers] = useState([]);
+    const [newPass, setNewPass] = useState('');
 
     useEffect(() => {
         Axios.get('/userDetail').then((response) => {
@@ -13,6 +14,13 @@ const UserManagement = (props) => {
             console.error("Error fetching user data: ", error);
         });
     }, []);
+
+    const resetPassword = () => {
+      if (!newPass) {
+        alert('Please enter a new password')
+        return;
+      }
+    };
 
     const handleClose = () => {
         props.onClose();
