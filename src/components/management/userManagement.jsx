@@ -42,7 +42,7 @@ const UserManagement = (props) => {
           <label>Confirm New Password</label>
           <input type="password" name="confirmNewPassword" id="confirmNewPassword" />
           <div className='button-container'>
-            <button type="submit" className='submit-btn'>Submit</button>
+            <button type="submit" className='submit-btn' onClick={resetPassword}>Submit</button>
             <button type="button" className='cancel-btn' onClick={handleClose}>Cancel</button>
           </div>
         </form>
