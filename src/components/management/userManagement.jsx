@@ -5,7 +5,6 @@ import "../styles/usermanagement.css";
 const UserManagement = (props) => {
     const [users, setUsers] = useState([]);
     const [newPass, setNewPass] = useState('');
-    const [confirmPass, setConfirmPass] = useState('');
 
     useEffect(() => {
         Axios.get('/userDetail').then((response) => {
