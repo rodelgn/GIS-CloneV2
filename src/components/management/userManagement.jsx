@@ -5,6 +5,7 @@ import "../styles/usermanagement.css";
 const UserManagement = (props) => {
     const [users, setUsers] = useState([]);
     const [newPass, setNewPass] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
     useEffect(() => {
         Axios.get('/userDetail').then((response) => {
@@ -15,10 +16,44 @@ const UserManagement = (props) => {
         });
     }, []);
 
-    const resetPassword = () => {
-      if (!newPass) {
-        alert('Please enter a new password')
-        return;
+    const handlenNewPassChange = (e) => {
+      setNewPass(e.target.value);
+      console.log("New Password: ", e.target.value);
+    }
+
+    const handleConfirmNewPasswordChange = (e) => {
+      setConfirmNewPassword(e.target.value);
+      console.log("Confirm New Password: ", e.target.value);
+    }
+
+    const validatePassword = () => {
+      if (newPass !== confirmNewPassword) {
+        alert('New password and confirm password do not match');
+        return false;
+      } else if (newPass.length < 8) {
+        alert('Password must be at least 8 characters long');
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    const resetPassword = (e) => {
+      e.preventDefault();
+      if (validatePassword()) {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        Axios.post('/verifyResetPassword', {
+          email: users.length > 0 ? users[0].email : '',
+          currentPassword: currentPassword,
+          newPassword: newPassword
+        }).then((response) => {
+          alert('Password changed successfully');
+          handleClose();
+        }).catch((error) => {
+          console.error("Error changing password: ", error);
+          alert('Error changing password');
+        });
       }
     };
 
@@ -38,9 +73,9 @@ const UserManagement = (props) => {
           <label>Current Password</label>
           <input type="password" name="currentPassword" id="currentPassword" />
           <label>New Password</label>
-          <input type="password" name="newPassword" id="newPassword" />
+          <input type="password" name="newPassword" onChange={handlenNewPassChange} id="newPassword" />
           <label>Confirm New Password</label>
-          <input type="password" name="confirmNewPassword" id="confirmNewPassword" />
+          <input type="password" name="confirmNewPassword" onChange={handleConfirmNewPasswordChange} id="confirmNewPassword"  />
           <div className='button-container'>
             <button type="submit" className='submit-btn' onClick={resetPassword}>Submit</button>
             <button type="button" className='cancel-btn' onClick={handleClose}>Cancel</button>
