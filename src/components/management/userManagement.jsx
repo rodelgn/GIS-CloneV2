@@ -4,6 +4,7 @@ import "../styles/usermanagement.css";
 
 const UserManagement = (props) => {
     const [users, setUsers] = useState([]);
+    const [currentPassword, setCurrentPassword] = useState('');
     const [newPass, setNewPass] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
@@ -15,6 +16,11 @@ const UserManagement = (props) => {
             console.error("Error fetching user data: ", error);
         });
     }, []);
+
+    const handleCurrentPasswordChange = (e) => {
+      setCurrentPassword(e.target.value);
+      console.log("Current Password: ", e.target.value);
+    }
 
     const handlenNewPassChange = (e) => {
       setNewPass(e.target.value);
@@ -41,18 +47,18 @@ const UserManagement = (props) => {
     const resetPassword = (e) => {
       e.preventDefault();
       if (validatePassword()) {
-        const currentPassword = document.getElementById('currentPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
         Axios.post('/verifyResetPassword', {
           email: users.length > 0 ? users[0].email : '',
           currentPassword: currentPassword,
-          newPassword: newPassword
+          newPassword: newPass
         }).then((response) => {
+          if (response.data.success) {
           alert('Password changed successfully');
           handleClose();
+          }
         }).catch((error) => {
           console.error("Error changing password: ", error);
-          alert('Error changing password');
+          alert('Error changing password: ' + error.response.data.message);
         });
       }
     };
@@ -71,7 +77,7 @@ const UserManagement = (props) => {
           <label>Email/User</label>
           <input type="text" name="username" id="username" disabled value={users.length > 0 ? users[0].email : ''} />
           <label>Current Password</label>
-          <input type="password" name="currentPassword" id="currentPassword" />
+          <input type="password" name="currentPassword" id="currentPassword" onChange={handleCurrentPasswordChange} />
           <label>New Password</label>
           <input type="password" name="newPassword" onChange={handlenNewPassChange} id="newPassword" />
           <label>Confirm New Password</label>
