@@ -60,6 +60,13 @@ const UserManagement = (props) => {
           console.error("Error changing password: ", error);
           alert('Error changing password: ' + error.response.data.message);
         });
+
+        const resetForm = () => {
+          setCurrentPassword('');
+          setNewPass('');
+          setConfirmNewPassword('');
+        };
+        resetForm();
       }
     };
 
