@@ -180,6 +180,7 @@ const Kml = (props) => {
                     blk_no,
                     area,
                     owner,
+                    monument,
                 } = placemarkData.SimpleData;
 
                 const dataToSave = {
@@ -190,6 +191,7 @@ const Kml = (props) => {
                     blkNo: blk_no || '',
                     area: area || '',
                     owner: owner || '',
+                    monument: monument || '',
                     geojson: geometry,
                     pluscode: props.kmlPluscode[r] || "",
                 };
