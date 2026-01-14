@@ -138,3 +138,25 @@ h1 {
 .btn-cancel:hover {
   opacity: 0.9;
 }
+
+button[type="submit"],
+button[type="button"] {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background: #764ba2;
+    transform: translateY(-2px);
+}
