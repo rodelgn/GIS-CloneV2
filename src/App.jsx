@@ -1,16 +1,30 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
 
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const SESSION_STORAGE_KEY = 'gis-demo-session-user';
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const savedUser = window.localStorage.getItem(SESSION_STORAGE_KEY);
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const isLoggedIn = Boolean(currentUser);
+
+  const handleLogin = (user) => {
+    setCurrentUser(user);
+    window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
   }
+
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setCurrentUser(null);
+    window.localStorage.removeItem(SESSION_STORAGE_KEY);
   }
 
   return (

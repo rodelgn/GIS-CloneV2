@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import '../styles/createUser.css';
 import Swal from 'sweetalert2';
 import Axios from '../../api/Axios';

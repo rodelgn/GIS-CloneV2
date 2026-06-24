@@ -10,36 +10,39 @@ import UserManagement from './management/userManagement';
 import './styles/home.css';
 
 const HomePage = ( props ) => {
-  const [showPopupPlot, setShowPopupPlot] = useState(false);
-  const [showKML, setShowKML] = useState(false)
-  const [showMonuments, setShowMonuments] = useState(false);
-  const [showUserManagement, setShowUserManagement] = useState(false);
+  const [activePanel, setActivePanel] = useState(null);
   const { setPolygonCoordinates } = usePolygonCoordinates();
   const [plusCode, setPlusCode] = useState("");
   const [kmlGeoJsonData, setKmlGeoJsonData] = useState(null);
   const [kmlPluscode, setKmlPluscode] = useState({});
 
+  const showPopupPlot = activePanel === 'plot';
+  const showKML = activePanel === 'kml';
+  const showMonuments = activePanel === 'monuments';
+  const showUserManagement = activePanel === 'users';
+
+  const togglePanel = (panelName) => {
+    setActivePanel((currentPanel) => currentPanel === panelName ? null : panelName);
+  };
+
   const togglePopMenu = () => {
-    setShowPopupPlot(!showPopupPlot);
+    togglePanel('plot');
   }
 
   const toggleKML = () => {
-    setShowKML(!showKML);
+    togglePanel('kml');
   }
 
   const toggleMonument = () => {
-    setShowMonuments(!showMonuments);
+    togglePanel('monuments');
   }
 
   const toggleUserManagement = () => {
-    setShowUserManagement(!showUserManagement);
+    togglePanel('users');
   }
 
   const btnCancel = () => {
-    setShowPopupPlot(false);
-    setShowKML(false);
-    setShowMonuments(false);
-    setShowUserManagement(false);
+    setActivePanel(null);
   }
 
   const handlePlusCode = (plusCode) => {
@@ -74,7 +77,7 @@ const HomePage = ( props ) => {
          toggleKML = {toggleKML}
          toggleMonument = {toggleMonument}
          toggleUsersManagement = {toggleUserManagement}
-         isPlotOpen = {showPopupPlot}
+         activePanel = {activePanel}
          />
 
         {showPopupPlot && (

@@ -148,53 +148,70 @@ const Kml = (props) => {
 
         
          if (extractedData.length > 0 && extractedCoordinates.length > 0) {
-            for (let r = 0; r < extractedData.length; r++) {
-                const placemarkData = extractedData[r];
-                const placemarkCoordinates = extractedCoordinates[r];
-                
-                const filterCoordinates = placemarkCoordinates.filter(item => item.trim() !== '');
+            try {
+                for (let r = 0; r < extractedData.length; r++) {
+                    const placemarkData = extractedData[r];
+                    const placemarkCoordinates = extractedCoordinates[r];
+                    
+                    const filterCoordinates = placemarkCoordinates.filter(item => item.trim() !== '');
 
-                const coordinatedPairs = filterCoordinates.map(pair => {
-                    const [lng, lat] = pair.split(',').map(Number);
-                    return [ lng, lat ];
-                });
+                    const coordinatedPairs = filterCoordinates.map(pair => {
+                        const [lng, lat] = pair.split(',').map(Number);
+                        return [ lng, lat ];
+                    });
 
-                if (coordinatedPairs.length > 2) {
-                    const first = coordinatedPairs[0];
-                    const last = coordinatedPairs[coordinatedPairs.length - 1];
-                    if (first[0] !== last[0] || first[1] !== last[1]) {
-                        coordinatedPairs.push(first);
+                    if (coordinatedPairs.length > 2) {
+                        const first = coordinatedPairs[0];
+                        const last = coordinatedPairs[coordinatedPairs.length - 1];
+                        if (first[0] !== last[0] || first[1] !== last[1]) {
+                            coordinatedPairs.push(first);
+                        }
                     }
+
+                    const geometry = {
+                        type: 'Polygon',
+                        coordinates: [coordinatedPairs]
+                    }
+
+                    const {
+                        title_no,
+                        t_date,
+                        surv_no,
+                        lot_no,
+                        blk_no,
+                        area,
+                        owner,
+                    } = placemarkData.SimpleData;
+
+                    const dataToSave = {
+                        titleNo: title_no || '',
+                        date: t_date || '',
+                        surveyNo: surv_no || '',
+                        lotNo: lot_no || '',
+                        blkNo: blk_no || '',
+                        area: area || '',
+                        owner: owner || '',
+                        geojson: geometry,
+                        pluscode: props.kmlPluscode[r] || "",
+                    };
+
+                    await Axios.post('/plottingData', dataToSave);
                 }
 
-                const geometry = {
-                    type: 'Polygon',
-                    coordinates: [coordinatedPairs]
-                }
-
-                const {
-                    title_no,
-                    t_date,
-                    surv_no,
-                    lot_no,
-                    blk_no,
-                    area,
-                    owner,
-                } = placemarkData.SimpleData;
-
-                const dataToSave = {
-                    titleNo: title_no || '',
-                    date: t_date || '',
-                    surveyNo: surv_no || '',
-                    lotNo: lot_no || '',
-                    blkNo: blk_no || '',
-                    area: area || '',
-                    owner: owner || '',
-                    geojson: geometry,
-                    pluscode: props.kmlPluscode[r] || "",
-                };
-
-                await Axios.post('/plottingData', dataToSave);
+                Swal.fire({
+                    title: 'KML data saved!',
+                    text: `${extractedData.length} parcel${extractedData.length === 1 ? '' : 's'} saved successfully.`,
+                    icon: 'success',
+                    draggable: false,
+                });
+            } catch (error) {
+                console.error('Error saving KML data:', error);
+                Swal.fire({
+                    title: 'Error saving KML data',
+                    text: error.response?.data?.message || 'Please try saving the KML file again.',
+                    icon: 'error',
+                    draggable: false,
+                });
             }
          } else {
             alert('No data to save. Please ensure the KML file contains valid data.');
@@ -209,7 +226,7 @@ const Kml = (props) => {
                 <input type="file" name="kmlFile" accept=".kml" onChange={handleKmlUpload} />
             </div>
 
-            <div className='form-buttons' style={{ width: '50%' }}>
+            <div className='form-buttons'>
             <button type="submit" onClick={handleSaveData}>Save</button>
             <button type="button" onClick={handleClose}>Cancel</button>
             </div>

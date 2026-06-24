@@ -58,7 +58,7 @@ const DrawPolygon = ({ results }) => {
             } else {
                 alert("Please enter valid coordinates.");
             }
-        } catch (error) {
+        } catch {
             Swal.fire({
                 title: "Please enter valid coordinates.",
                 icon: "error",
@@ -70,7 +70,7 @@ const DrawPolygon = ({ results }) => {
 
   return (
     <div>
-        <button className='btn-draw' style={{ width: '100%'}} onClick={handleDraw}>Draw</button>
+        <button className='btn-draw' onClick={handleDraw}>Draw</button>
     </div>
   )
 }

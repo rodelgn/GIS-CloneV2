@@ -263,7 +263,7 @@ const Plot = ( props ) => {
 
       <form onSubmit={handleSubmit} className='plot-form' >
         <div className="section">
-          <h3 style={{ marginBottom: '1rem', marginTop: '2rem' }}>Parcel Details</h3>
+          <h3>Parcel Details</h3>
           <div className='two-column'>
             <div className="form-group">
               <label>Title No.</label>
@@ -291,39 +291,39 @@ const Plot = ( props ) => {
             </div>
             <div className="form-group">
               <label>Area (sq.m.)</label>
-              <input type="text" style={{ width: '130px' }} onChange={handleInputChange} name='area' value={plotData.area} placeholder='Lot Area (sqm)' required />
+              <input type="text" onChange={handleInputChange} name='area' value={plotData.area} placeholder='Lot Area (sqm)' required />
             </div>
           </div>
         </div>
       </form>
         <div className='section'>
-          <h3 style={{ marginBottom: '1rem' }}>Boundaries</h3>
+          <h3>Boundaries</h3>
   
           <div className='monument-row'>
             <div className='form-group'>
               <label>Monument</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='monument' value={polygonLayer.monument} required/>
+              <input type="text" onChange={handleInputChange} name='monument' value={polygonLayer.monument} required/>
             </div>
             <div className='form-group'>
               <label>Easting</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='easting' value={polygonLayer.easting} required/>
+              <input type="text" onChange={handleInputChange} name='easting' value={polygonLayer.easting} required/>
             </div>
             <div className='form-group'>
               <label>Northing</label>
-              <input type="text" style={{ width: '150px' }} onChange={handleInputChange} name='northing' value={polygonLayer.northing} required/>
+              <input type="text" onChange={handleInputChange} name='northing' value={polygonLayer.northing} required/>
             </div>
           </div>
 
-          <div className='form-group' style={{ marginBottom: '1rem', marginTop: '1rem', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+          <div className='form-group points-row'>
               <label>Number of Points</label>
-              <input type="text" style={{ width: '80px' }} name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
+              <input type="text" name='numberOfPoints' value={numberOfPoints} onSelect={handleAddTieLine} onChange={(e) => setNumberOfPoints(e.target.value)} />
             </div>
 
         {polygonLayer.tieLines.map((tieLine, i) =>
           <div key={i} className='form-group'>
             <label>{i === 0 ? 'Tie Line - 1*' : i === polygonLayer.tieLines.length - 1 ? `Point ${i} - Origin*` : `Point ${i} - ${i + 1}*`} </label>
 
-              <div className='tie-line-row' style={{ marginBottom: '1rem' }}>
+              <div className='tie-line-row'>
                 <select name='degreeAngle' value={tieLine.degreeAngle} onChange={e => handleTieLineChange(i, 'degreeAngle', e.target.value)} required>
                   <option value=''></option>
                   <option value="N">N</option>

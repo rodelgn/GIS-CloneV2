@@ -7,6 +7,13 @@ const Navigation = ( props ) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     // const [subMenuOpen, setSubMenuOpen] = useState(false);
 
+    const navItems = [
+        { key: 'plot', label: 'Plot Parcel', onClick: props.togglePlotting },
+        { key: 'kml', label: 'Upload KML', onClick: props.toggleKML },
+        { key: 'monuments', label: 'Monuments', onClick: props.toggleMonument },
+        { key: 'users', label: 'Change Password', onClick: props.toggleUsersManagement },
+    ];
+
     const handleLogout = () => {
         props.logoutClick();
         Swal.fire({
@@ -20,33 +27,35 @@ const Navigation = ( props ) => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handlePlotclick = () => {
-        props.togglePlotting();
+    const handleNavClick = (onClick) => {
+        onClick();
         setIsMenuOpen(false);
     };
-
-    const handleKmlClick = () => {
-        props.toggleKML();
-        setIsMenuOpen(false);
-    }
-
-    const handleMonumentClick = () => {
-        props.toggleMonument();
-        setIsMenuOpen(false);
-    }
-
-    const handleUserManagementClick = () => {
-        props.toggleUsersManagement();
-        setIsMenuOpen(false);
-    }
 
 
   return (
         <nav className='navbar'>
+            {isMenuOpen && (
+                <button
+                    type="button"
+                    className="nav-scrim"
+                    aria-label="Close navigation menu"
+                    onClick={() => setIsMenuOpen(false)}
+                />
+            )}
             <div className='nav-header'>
-            <div className='logo'>GIS TAX MAP</div>
+            <div className='logo'>
+                <span className="logo-mark">GIS</span>
+                <span>Tax Map</span>
+            </div>
             
-                <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+                <button
+                    type="button"
+                    className={`hamburger ${isMenuOpen ? 'open' : ''}`}
+                    onClick={toggleMenu}
+                    aria-label="Open navigation menu"
+                    aria-expanded={isMenuOpen}
+                >
                     <span></span>
                     <span></span>
                     <span></span>
@@ -54,11 +63,18 @@ const Navigation = ( props ) => {
                 
             </div>
             <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-                <li><a onClick={handlePlotclick}>Plot Parcel</a></li>
-                <li><a onClick={handleKmlClick}>Upload KML</a></li>
-                <li><a onClick={handleMonumentClick}>Monuments</a></li>
-                <li><a onClick={handleUserManagementClick}>Change Password</a></li>
-                <li><button className='btn-logout' onClick={handleLogout}>Logout</button></li>
+                {navItems.map((item) => (
+                    <li key={item.key}>
+                        <button
+                            type="button"
+                            className={`nav-action ${props.activePanel === item.key ? 'active' : ''}`}
+                            onClick={() => handleNavClick(item.onClick)}
+                        >
+                            {item.label}
+                        </button>
+                    </li>
+                ))}
+                <li><button type="button" className='btn-logout' onClick={handleLogout}>Logout</button></li>
             </ul>
         </nav>
     )

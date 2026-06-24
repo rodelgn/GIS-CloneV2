@@ -66,7 +66,7 @@ const LeafletMap = ( props ) => {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           subdomains: ["a", "b", "c"],
         }
-      );
+      ).addTo(map);
 
       const eriSatteliteMap = L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -77,15 +77,15 @@ const LeafletMap = ( props ) => {
       );
 
       const googleHybrid = L.tileLayer(
-        "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+        "https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
         {
           maxZoom: 21,
           subdomains: ["mt0", "mt1", "mt2", "mt3"],
         }
-      ).addTo(map);
+      );
 
       const googleSatteliteMap = L.tileLayer(
-        "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        "https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
         {
           maxZoom: 21,
           subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -93,7 +93,7 @@ const LeafletMap = ( props ) => {
       );
 
       const googleTerrainMap = L.tileLayer(
-        "http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+        "https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
         {
           maxZoom: 21,
           subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -101,7 +101,7 @@ const LeafletMap = ( props ) => {
       );
 
       const googleStreetMap = L.tileLayer(
-        "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        "https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
         {
           maxZoom: 21,
           subdomains: ["mt0", "mt1", "mt2", "mt3"],
@@ -227,7 +227,7 @@ const LeafletMap = ( props ) => {
 
   return (
     <section className="map-component">
-      <div className='map' style={{ position: "relative" }}>
+      <div className='map'>
         <div id="leaflet-map" />
       </div>
     </section>
